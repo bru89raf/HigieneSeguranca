@@ -1,0 +1,37 @@
+
+* comboBoxOpcao() -> carregar dados da tabelas
+
+******************* LER BD ***************
+
+* LerBDConsultarControlos() -> carregar os dados para a tabelas de consultas
+* LerBDNaoConformidades() -> carregar os dados para a tabelas nao conformidades
+* LerBDConsultaNaoConformidades() -> carregar os dados que seleccionamos na tabela anterior
+* LerBDEquipamento() -> carregar os dados para a combobox opçao quando é escolhido o equipamento
+* LerBDInsectadores() -> carregar os dados para a combobox opçao quando é escolhido insectadores
+* LerBDFuncionario() -> ler os funcionarios para a COMBOBOX Funcionarios
+* LerBDConsultarMedidasCorrectivas() -> funcao para ler para a combox, (funcionario responsavel)
+
+******************* GRAVAR BD ***************
+
+GravarNaoConformidade() -> função para gravar dados na Base de dados ( CODIGO SQL)
+GravarMedidaCorrectivas() -> função para gravar dados na Base de dados ( CODIGO SQL)
+
+
+
+******************* INSERIR BD ***************
+
+* InserirNovoControloResultados() -> inserir novo controlo de Resultados na Base de dados;
+
+
+
+
+******************* LIMPEZA ***************
+
+* LimpaTabelaConsultarControlos() -> limpa campos antes de carregar a tabela
+* LimpaTabelaCOnsultaNaoConformidades() -> limpa camposa antes de carregar a tabela de consultas de nao conformidades
+* LimpaInserirNovoControlo() -> limpar a janela NOVO CONTROLO RESULTADO apos adicionarmos um novo
+
+
+
+
+

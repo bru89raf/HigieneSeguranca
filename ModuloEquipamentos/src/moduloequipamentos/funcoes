@@ -1,0 +1,10 @@
+
+** INSERT'S
+
+InserirNovoEquipamento() -> adicionar novo equipamento a base de dados
+
+InserirManuencaoEquipamento()-> adicionar manutenção ao equipamento selecionado da tabela
+
+** CONSULTAS
+
+ConsultaEquipamentos() -> consulta todos os equipamentos que estao na BD
