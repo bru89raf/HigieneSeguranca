@@ -1213,9 +1213,9 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         String comboPesquisa = jComboBoxSeccao.getSelectedItem().toString();
         String nomeColuna = "";
         
-        if (comboPesquisa.equals("ANALISE")){
+        if (comboPesquisa.equals("ENTRADA")){
             LimpaTabelaConsultarControlos();
-            nomeColuna = "IDANALISE";
+            nomeColuna = "IDENTRADA";
             LerBDControloResultados(nomeColuna);
             
         }else if (comboPesquisa.equals("EQUIPAMENTO")){
