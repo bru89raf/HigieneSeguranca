@@ -157,7 +157,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 
         jPanelNovoControloResultdos.setBorder(javax.swing.BorderFactory.createTitledBorder("Controlo de Resultados"));
 
-        jComboBoxTipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- TIPO--", "INSECTOCACADORES", "EQUIPAMENTO", "ANALISE", "Outro", " " }));
+        jComboBoxTipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- TIPO--", "INSECTOCACADORES", "EQUIPAMENTO", "ENTRADA", "Outro" }));
         jComboBoxTipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxTipoActionPerformed(evt);
@@ -1038,7 +1038,11 @@ public class JanelaPrincipal extends javax.swing.JFrame {
             LerBDInsectadores();
             
         }else if (comboTipoOP.equals("EQUIPAMENTO")){
+            //SELECT A TABELA DE EQUIPAMENTOS
             LerBDEquipamento();
+        }else if (comboTipoOP.equals("ENTRADA")){
+            //SELECT A TABELA DE ENTRADAS
+            
         }
        
         
@@ -1758,7 +1762,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         
         int idOpcaoEscolhida = 0;
         int idFuncionario = 0;
-        int idAnalise = 0;
+        int idEntrada = 0;
         int idEquipamento = 0;
         int idInsectocacadores = 0;
         String fichaTecnica = "" ;
@@ -1807,20 +1811,20 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         if (comboTipoOP.equals("INSECTOCACADORES")){
             idInsectocacadores = idOpcaoEscolhida;
             idEquipamento = 0;
-            idAnalise = 0;
+            idEntrada = 0;
         }else if (comboTipoOP.equals("EQUIPAMENTO")){
             idInsectocacadores = 0;
             idEquipamento = idOpcaoEscolhida;
-            idAnalise = 0;
-        }else if (comboTipoOP.equals("ANALISE")){
+            idEntrada = 0;
+        }else if (comboTipoOP.equals("ENTRADAS")){
             idInsectocacadores = 0;
             idEquipamento = 0;
-            idAnalise = idOpcaoEscolhida;
+            idEntrada = idOpcaoEscolhida;
         }else{
             //ker dizer ke tenho a opçao OUTRA
             idInsectocacadores = 0;
             idEquipamento = 0;
-            idAnalise = 0;
+            idEntrada = 0;
             }
     
         
@@ -1854,17 +1858,6 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         }
         
         
-       //dados inseridos a manualmente
-//        idFuncionario = 1;
-//        idAnalise = 0;
-//        idEquipamento = 2;
-//        idInsectocacadores = 0;
-//        data = "203-10-22";
-//        resultado = "C";
-//        fichaTecnica = "";
-//        descricao =  "Descrição ";
-//        outro = "";
-        
         
         //LIGAÇAO PARA GRAVAR NA BASE DE DADOS
          try {
@@ -1877,8 +1870,8 @@ public class JanelaPrincipal extends javax.swing.JFrame {
             try {
                 con = DriverManager.getConnection(url);
                 String nomeTabela = "CONTROLORESULTADOS";
-                sql = "insert into " + nomeTabela+ "(IDFUNCIONARIO,IDANALISE,IDEQUIPAMENTO,IDINSECTOCACADORES,DATA,RESULTADO,FICHATECNICA,DESCRICAO,OUTROS)"
-+ " values (" + idFuncionario + "," + idAnalise + "," + idEquipamento + "," + idInsectocacadores + "," + "'" + data + "'" + "," + "'" + resultado + "'" + "," + "'"+ fichaTecnica +"'"+ "," + "'" + descricao + "'" + "," + "'"+ outro + "'"  + ")";
+                sql = "insert into " + nomeTabela+ "(IDFUNCIONARIO,IDEQUIPAMENTO,IDINSECTOCACADORES, IDENTRADA, DATA,RESULTADO,FICHATECNICA,DESCRICAO,OUTROS)"
+                + " values (" + idFuncionario + "," +idEquipamento+ "," + idInsectocacadores + ","+ idEntrada + "," + "'" + data + "'" + "," + "'" + resultado + "'" + "," + "'"+ fichaTecnica +"'"+ "," + "'" + descricao + "'" + "," + "'"+ outro + "'"  + ")";
 
                 PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
                 st.executeUpdate();
@@ -1893,7 +1886,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
           // ESCREVER CAMPOS NA CONSOLA
             System.out.println("\n\n***** INSERÇÃO DE DADOS NA TABELA CONTROLO DE RESULTADOS");
             System.out.println("FUNCIONARIO: " + idFuncionario); 
-            System.out.println("ANALISE: " + idAnalise);
+            System.out.println("ENTRADA: " + idEntrada);
             System.out.println("EQUIPAMENTO: " + idEquipamento); 
             System.out.println("INSECTICADO: " + idInsectocacadores);
             System.out.println("DATA: " + data);
@@ -1902,11 +1895,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
             System.out.println("DESCRICAO: " + descricao);
             System.out.println("OUTRO: " + outro );  
             
-//            System.out.println("/n OPÇOES ESCOLHIDAS");
-//            System.out.println("COMBO TIPO: " + comboTipoOP);
-//            System.out.println("COMBO OPÇCAO: " + comboOpcao);
-//            System.out.println("ID OPÇAO ESCOLHIDA: " + idOpcaoEscolhida);      
-//            System.out.println("comboResultado : " + comboResultado); 
+
         
     }
        
