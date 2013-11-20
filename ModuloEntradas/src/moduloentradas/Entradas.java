@@ -72,15 +72,20 @@ public class Entradas extends javax.swing.JFrame {
     /*  VARIAVEL PARA GUARDAR O LOTE    */
     String geraLote = "";
     
+    /*  VARIVAL PARA GUARDAR O LOTE PESQUISADO  */
+    String LoteOriginalSeleccionado = "";
    
     /*  MOSTRAR FICHA DETALHADA DE UMA DEVOLUÇÃO    */
     int idDevolucaoSeleccionado = 0;
         //pesquisa
     int idForncedorPesquisaDevolucao = 0;
     int idMateriaPrimaPesquisaDevolucao = 0;
-    
     int devolucaoNumero = 0;
     
+    
+    /*  VARIVEL PARA CONTAR QUANTOS DADOS TEMOS INSERIDOS NAS DEVOLUÇOES (PESQUISA) */
+    
+    int CONTA_NUMERO_DEVOLUCOES = 0;
     
     
     public Entradas() {
@@ -208,6 +213,7 @@ public class Entradas extends javax.swing.JFrame {
         jLabelPesquisar = new javax.swing.JLabel();
         jTextFieldPesquisarEntrada = new javax.swing.JTextField();
         jButtonVerControloResultados = new javax.swing.JButton();
+        jButtonVerLoteTotal = new javax.swing.JButton();
         jLabelTituloConsultaEntradas = new javax.swing.JLabel();
         jDialogConsultaControloResultadosEntradas = new javax.swing.JDialog();
         jPanelConsultaControloResultadosEntradas = new javax.swing.JPanel();
@@ -233,6 +239,7 @@ public class Entradas extends javax.swing.JFrame {
         jComboBoxMateriaPrimaDevolucoes = new javax.swing.JComboBox();
         jLabelFornecedorDevolucoes = new javax.swing.JLabel();
         jLabelMateriaPrimaDevolucoes = new javax.swing.JLabel();
+        jButtonVerTodasAsDevolucoes = new javax.swing.JButton();
         jButtonEntrar = new javax.swing.JButton();
 
         jDialogMenuEntradas.setTitle("MENU ENTRADAS");
@@ -1065,7 +1072,7 @@ public class Entradas extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Funcionario", "Forncedor", "Materia Prima", "Data Entrega", "Lote Origem", "Quantidade", "Vai ter Devolução"
+                "Funcionário", "Forncedor", "Matéria Prima", "Data Entrega", "Lote Origem", "Quant. Disponível", "Quant. a Devolver"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -1078,8 +1085,7 @@ public class Entradas extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(jTableConsultaEntradas);
         if (jTableConsultaEntradas.getColumnModel().getColumnCount() > 0) {
-            jTableConsultaEntradas.getColumnModel().getColumn(5).setPreferredWidth(10);
-            jTableConsultaEntradas.getColumnModel().getColumn(6).setPreferredWidth(30);
+            jTableConsultaEntradas.getColumnModel().getColumn(3).setPreferredWidth(30);
         }
 
         jButtonVerDevolucoes.setText("Fazer Devolução");
@@ -1111,6 +1117,13 @@ public class Entradas extends javax.swing.JFrame {
             }
         });
 
+        jButtonVerLoteTotal.setText("Ver Lote Total(S/Devoluções)");
+        jButtonVerLoteTotal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonVerLoteTotalActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelConsultaEntradasLayout = new javax.swing.GroupLayout(jPanelConsultaEntradas);
         jPanelConsultaEntradas.setLayout(jPanelConsultaEntradasLayout);
         jPanelConsultaEntradasLayout.setHorizontalGroup(
@@ -1121,6 +1134,8 @@ public class Entradas extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConsultaEntradasLayout.createSequentialGroup()
                         .addComponent(jButtonVerDevolucoes)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonVerLoteTotal)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButtonConsultaEntradasSair))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 959, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConsultaEntradasLayout.createSequentialGroup()
@@ -1147,7 +1162,8 @@ public class Entradas extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelConsultaEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonConsultaEntradasSair)
-                    .addComponent(jButtonVerDevolucoes))
+                    .addComponent(jButtonVerDevolucoes)
+                    .addComponent(jButtonVerLoteTotal))
                 .addGap(138, 138, 138))
         );
 
@@ -1355,18 +1371,18 @@ public class Entradas extends javax.swing.JFrame {
         );
 
         jDialogConsultaDevolucoes.setTitle("CONSULTA DEVOLUÇÕES");
-        jDialogConsultaDevolucoes.setMinimumSize(new java.awt.Dimension(790, 400));
+        jDialogConsultaDevolucoes.setMinimumSize(new java.awt.Dimension(970, 400));
 
         jTableConsultaDevolucoes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Fornecedor", "Mater. Prima", "Devolução Nº", "Data Devolução", "Quantidade"
+                "Fornecedor", "Mater. Prima", "Lote Original", "Devolução Nº", "Data Devolução", "Quantidade"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1375,7 +1391,7 @@ public class Entradas extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(jTableConsultaDevolucoes);
         if (jTableConsultaDevolucoes.getColumnModel().getColumnCount() > 0) {
-            jTableConsultaDevolucoes.getColumnModel().getColumn(4).setMaxWidth(120);
+            jTableConsultaDevolucoes.getColumnModel().getColumn(5).setMaxWidth(120);
         }
 
         jButtonConsultaDevolucoesSair.setText("Voltar");
@@ -1394,29 +1410,36 @@ public class Entradas extends javax.swing.JFrame {
 
         jComboBoxFornecedorDevolucoes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxFornecedorDevolucoes.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
-            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
-            }
             public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
             }
             public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
                 jComboBoxFornecedorDevolucoesPopupMenuWillBecomeInvisible(evt);
             }
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
         });
 
         jComboBoxMateriaPrimaDevolucoes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxMateriaPrimaDevolucoes.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
-            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
-            }
             public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
             }
             public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
                 jComboBoxMateriaPrimaDevolucoesPopupMenuWillBecomeInvisible(evt);
+            }
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
             }
         });
 
         jLabelFornecedorDevolucoes.setText("Fornecedor");
 
         jLabelMateriaPrimaDevolucoes.setText("Materia-Prima");
+
+        jButtonVerTodasAsDevolucoes.setText("Ver Todas as Devoluções");
+        jButtonVerTodasAsDevolucoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonVerTodasAsDevolucoesActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelConsultaDevolucoesLayout = new javax.swing.GroupLayout(jPanelConsultaDevolucoes);
         jPanelConsultaDevolucoes.setLayout(jPanelConsultaDevolucoesLayout);
@@ -1425,21 +1448,23 @@ public class Entradas extends javax.swing.JFrame {
             .addGroup(jPanelConsultaDevolucoesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelConsultaDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3)
                     .addGroup(jPanelConsultaDevolucoesLayout.createSequentialGroup()
                         .addGroup(jPanelConsultaDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBoxFornecedorDevolucoes, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelFornecedorDevolucoes))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(jPanelConsultaDevolucoesLayout.createSequentialGroup()
+                                .addGroup(jPanelConsultaDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBoxFornecedorDevolucoes, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabelFornecedorDevolucoes))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanelConsultaDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabelMateriaPrimaDevolucoes)
+                                    .addComponent(jComboBoxMateriaPrimaDevolucoes, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jButtonVerFichaDetalhadaConsultaDevolucoes))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 438, Short.MAX_VALUE)
                         .addGroup(jPanelConsultaDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelMateriaPrimaDevolucoes)
-                            .addComponent(jComboBoxMateriaPrimaDevolucoes, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanelConsultaDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(jPanelConsultaDevolucoesLayout.createSequentialGroup()
-                            .addComponent(jButtonVerFichaDetalhadaConsultaDevolucoes)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonConsultaDevolucoesSair))
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 716, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(19, Short.MAX_VALUE))
+                            .addComponent(jButtonVerTodasAsDevolucoes, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButtonConsultaDevolucoesSair, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addContainerGap())
         );
         jPanelConsultaDevolucoesLayout.setVerticalGroup(
             jPanelConsultaDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1451,7 +1476,8 @@ public class Entradas extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelConsultaDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxFornecedorDevolucoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBoxMateriaPrimaDevolucoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBoxMateriaPrimaDevolucoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonVerTodasAsDevolucoes))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1468,14 +1494,14 @@ public class Entradas extends javax.swing.JFrame {
             .addGroup(jDialogConsultaDevolucoesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelConsultaDevolucoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         jDialogConsultaDevolucoesLayout.setVerticalGroup(
             jDialogConsultaDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogConsultaDevolucoesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelConsultaDevolucoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -1522,15 +1548,37 @@ public class Entradas extends javax.swing.JFrame {
         LerBDFuncionarioComboBox();
         LerBDFornecedorComboBox(jComboBoxFornecedorEntrada);
         LerBDMateriaPrimaComboBox(jComboBoxMateriaPrimaEntrada);
+        
+        //PAINEIS VISIBEIS 
+        //panel entradas
+        for (Component cp : jPanelNovaEntrada.getComponents()) 
+        cp.setEnabled(true);
+        //panel conformidades
+        for (Component cp : jPanelConformidadesNovaEntrada.getComponents()) 
+        cp.setEnabled(true);
+        //botoes
+        for (Component cp : jPanelBotoesNovaEntrada.getComponents()) 
+        cp.setEnabled(true);
+         
         //BLOQUEAR O PANEL E OS COMPONENTES
         for (Component cp : jPanelADevolverNovaEntrada.getComponents()) 
         cp.setEnabled(false);
         
         jButtonDesvloquearPanel.setVisible(false);
         
-        jButtonGuardarNovaEntrada.setText("Verificar Devolução");
         
+        //TEXTO DO BOTAO
+        jButtonGuardarNovaEntrada.setText("Verificar Devolução");
+        //TEXTO DE QUANTIDADES
+        jTextFieldQuantidadeEntrada.setText("0.0");
         jTextFieldQuantidadeADevolver.setText("0.0");
+        
+        //COMBO BOX CONFOMIDADES COLOCAR VALOR A ZERO
+        jComboBoxTemperaturaEntrada.setSelectedIndex(0);
+        jComboBoxDataValidadeEntrada.setSelectedIndex(0);
+        jComboBoxCaraOrgonolepticasEntradas.setSelectedIndex(0);
+        jComboBoxEmbalagemEntradas.setSelectedIndex(0);
+        
         
         //GERAR LOTE
         GeraLote();
@@ -1635,8 +1683,38 @@ public class Entradas extends javax.swing.JFrame {
 
     private void jButtonGuardarNovaEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarNovaEntradaActionPerformed
         // BOTAO GUARDAR -> JANELA ENTRADAS
-        InserirNovaEntrada();
         
+        //FAZER AS VALIDAÇÕES, SE OS CAMPOS ESTAO TODOS PREENCHIDOS
+        String nomeFuncionarioResponsavelEntrada = jComboBoxFuncionarioResponsavelEntrada.getSelectedItem().toString();
+        String nomeFornecedorEntrada = jComboBoxFornecedorEntrada.getSelectedItem().toString();
+        String nomeMateriaPrimaEntrada = jComboBoxMateriaPrimaEntrada.getSelectedItem().toString();
+        float qantidadeMatPrimaEntrada = Float.parseFloat(jTextFieldQuantidadeEntrada.getText().toString());
+        
+        String conformidadeTemperatura = jComboBoxTemperaturaEntrada.getSelectedItem().toString();
+        String conformidadeDtaValidade = jComboBoxDataValidadeEntrada.getSelectedItem().toString();
+        String conformidadeCaratOrgono = jComboBoxCaraOrgonolepticasEntradas.getSelectedItem().toString();
+        String conformidadeEmbalagem = jComboBoxEmbalagemEntradas.getSelectedItem().toString();
+        
+        if(nomeFuncionarioResponsavelEntrada.equals("--Funcionario--")){
+            JOptionPane.showMessageDialog(jDialogNovaEntrada, "Por Favor !\nSelecciona um Funcionario!");
+        }else if (nomeFornecedorEntrada.equals("--Fornecedor--")){
+            JOptionPane.showMessageDialog(jDialogNovaEntrada, "Por Favor !\nSelecciona um Fornecedor!");
+        }else if (nomeMateriaPrimaEntrada.equals("--Materia Prima--")){
+            JOptionPane.showMessageDialog(jDialogNovaEntrada, "Por Favor !\nSelecciona uma Matéria-Prima!");
+        }else if(qantidadeMatPrimaEntrada == 0.0){
+            JOptionPane.showMessageDialog(jDialogNovaEntrada, "Por Favor !\nQuantidade não pode ser Zero!");
+        }else if(conformidadeTemperatura.equals("--Opção--")){
+            JOptionPane.showMessageDialog(jDialogNovaEntrada, "Por Favor !\nSelecciona a Conformidade da Temperatura!");
+        }else if (conformidadeDtaValidade.equals("--Opção--")){
+            JOptionPane.showMessageDialog(jDialogNovaEntrada, "Por Favor !\nSelecciona a Conformidade da Data de Validade!");
+        }else if (conformidadeCaratOrgono.equals("--Opção--")){
+            JOptionPane.showMessageDialog(jDialogNovaEntrada, "Por Favor !\nSelecciona a Conformidade das Caract. Orgonolepticas!");
+        }else if (conformidadeEmbalagem.equals("--Opção--")){
+            JOptionPane.showMessageDialog(jDialogNovaEntrada, "Por Favor !\nSelecciona a Conformidade da Embalagem/Transporte!");
+        }else{  
+        
+            InserirNovaEntrada();
+        }
     }//GEN-LAST:event_jButtonGuardarNovaEntradaActionPerformed
 
     private void jButtonConsultaEntradasSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultaEntradasSairActionPerformed
@@ -1835,68 +1913,59 @@ public class Entradas extends javax.swing.JFrame {
         // VER FICHA DETALHADA -> JANELA CONSULTA DEVLUÇOES
         
         int linha = jTableConsultaDevolucoes.getSelectedRow();
-       
-        
-        
+
         if (linha == -1) {
             JOptionPane.showMessageDialog(null, "Seleccione a Linha de uma Devolução!");
         } else {
             //VERIFCAR QUAL É A dEVOLUÇÃO
-            
+
             String nomeForncedor = (String) jTableConsultaDevolucoes.getValueAt(linha, 0);
             int idFornecedor = selectId("FORNECEDOR", "NOME", nomeForncedor, "IDFORNECEDOR");
-            
+
             String materiaPrima = (String) jTableConsultaDevolucoes.getValueAt(linha, 1);
             int idMateriaPrima = selectId("MATERIA_PRIMA", "NOME", materiaPrima, "IDMATERIAPRIMA");
-            
-            
-            String dataDevolucao = (String) jTableConsultaDevolucoes.getValueAt(linha, 2);
-            
-            String quant = (String) jTableConsultaDevolucoes.getValueAt(linha, 3);
+
+            String dataDevolucao = (String) jTableConsultaDevolucoes.getValueAt(linha, 4);
+
+            String quant = (String) jTableConsultaDevolucoes.getValueAt(linha, 5);
             float quantidade = Float.parseFloat(quant);
-            
-            
+
             try {
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-        } catch (ClassNotFoundException e) {
-            System.err.print("ClassNotFoundException: ");
-            System.err.println(e.getMessage());
-            System.out.println("O driver expecificado nao foi encontrado.");
-        }
-
-
-
-        try {
-
-            con = DriverManager.getConnection(url);
-            String nomeTabela = "DEVOLUCOES";
-            String sql = "SELECT * FROM " + nomeTabela + " WHERE IDFORNECEDOR="+idFornecedor+" AND IDMATERIAPRIMA="+idMateriaPrima+" AND DATADEVOLUCAO='"+dataDevolucao+"' AND QUANTIDADEDEVOLVIDA="+quantidade;
-            PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
-            ResultSet rs = st.executeQuery();
-
-            while (rs.next()) {
-               idDevolucaoSeleccionado = rs.getInt("IDDEVOLUCAO");    
+                Class.forName("org.apache.derby.jdbc.ClientDriver");
+            } catch (ClassNotFoundException e) {
+                System.err.print("ClassNotFoundException: ");
+                System.err.println(e.getMessage());
+                System.out.println("O driver expecificado nao foi encontrado.");
             }
 
-            st.close();
-            con.close();
-        } catch (SQLException ex) {
-            System.err.println("SQLException: " + ex.getMessage());
-        }
-            
-          
-        
-        
-        ConsultaDevolucaoMostraFichaCompleta();
-        
-                
+            //SABER QUAL O ID DA DEVOLUÇÃO, PARA FAZER A PESQUISA
+            try {
+
+                con = DriverManager.getConnection(url);
+                String nomeTabela = "DEVOLUCOES";
+                String sql = "SELECT * FROM " + nomeTabela + " WHERE IDFORNECEDOR=" + idFornecedor + " AND IDMATERIAPRIMA=" + idMateriaPrima + " AND DATADEVOLUCAO='" + dataDevolucao + "' AND QUANTIDADEDEVOLVIDA=" + quantidade;
+                PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+                ResultSet rs = st.executeQuery();
+
+                while (rs.next()) {
+                    idDevolucaoSeleccionado = rs.getInt("IDDEVOLUCAO");
+                }
+
+                st.close();
+                con.close();
+            } catch (SQLException ex) {
+                System.err.println("SQLException: " + ex.getMessage());
+            }
+
+            ConsultaDevolucaoMostraFichaCompleta();
+
             System.out.println("NOME FORNECEDOR " + nomeForncedor);
             System.out.println("ID FORNECEDOR " + idFornecedor);
-            System.out.println("NOME MATER. PRIMA " +materiaPrima );
+            System.out.println("NOME MATER. PRIMA " + materiaPrima);
             System.out.println("ID MATERIA PRIMA " + idMateriaPrima);
-            System.out.println("QUANTIDADE " +quantidade );
+            System.out.println("QUANTIDADE " + quantidade);
             System.out.println("\nID DEVOLUÇÃO : " + idDevolucaoSeleccionado);
-            
+
             
         }
         
@@ -1915,27 +1984,35 @@ public class Entradas extends javax.swing.JFrame {
     private void jComboBoxFornecedorDevolucoesPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_jComboBoxFornecedorDevolucoesPopupMenuWillBecomeInvisible
         //COMBO BOX MOSTRA FUNCIONARIO DEVOLUÇÕES -> PESQUISAR DEVOLUÇOES
         
+       
         String nomeFornecedorPesquisaDevolucao = jComboBoxFornecedorDevolucoes.getSelectedItem().toString();
         idForncedorPesquisaDevolucao = selectId("FORNECEDOR", "NOME", nomeFornecedorPesquisaDevolucao, "IDFORNECEDOR");
         
         //VERIFICAR O CAMPO DA COMBO BOS MATERIA PRIMA
         String nomeMateriaPrimaPesquisaDevolucao = jComboBoxMateriaPrimaDevolucoes.getSelectedItem().toString();
         
-        if(nomeMateriaPrimaPesquisaDevolucao.equals("--Materia Prima--")){
-            idMateriaPrimaPesquisaDevolucao = 0; 
+        
+        //PARA APARECEREM TODOS OS DADOS INSERIDOS
+        if(nomeFornecedorPesquisaDevolucao.equals("--Fornecedor--")){
+            ConsultaDevolucoesTabela();
         }
-        
-        LimpaTabelaConsultaDevolucoes();
-        PesquisaDevolucoesComDadosDeEntrada();
-        
-        
+  
+        if (nomeMateriaPrimaPesquisaDevolucao.equals("--Materia Prima--")) {
+            idMateriaPrimaPesquisaDevolucao = 0;
+        }
+
+         LimpaTabelaConsultaDevolucoes();
+         PesquisaDevolucoesComDadosDeEntrada();         
+//        
+       
+         
         System.out.println("--- FORNECEDOR");
         System.out.println("FORNECEDOR PESQUISA : " + nomeFornecedorPesquisaDevolucao);
         System.out.println("ID FORNECEDOR : " + idForncedorPesquisaDevolucao);
         System.out.println("MATERIA PRIMA : " + idMateriaPrimaPesquisaDevolucao);
         //VER QUAL O NOME QUE ESTAMOS A SELECCIONAR 
-        
-        
+
+
         
         
         
@@ -1964,6 +2041,31 @@ public class Entradas extends javax.swing.JFrame {
         System.out.println("FORNECEDOR : " + nomeFornecedorPesquisaDevolucao);
         
     }//GEN-LAST:event_jComboBoxMateriaPrimaDevolucoesPopupMenuWillBecomeInvisible
+
+    private void jButtonVerTodasAsDevolucoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVerTodasAsDevolucoesActionPerformed
+        // BOTAO VER TODAS AS DEVOLUÇOES
+        
+        LimpaTabelaConsultaDevolucoes();
+        ConsultaDevolucoesTabela();
+        
+    }//GEN-LAST:event_jButtonVerTodasAsDevolucoesActionPerformed
+
+    private void jButtonVerLoteTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVerLoteTotalActionPerformed
+        // BOTAO VER TOTAL DE MATERIA PRIMA SEM DEVOLUÇOES -> JANELA CONSULTA ENTRADAS
+        
+         int linha = jTableConsultaEntradas.getSelectedRow();
+
+        if (linha == -1) {
+            JOptionPane.showMessageDialog(null, "Seleccione a Linha de uma Entrada!");
+        } else {
+            
+           LoteOriginalSeleccionado = (String) jTableConsultaEntradas.getValueAt(linha, 4);
+            
+            System.out.println("LOTE ORIGINAL : " + LoteOriginalSeleccionado);
+            CalculaQuatidadeLoteTotalEntrada();
+            
+        }
+    }//GEN-LAST:event_jButtonVerLoteTotalActionPerformed
 
     
     
@@ -2314,7 +2416,8 @@ public class Entradas extends javax.swing.JFrame {
         String caraOrgonolept = "";
         String embalagem = "";
         String devolucao = "";
-
+        String aDevolver = "";
+        
         model = (DefaultTableModel) jTableConsultaEntradas.getModel();
 
         try {
@@ -2351,7 +2454,7 @@ public class Entradas extends javax.swing.JFrame {
                 caraOrgonolept = rs.getString("CARATORGONOLEPTICAS");
                 embalagem = rs.getString("EMBALAGEM");
                 devolucao = rs.getString("DEVOLUCAO");
-
+                aDevolver = rs.getString("ADEVOLVER");
 
                 if (devolucao.equals("S")) {
                     devolucao = "Sim";
@@ -2359,7 +2462,7 @@ public class Entradas extends javax.swing.JFrame {
                     devolucao = "Não";
                 }
 
-                model.addRow(new Object[]{nomeFuncionario, nomeFornecedor, nomeMateriaPrima, dataEntrega, loteOrigem, peso, devolucao});
+                model.addRow(new Object[]{nomeFuncionario, nomeFornecedor, nomeMateriaPrima, dataEntrega, loteOrigem, peso, aDevolver});
             }
 
             st.close();
@@ -2582,17 +2685,19 @@ public class Entradas extends javax.swing.JFrame {
     private void ConsultaDevolucoesTabela() {
         int idFornecedor = 0;
         String nomeFornecedor = "";
-
+        
         int idMateriaPrima = 0;
         String nomeMatPrima = "";
 
+        int idEntrada = 0;
+        String loteOriginal = "";
+        
         String dataDevolucao = "";
         String quantiDevolvida = "";
         String observacao = "";
+        int devolucaoNum = 0;
         
-        int devolucaoNumero = 0;
-
-        model = (DefaultTableModel) jTableConsultaDevolucoes.getModel();
+       model = (DefaultTableModel) jTableConsultaDevolucoes.getModel();
 
         try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
@@ -2616,17 +2721,32 @@ public class Entradas extends javax.swing.JFrame {
                 idFornecedor = rs.getInt("IDFORNECEDOR");
                 nomeFornecedor = selectString("FORNECEDOR", "IDFORNECEDOR", idFornecedor, "NOME");
 
-                
-
                 idMateriaPrima = rs.getInt("IDMATERIAPRIMA");
                 nomeMatPrima = selectString("MATERIA_PRIMA", "IDMATERIAPRIMA", idMateriaPrima, "NOME");
-
+                
                 dataDevolucao = rs.getString("DATADEVOLUCAO");
                 quantiDevolvida = rs.getString("QUANTIDADEDEVOLVIDA");
 
                 observacao = rs.getString("OBSERVACAO");
-
-                model.addRow(new Object[]{nomeFornecedor, nomeMatPrima, devolucaoNumero, dataDevolucao, quantiDevolvida});
+                
+                devolucaoNum = rs.getInt("DEVOLUCAONUMERO");
+                
+                
+                //IR BUSCAR O LOTE DA MATERIA PRIMA ATRAVES DO ID ENTRADA
+                idEntrada = rs.getInt("IDENTRADA");
+                    
+                    Connection con2 = DriverManager.getConnection(url);
+                    String nomeTabela2= "ENTRADA";
+                    String sql2 = "SELECT * FROM " + nomeTabela2 + " WHERE IDENTRADA=" + idEntrada;
+                    PreparedStatement st2 = (PreparedStatement) con2.prepareStatement(sql2);
+                    ResultSet rs2 = st2.executeQuery();
+                    while (rs2.next()){
+                        loteOriginal = rs2.getString("LOTEORIGEM");
+                    }
+                    st2.close();
+                    con2.close();
+                                 
+                model.addRow(new Object[]{nomeFornecedor, nomeMatPrima,loteOriginal, devolucaoNum, dataDevolucao, quantiDevolvida});
             }
 
             st.close();
@@ -2634,6 +2754,8 @@ public class Entradas extends javax.swing.JFrame {
         } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage());
         }
+        
+      
 
     }
     
@@ -2655,8 +2777,7 @@ public class Entradas extends javax.swing.JFrame {
         String quantiDevolvida = "";
         
         String observacao = "";
-
-        model = (DefaultTableModel) jTableConsultaDevolucoes.getModel();
+        String loteOriginal = "";
 
         try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
@@ -2693,14 +2814,27 @@ public class Entradas extends javax.swing.JFrame {
 
                 observacao = rs.getString("OBSERVACAO");
 
+                //IR BUSCAR O LOTE ATRAVES DO ID ENTRADA
+                
+                Connection con2 = DriverManager.getConnection(url);
+                    String nomeTabela2= "ENTRADA";
+                    String sql2 = "SELECT * FROM " + nomeTabela2 + " WHERE IDENTRADA=" + idEntrada;
+                    PreparedStatement st2 = (PreparedStatement) con2.prepareStatement(sql2);
+                    ResultSet rs2 = st2.executeQuery();
+                    while (rs2.next()){
+                        loteOriginal = rs2.getString("LOTEORIGEM");
+                    }
+                    st2.close();
+                    con2.close();            
+                
                 JOptionPane.showMessageDialog(jDialogConsultaDevolucoes, "INFORMAÇÃO!\n "
-                                                                       + "NOME FUNCIONARIO: " + nomeFuncionario+"\n"
+                                                                       + "NOME FUNCIONARIO : " + nomeFuncionario+"\n"
                                                                        + "NOME FORNECEDOR : " + nomeFornecedor+"\n"
-                                                                       + "ENTRADA: " + idEntrada + "\n"
-                                                                       + "MATER. PRIMA: " + nomeMatPrima + "\n"
-                                                                       + "DATA DEVOLUÇÃO: " + dataDevolucao + "\n"
-                                                                       + "QUANTID. DEVOLV.: " +quantiDevolvida + "\n"
-                                                                       + "OBSERVAÇÃO: " + observacao + "\n");
+                                                                       + "LOTE : " + loteOriginal + "\n"
+                                                                       + "MATER. PRIMA : " + nomeMatPrima + "\n"
+                                                                       + "DATA DEVOLUÇÃO : " + dataDevolucao + "\n"
+                                                                       + "QUANTID. DEVOLV. : " +quantiDevolvida + "\n"
+                                                                       + "OBSERVAÇÃO : " + observacao + "\n\n\n");
                 
             }
 
@@ -2780,8 +2914,12 @@ public class Entradas extends javax.swing.JFrame {
         String nomeMatPrima = "";
         String dataDevolucao = "";
         String quantiDevolvida = "";
+        int devolucaoNum = 0;
         
         String opcaoSelect = "";
+        
+        int idEntrada = 0;
+        String loteOriginal = "";
 
         model = (DefaultTableModel) jTableConsultaDevolucoes.getModel();
 
@@ -2796,11 +2934,10 @@ public class Entradas extends javax.swing.JFrame {
 
 
         try {
-
+            CONTA_NUMERO_DEVOLUCOES = 0;
             con = DriverManager.getConnection(url);
             String nomeTabela = "DEVOLUCOES";
-           
-            
+          
             //VERIFICAR QUAL O SELECT QUE VAMOS EFECTUAR
             
             if(idForncedorPesquisaDevolucao != 0 && idMateriaPrimaPesquisaDevolucao == 0){
@@ -2816,10 +2953,7 @@ public class Entradas extends javax.swing.JFrame {
                  sql = "SELECT * FROM " + nomeTabela + " WHERE IDFORNECEDOR=" + idForncedorPesquisaDevolucao +" AND IDMATERIAPRIMA="+idMateriaPrimaPesquisaDevolucao;
                  System.out.println("SELECT FORNCEDOR e MATERIA PRIMA");
             }
-           
-            
-            
-            
+  
             PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
 
@@ -2833,16 +2967,38 @@ public class Entradas extends javax.swing.JFrame {
                 dataDevolucao = rs.getString("DATADEVOLUCAO");
                 quantiDevolvida = rs.getString("QUANTIDADEDEVOLVIDA");
 
+                devolucaoNum = rs.getInt("DEVOLUCAONUMERO");
              
-                model.addRow(new Object[]{nomeFornecedor, nomeMatPrima, dataDevolucao, quantiDevolvida});
+                
+                 //IR BUSCAR O LOTE DA MATERIA PRIMA ATRAVES DO ID ENTRADA
+                idEntrada = rs.getInt("IDENTRADA");
+                    
+                    Connection con2 = DriverManager.getConnection(url);
+                    String nomeTabela2= "ENTRADA";
+                    String sql2 = "SELECT * FROM " + nomeTabela2 + " WHERE IDENTRADA=" + idEntrada;
+                    PreparedStatement st2 = (PreparedStatement) con2.prepareStatement(sql2);
+                    ResultSet rs2 = st2.executeQuery();
+                    while (rs2.next()){
+                        loteOriginal = rs2.getString("LOTEORIGEM");
+                               
+                    }
+                    st2.close();
+                    con2.close();
+                
+                model.addRow(new Object[]{nomeFornecedor, nomeMatPrima, loteOriginal,devolucaoNum, dataDevolucao, quantiDevolvida});
+               CONTA_NUMERO_DEVOLUCOES++;
             }
 
             st.close();
             con.close();
         } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage());
-        }
-    
+        } 
+        
+        System.out.println("\nCONTA_NUMERO_DEVOLUÇOES --> " + CONTA_NUMERO_DEVOLUCOES );
+        
+      
+        
     
     }
     
@@ -2940,7 +3096,7 @@ public class Entradas extends javax.swing.JFrame {
 
     private void InserirNovaEntrada() {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ", Locale.getDefault());
 
         String nomeFuncionario = jComboBoxFuncionarioResponsavelEntrada.getSelectedItem().toString();
         int idFuncionario = selectId("FUNCIONARIO", "NOME", nomeFuncionario, "IDFUNCIONARIO");
@@ -2972,8 +3128,10 @@ public class Entradas extends javax.swing.JFrame {
         //VRIFICAR O ESTADO DA DEVOLUÇÃO -> SIM OU NAO 
         if (temperatura.equals("NC") || datavalidade.equals("NC") || caratOrgonolepricas.equals("NC") || embalagem.equals("NC")) {
             devolucao = "S";
+            jButtonGuardarNovaEntrada.setText("Guardar");
         } else {
             devolucao = "N";
+            jButtonGuardarNovaEntrada.setText("Guardar");
         }
 
 
@@ -3056,8 +3214,6 @@ public class Entradas extends javax.swing.JFrame {
             jDialogNovaEntrada.setVisible(false);
             LimpaNovaEntrada();
             
-        
-
            // FAZER PESQUISA PARA SABERMOS QUAL O IDENTRADA DA ENTRADA QUE 
            //ACABAMOS DE INSERIR VERIFCAMOS SE ESTAMOS A INSERIR NA BD
                 
@@ -3090,40 +3246,35 @@ public class Entradas extends javax.swing.JFrame {
                         idEntradaSeleccionada = rs.getInt("IDENTRADA");
 
                     }
+                    //DEVOLUCAO NUMERO VAI SER SEMPRE 0, POR ESTE PERCURSO, POIS É A PRIMEIRA VEZ
+                    //QUE ESTAMOS A FAZER A DEVOLUÇÃO
+                    
+                    devolucaoNumero = 0;
+                    
+                    
                     System.out.println("DADAOS PARA DEVOLUÇAO -> JANELA NOVA ENTRADAS");
                     System.out.println("ID ENTRADA -> " + idEntradaSeleccionada);
                     System.out.println("ID FORNECEDOR -> " + idFornecedorDevolucao);
                     System.out.println("ID MATERIA PRIMA -> " + idMateriaPrimaDevolucao);
                     System.out.println("QUANTIDADE A DEVOLVER -> " + quantidadeADevolverSelecionada);
+                    System.out.println("DEVOLUÇAO NUMERO -> " + devolucaoNumero);
                     
                     //ABRIR JANELA DE DEVOLUÇOES
                     LimpaNovaDevolucao();
                     jDialogDevolucoes.setLocationRelativeTo(this);
                     jDialogDevolucoes.setVisible(true);
                     LerBDFuncionarioComboBoxDevolucao();
-                    CalculaQuantoFaltaDevolver();
-                    
-                    
-                    
+                    CalculaQuantoFaltaDevolver();                   
                     
                     st.close();
                     con.close();
                 } catch (SQLException ex) {
                     System.err.println("SQLException: " + ex.getMessage());
-                }
-                
-                //PASSAR PARAMETROS PARA A JANELA DEVOLUÇÃO
-                
-                
-                
-                
-                
+                }     
             }
               
 
-
-
-        System.out.println("\n**BOTAO GUARDAR NOVA ENTRADA**");
+        System.out.println("\n\n**BOTAO GUARDAR NOVA ENTRADA**");
 
         System.out.println("NOME FUNCIONARIO: " + nomeFuncionario);
         System.out.println("ID FUNCIONARIO : " + idFuncionario);
@@ -3149,8 +3300,8 @@ public class Entradas extends javax.swing.JFrame {
 
     private void InserirDevolucao() {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+                
 
         String dataDevolucao = (String) sdf.format(jDateChooserDataDevolucao.getDate());
         float quantidadeQueEstamosAdevolver = Float.parseFloat(jTextFieldQuantidadeDevolucao.getText().toString());
@@ -3158,12 +3309,29 @@ public class Entradas extends javax.swing.JFrame {
         int idFuncionarioRresponsavel = 0;
         float quantidadeActualizar = 0.0f;
         String devolucao = "N";
+
+        float quantidadeDevolvidadaAteAgora = 0.0f; //para ir buscar o valor a coluna e somar a de baixo
+        float quantidadeDevolvidadaAteAgora_TOTAL = 0.0f; //somatorio das quantidades das devoluçoes ja efectuadas
+        float quantidadeDevolvidadaAteAgora_FINAL = 0.0f; // esta e a soma das 2 -> _total + quantidadeQueEstamosAdevolver
+
         
         //COMBOBOX
         //FUNCIONARIO RESPONSAVEL PELA DEVOLUCAO
 
         String comboFuncio = jComboBoxFuncionarioResponsavelDevolucao.getSelectedItem().toString();
-        if (!comboFuncio.equals("--Funcionario--")) {
+        
+        if (comboFuncio.equals("--Funcionario--")) {
+
+            JOptionPane.showMessageDialog(jDialogDevolucoes, "Selecione o Funcionario Responsavel");
+
+        } else if (quantidadeQueEstamosAdevolver == 0.0) {
+
+            //PERCORRER A BD E VER A QUANTIDADE QUE JA FOI DEVOLVIDA
+            JOptionPane.showMessageDialog(jDialogDevolucoes, "Quantidade a Devolver não pode ser ZERO !");
+
+        } else {
+
+            //COMBO BOX DO FUNCIONARIO
             try {
                 Class.forName("org.apache.derby.jdbc.ClientDriver");
             } catch (ClassNotFoundException e) { //driver não encontrado
@@ -3188,149 +3356,128 @@ public class Entradas extends javax.swing.JFrame {
                 System.err.println("SQLException: " + ex.getMessage());
             }
 
-        } else {
-            JOptionPane.showMessageDialog(jDialogDevolucoes, "Selecione o Funcionario Responsavel");
-        }
-
-        
-         float quantidadeDevolvidadaAteAgora  = 0.0f; //para ir buscar o valor a coluna e somar a de baixo
-         float quantidadeDevolvidadaAteAgora_TOTAL = 0.0f; //somatorio das quantidades das devoluçoes ja efectuadas
-         float quantidadeDevolvidadaAteAgora_FINAL = 0.0f; // esta e a soma das 2 -> _total + quantidadeQueEstamosAdevolver
-        
-        
-
-//PERCORRER A BD E VER A QUANTIDADE QUE JA FOI DEVOLVIDA
-        
-       if(quantidadeQueEstamosAdevolver == 0.0f) {
-           JOptionPane.showMessageDialog(jDialogDevolucoes, "Quantidade a Devolver não pode ser ZERO !");
-       
-       }else{
-         
+            
+            //BD DE DEVOLUÇÕES
             try {
-                   Class.forName("org.apache.derby.jdbc.ClientDriver");
-               } catch (ClassNotFoundException e) { //driver não encontrado
-                   System.err.print("ClassNotFoundException: ");
-                   System.err.println(e.getMessage());
-                   System.out.println("O driver expecificado nao foi encontrado.");
-               }
-
-               try {
-                   con = DriverManager.getConnection(url);
-                   String nomeTabela = "DEVOLUCOES";
-                   String sql = "SELECT * FROM " + nomeTabela + " WHERE IDENTRADA=" + idEntradaSeleccionada ;
-                   PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
-                   ResultSet rs = st.executeQuery();
-
-                   while (rs.next()) {
-                       quantidadeDevolvidadaAteAgora = rs.getFloat("QUANTIDADEDEVOLVIDA");
-                       quantidadeDevolvidadaAteAgora_TOTAL = quantidadeDevolvidadaAteAgora_TOTAL + quantidadeDevolvidadaAteAgora;
-
-                       System.out.println("quantidadeDevolvidaAteAgora : " + quantidadeDevolvidadaAteAgora);
-
-                   }
-                   System.out.println("\nquantidadeDevolvidaAteAgora_TOTAL : " + quantidadeDevolvidadaAteAgora_TOTAL );
-                   st.close();
-                   con.close();
-               } catch (SQLException ex) {
-                   System.err.println("SQLException: " + ex.getMessage());
-               }
-
-               //APAGAR
-               mostraQuantidadeDevolvidaAteAoMomento = quantidadeDevolvidadaAteAgora_TOTAL;
-
-
-               //VERIFICAR SE A QUANTIDADE JA DEVOLVIDA + A QUE VAMOS DEVOLVER ESTAO DENTRO DOS LIMITES
-               quantidadeDevolvidadaAteAgora_FINAL = quantidadeDevolvidadaAteAgora_TOTAL + quantidadeQueEstamosAdevolver;
-               System.out.println("CONTAS: " + quantidadeDevolvidadaAteAgora_TOTAL +" + " +quantidadeQueEstamosAdevolver +" = " +quantidadeDevolvidadaAteAgora_FINAL);
-
-
-               //QUANTIDADE MAIOR
-               if (quantidadeDevolvidadaAteAgora_FINAL > quantidadeADevolverSelecionada) {
-
-                   JOptionPane.showMessageDialog(jDialogDevolucoes, "Quantidade a devolvel nao pode ser tanta\nFALTA Devolver Apenas : " + (quantidadeADevolverSelecionada -quantidadeDevolvidadaAteAgora_TOTAL ));
-
-               } else if (quantidadeDevolvidadaAteAgora_FINAL == quantidadeADevolverSelecionada){
-                   //inserir na mesma o registo mas actualizar o estado na tabela entradas
-                   try {
-                       Class.forName("org.apache.derby.jdbc.ClientDriver");
-                   } catch (ClassNotFoundException e) { //driver não encontrado
-                       System.err.print("ClassNotFoundException: ");
-                       System.err.println(e.getMessage());
-                       System.out.println("O driver expecificado nao foi encontrado.");
-                   }
-
-                   try {
-                       con = DriverManager.getConnection(url);
-                       String nomeTabela = "DEVOLUCOES";
-                       sql = "INSERT INTO " + nomeTabela + "(IDFUNCIONARIO, IDFORNECEDOR, IDENTRADA, IDMATERIAPRIMA, DATADEVOLUCAO, QUANTIDADEDEVOLVIDA, OBSERVACAO)"
-                               + " values(" + idFuncionarioRresponsavel + "," + idFornecedorDevolucao + "," + idEntradaSeleccionada + "," + idMateriaPrimaDevolucao + ",'" + dataDevolucao + "'," + quantidadeQueEstamosAdevolver + ",'" + observacao + "'" + ")";
-
-                       System.out.println("\n\n** DADOS DA NOVA ENTRADA INSERIDOS COM SUCESSO !");
-
-
-                       PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
-                       st.executeUpdate();
-                       st.close();
-
-                       //VAMOS TER DE ACTUALIZAR O ESTADO DA DEVOLUÇÃO DE "SIM" PARA "NAO"
-
-                               String nomeTabela2 = "ENTRADA";
-                               String sql2 = "UPDATE " + nomeTabela2 + " SET DEVOLUCAO='" + devolucao + "'  WHERE IDENTRADA=" + idEntradaSeleccionada;
-                               PreparedStatement st2 = (PreparedStatement) con.prepareStatement(sql2);
-                               st2.executeUpdate();
-                               st2.close();
-
-                               JOptionPane.showMessageDialog(jDialogDevolucoes, "Estado da Devolução Actualizado com Sucesso.\nAgora : Devolvido");
-
-                       
-                       jDialogDevolucoes.setVisible(false);
-                       LimpaNovaDevolucao(); 
-                       LimpaTabelaEntradas();
-                       ConsultaEntradas();
-                               
-                       
-                       con.close();
-                   } catch (SQLException ex) {
-                       System.err.println("SQLException: " + ex.getMessage());
-                   }
-
-               }else{
-
-                   //INSERIR O NOVO VALOR NA TABELA DEVOLUÇÕES
-                   try {
-                       Class.forName("org.apache.derby.jdbc.ClientDriver");
-                   } catch (ClassNotFoundException e) { //driver não encontrado
-                       System.err.print("ClassNotFoundException: ");
-                       System.err.println(e.getMessage());
-                       System.out.println("O driver expecificado nao foi encontrado.");
-                   }
-
-                   try {
-                       con = DriverManager.getConnection(url);
-                       String nomeTabela = "DEVOLUCOES";
-                       sql = "INSERT INTO " + nomeTabela + "(IDFUNCIONARIO, IDFORNECEDOR, IDENTRADA, IDMATERIAPRIMA, DATADEVOLUCAO, QUANTIDADEDEVOLVIDA, OBSERVACAO)"
-                               + " values(" + idFuncionarioRresponsavel + "," + idFornecedorDevolucao + "," + idEntradaSeleccionada + "," + idMateriaPrimaDevolucao + ",'" + dataDevolucao + "'," + quantidadeQueEstamosAdevolver + ",'" + observacao + "'" + ")";
-
-                       System.out.println("\n\n** DADOS DA NOVA ENTRADA INSERIDOS COM SUCESSO !");
-
-
-                       PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
-                       st.executeUpdate();
-                       st.close();
-                       
-                       jDialogDevolucoes.setVisible(false);
-                       LimpaNovaDevolucao();
-                       LimpaTabelaEntradas();
-                       ConsultaEntradas();
-
-                       con.close();
-                   } catch (SQLException ex) {
-                       System.err.println("SQLException: " + ex.getMessage());
-                   }
-               }
+                Class.forName("org.apache.derby.jdbc.ClientDriver");
+            } catch (ClassNotFoundException e) { //driver não encontrado
+                System.err.print("ClassNotFoundException: ");
+                System.err.println(e.getMessage());
+                System.out.println("O driver expecificado nao foi encontrado.");
             }
 
-        
+            try {
+                con = DriverManager.getConnection(url);
+                String nomeTabela = "DEVOLUCOES";
+                String sql = "SELECT * FROM " + nomeTabela + " WHERE IDENTRADA=" + idEntradaSeleccionada;
+                PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+                ResultSet rs = st.executeQuery();
+
+                while (rs.next()) {
+                    quantidadeDevolvidadaAteAgora = rs.getFloat("QUANTIDADEDEVOLVIDA");
+                    quantidadeDevolvidadaAteAgora_TOTAL = quantidadeDevolvidadaAteAgora_TOTAL + quantidadeDevolvidadaAteAgora;
+
+                    System.out.println("quantidadeDevolvidaAteAgora : " + quantidadeDevolvidadaAteAgora);
+
+                }
+                System.out.println("\nquantidadeDevolvidaAteAgora_TOTAL : " + quantidadeDevolvidadaAteAgora_TOTAL);
+                st.close();
+                con.close();
+            } catch (SQLException ex) {
+                System.err.println("SQLException: " + ex.getMessage());
+            }
+
+            //APAGAR
+            mostraQuantidadeDevolvidaAteAoMomento = quantidadeDevolvidadaAteAgora_TOTAL;
+
+            //VERIFICAR SE A QUANTIDADE JA DEVOLVIDA + A QUE VAMOS DEVOLVER ESTAO DENTRO DOS LIMITES
+            quantidadeDevolvidadaAteAgora_FINAL = quantidadeDevolvidadaAteAgora_TOTAL + quantidadeQueEstamosAdevolver;
+            System.out.println("CONTAS: " + quantidadeDevolvidadaAteAgora_TOTAL + " + " + quantidadeQueEstamosAdevolver + " = " + quantidadeDevolvidadaAteAgora_FINAL);
+
+            //QUANTIDADE MAIOR
+            if (quantidadeDevolvidadaAteAgora_FINAL > quantidadeADevolverSelecionada) {
+
+                JOptionPane.showMessageDialog(jDialogDevolucoes, "Quantidade a devolvel nao pode ser tanta\nFALTA Devolver Apenas : " + (quantidadeADevolverSelecionada - quantidadeDevolvidadaAteAgora_TOTAL));
+
+            } else if (quantidadeDevolvidadaAteAgora_FINAL == quantidadeADevolverSelecionada) {
+                //inserir na mesma o registo mas actualizar o estado na tabela entradas
+                try {
+                    Class.forName("org.apache.derby.jdbc.ClientDriver");
+                } catch (ClassNotFoundException e) { //driver não encontrado
+                    System.err.print("ClassNotFoundException: ");
+                    System.err.println(e.getMessage());
+                    System.out.println("O driver expecificado nao foi encontrado.");
+                }
+
+                try {
+                    con = DriverManager.getConnection(url);
+                    String nomeTabela = "DEVOLUCOES";
+                    sql = "INSERT INTO " + nomeTabela + "(IDFUNCIONARIO, IDFORNECEDOR, IDENTRADA, IDMATERIAPRIMA, DATADEVOLUCAO, QUANTIDADEDEVOLVIDA, OBSERVACAO)"
+                            + " values(" + idFuncionarioRresponsavel + "," + idFornecedorDevolucao + "," + idEntradaSeleccionada + "," + idMateriaPrimaDevolucao + ",'" + dataDevolucao + "'," + quantidadeQueEstamosAdevolver + ",'" + observacao + "'" + ")";
+
+                    System.out.println("\n\n** DADOS DA NOVA ENTRADA INSERIDOS COM SUCESSO !");
+
+                    PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+                    st.executeUpdate();
+                    st.close();
+
+                    //VAMOS TER DE ACTUALIZAR O ESTADO DA DEVOLUÇÃO DE "SIM" PARA "NAO"
+                    String nomeTabela2 = "ENTRADA";
+                    String sql2 = "UPDATE " + nomeTabela2 + " SET DEVOLUCAO='" + devolucao + "'  WHERE IDENTRADA=" + idEntradaSeleccionada;
+                    PreparedStatement st2 = (PreparedStatement) con.prepareStatement(sql2);
+                    st2.executeUpdate();
+                    st2.close();
+
+                    JOptionPane.showMessageDialog(jDialogDevolucoes, "Estado da Devolução Actualizado com Sucesso.\nAgora : Devolvido");
+
+                    jDialogDevolucoes.setVisible(false);
+                    LimpaNovaDevolucao();
+                    LimpaTabelaEntradas();
+                    ConsultaEntradas();
+
+                    con.close();
+                } catch (SQLException ex) {
+                    System.err.println("SQLException: " + ex.getMessage());
+                }
+
+            } else {
+
+                //VER QUAL O NUMERO DA DEVOLUÇÃO QUE VAI TER -> DEVOLUCAONUMERO
+                devolucaoNumero = devolucaoNumero + 1;
+
+                //INSERIR O NOVO VALOR NA TABELA DEVOLUÇÕES
+                try {
+                    Class.forName("org.apache.derby.jdbc.ClientDriver");
+                } catch (ClassNotFoundException e) { //driver não encontrado
+                    System.err.print("ClassNotFoundException: ");
+                    System.err.println(e.getMessage());
+                    System.out.println("O driver expecificado nao foi encontrado.");
+                }
+
+                try {
+                    con = DriverManager.getConnection(url);
+                    String nomeTabela = "DEVOLUCOES";
+                    sql = "INSERT INTO " + nomeTabela + "(IDFUNCIONARIO, IDFORNECEDOR, IDENTRADA, IDMATERIAPRIMA, DATADEVOLUCAO, QUANTIDADEDEVOLVIDA, OBSERVACAO, DEVOLUCAONUMERO)"
+                            + " values(" + idFuncionarioRresponsavel + "," + idFornecedorDevolucao + "," + idEntradaSeleccionada + "," + idMateriaPrimaDevolucao + ",'" + dataDevolucao + "'," + quantidadeQueEstamosAdevolver + ",'" + observacao + "'," + devolucaoNumero + ")";
+
+                    System.out.println("\n\n** DADOS DA NOVA ENTRADA INSERIDOS COM SUCESSO !");
+
+                    PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+                    st.executeUpdate();
+                    st.close();
+
+                    jDialogDevolucoes.setVisible(false);
+                    LimpaNovaDevolucao();
+                    LimpaTabelaEntradas();
+                    ConsultaEntradas();
+
+                    con.close();
+                } catch (SQLException ex) {
+                    System.err.println("SQLException: " + ex.getMessage());
+                }
+            }
+        }
+
         System.out.println("\n\n** BOTAO GUARDAR DEVOLUCAO");
         System.out.println("ID FUNCIONARIO : " + idFuncionarioRresponsavel);
         System.out.println("ID FORNECEDOR: " + idFornecedorDevolucao);
@@ -3339,12 +3486,12 @@ public class Entradas extends javax.swing.JFrame {
         System.out.println("QUANT. DEVOLVIDA: " + quantidadeQueEstamosAdevolver);
         System.out.println("DATA DEVOL: " + dataDevolucao);
         System.out.println("DESCRICAO: " + observacao);
-        
-    }
-    
-    
-   
+        System.out.println("DEVOLUÇÃO NUMERO: " + devolucaoNumero);
 
+    }
+
+   
+   
     /*  PESQUISAR   */
     private void PesquisaEntrada() {
         String pesquisaEntrada = jTextFieldPesquisarEntrada.getText();
@@ -3454,9 +3601,11 @@ public class Entradas extends javax.swing.JFrame {
                     quantidadeDevolvidadaAteAgora = rs.getFloat("QUANTIDADEDEVOLVIDA");
                     quantidadeDevolvidadaAteAgora_TOTAL = quantidadeDevolvidadaAteAgora_TOTAL + quantidadeDevolvidadaAteAgora;
                     
+                    devolucaoNumero++;
+                    
                     //PERCURRER TODOS OS CAMPOS DA BD
                     System.out.println("quantidadeDevolvidaAteAgora : " + quantidadeDevolvidadaAteAgora);
-                    
+                    System.out.println("devolucoesNumero : " + devolucaoNumero);
                     
                     
                 }
@@ -3471,6 +3620,55 @@ public class Entradas extends javax.swing.JFrame {
          jTextFieldQuantidadeADevolverDevolucao.setText(String.valueOf(quantidadeADevolverSelecionada -quantidadeDevolvidadaAteAgora_TOTAL));
     
     }
+    
+   private void CalculaQuatidadeLoteTotalEntrada(){
+        
+       int quantidade = 0;
+       int adevolver = 0;
+       int quantidadeTotal = 0;
+       String loteOrigem = "";
+       
+       
+       try {
+                Class.forName("org.apache.derby.jdbc.ClientDriver");
+            } catch (ClassNotFoundException e) { //driver não encontrado
+                System.err.print("ClassNotFoundException: ");
+                System.err.println(e.getMessage());
+                System.out.println("O driver expecificado nao foi encontrado.");
+            }
+
+            try {
+                con = DriverManager.getConnection(url);
+                String nomeTabela = "ENTRADA";
+                String sql = "SELECT * FROM " + nomeTabela + " WHERE LOTEORIGEM= '" + LoteOriginalSeleccionado + "'";
+                PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+                ResultSet rs = st.executeQuery();
+
+                while (rs.next()) {
+                    
+                    quantidade = rs.getInt("QUANTIDADE");
+                    adevolver = rs.getInt("ADEVOLVER");
+                  //  loteOrigem = rs.getString("LOTEORIGEM");
+                }                
+                st.close();
+                con.close();
+            } catch (SQLException ex) {
+                System.err.println("SQLException: " + ex.getMessage());
+            }
+            
+            quantidadeTotal = quantidade + adevolver;
+            
+            JOptionPane.showMessageDialog(jDialogConsultaEntradas, "A Quantidade de Materia-Prima que deu entrada (S/Devoluções) :\n"
+                    +                                               "-> " + quantidadeTotal);
+            
+            
+            
+            System.out.println("QUANTIDADE : " +quantidade);
+            System.out.println("ADEVOLVER : " + adevolver);
+            System.out.println("QUANTIDADE TOTAL : " + quantidadeTotal);
+           // System.out.println("LOTE ORIG : " + loteOrigem);
+   
+   }
     
     
     /*  VALIDACOES E GERAR  */
@@ -3538,11 +3736,11 @@ public class Entradas extends javax.swing.JFrame {
 
     private void GeraLote(){
         Date dataAtual = new Date();    
-        DateFormat formato = new SimpleDateFormat("yyyyMMdd HHmmss");  
+        DateFormat formato = new SimpleDateFormat("yyyyMMddHHmmss");  
         String formatodData = formato.format(dataAtual);
         System.out.println("\n " + formatodData );
         
-        String LoteComExtencao = "LT "+formatodData;
+        String LoteComExtencao = "LT"+formatodData;
         
         geraLote = LoteComExtencao;
         
@@ -3777,7 +3975,9 @@ public class Entradas extends javax.swing.JFrame {
     private javax.swing.JButton jButtonVerDevolucoes;
     private javax.swing.JButton jButtonVerFichaCompletaControloResultados;
     private javax.swing.JButton jButtonVerFichaDetalhadaConsultaDevolucoes;
+    private javax.swing.JButton jButtonVerLoteTotal;
     private javax.swing.JButton jButtonVerNaoConformidadesEntradas;
+    private javax.swing.JButton jButtonVerTodasAsDevolucoes;
     private javax.swing.JComboBox jComboBoxCaraOrgonolepticasEntradas;
     private javax.swing.JComboBox jComboBoxDataValidadeEntrada;
     private javax.swing.JComboBox jComboBoxEmbalagemEntradas;
