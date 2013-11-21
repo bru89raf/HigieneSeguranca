@@ -86,6 +86,7 @@ public class Entradas extends javax.swing.JFrame {
     /*  VARIVEL PARA CONTAR QUANTOS DADOS TEMOS INSERIDOS NAS DEVOLUÇOES (PESQUISA) */
     
     int CONTA_NUMERO_DEVOLUCOES = 0;
+
     
     
     public Entradas() {
@@ -1410,23 +1411,23 @@ public class Entradas extends javax.swing.JFrame {
 
         jComboBoxFornecedorDevolucoes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxFornecedorDevolucoes.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
             public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
             }
             public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
                 jComboBoxFornecedorDevolucoesPopupMenuWillBecomeInvisible(evt);
             }
-            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
-            }
         });
 
         jComboBoxMateriaPrimaDevolucoes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxMateriaPrimaDevolucoes.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
             public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
             }
             public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
                 jComboBoxMateriaPrimaDevolucoesPopupMenuWillBecomeInvisible(evt);
-            }
-            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
             }
         });
 
@@ -2003,7 +2004,6 @@ public class Entradas extends javax.swing.JFrame {
 
          LimpaTabelaConsultaDevolucoes();
          PesquisaDevolucoesComDadosDeEntrada();         
-//        
        
          
         System.out.println("--- FORNECEDOR");
@@ -2034,7 +2034,7 @@ public class Entradas extends javax.swing.JFrame {
         LimpaTabelaConsultaDevolucoes();
         PesquisaDevolucoesComDadosDeEntrada();
         
-        
+         
         System.out.println("--- MATERIA PRIMA");
         System.out.println("MATERIA PESQUISA : " + nomeMateriaPrimaPesquisaDevolucao);
         System.out.println("ID MATERIA PRIMA : " + idMateriaPrimaPesquisaDevolucao);
@@ -2092,13 +2092,18 @@ public class Entradas extends javax.swing.JFrame {
 
             String dataEntrega = (String) jTableConsultaEntradas.getValueAt(linha, 3);
             String lote = (String) jTableConsultaEntradas.getValueAt(linha, 4);
+            int idEntrada = selectId("ENTRADA", "LOTEORIGEM", lote, "IDENTRADA");
+            
             String peso = (String) jTableConsultaEntradas.getValueAt(linha, 5);
             String devolucao = (String) jTableConsultaEntradas.getValueAt(linha, 6);
             String devolucaoActualizar = "S";
+            
+            
+         
 
             //DEVOLVER O ID DA ENTRADA COMPARANDO TODOS OS CAMPOS
 
-            if (devolucao.equals("Sim")) {
+           // if (devolucao.equals("Sim")) {
 
                 try {
                     Class.forName("org.apache.derby.jdbc.ClientDriver");
@@ -2112,7 +2117,8 @@ public class Entradas extends javax.swing.JFrame {
 
                     con = DriverManager.getConnection(url);
                     String nomeTabela = "ENTRADA";
-                    String sql = "SELECT * FROM " + nomeTabela + " WHERE DEVOLUCAO='" + devolucaoActualizar + "' and IDFORNECEDOR=" + idFornecedorDevolucao + " and IDFUNCIONARIO=" + idFuncionario + " and IDMATERIAPRIMA=" + idMateriaPrimaDevolucao + " and LOTEORIGEM='" + lote + "'";
+                   // String sql = "SELECT * FROM " + nomeTabela + " WHERE DEVOLUCAO='" + devolucaoActualizar + "' and IDFORNECEDOR=" + idFornecedorDevolucao + " and IDFUNCIONARIO=" + idFuncionario + " and IDMATERIAPRIMA=" + idMateriaPrimaDevolucao + " and LOTEORIGEM='" + lote + "'";
+                    String sql = "SELECT * FROM " + nomeTabela + " WHERE IDENTRADA = " + idEntrada+ " AND DEVOLUCAO='" + devolucaoActualizar+"'";
                     PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
                     ResultSet rs = st.executeQuery();
 
@@ -2131,9 +2137,9 @@ public class Entradas extends javax.swing.JFrame {
 
 
 
-            } else {
-                JOptionPane.showMessageDialog(jDialogConsultaEntradas, "Linha Seleccionada Não Apresenta Devoluções!");
-            }
+            //} else {
+           //     JOptionPane.showMessageDialog(jDialogConsultaEntradas, "Linha Seleccionada Não Apresenta Devoluções!");
+           // }
 
             System.out.println("BOTAO DEVOLOÇÃO -> JANELA CONSULTA ENTRADAS");
             System.out.println("NOME FUNCIO: " + nomeFuncionario);
@@ -2144,6 +2150,7 @@ public class Entradas extends javax.swing.JFrame {
             System.out.println("ID MATERIA PRIMA: " + idMateriaPrimaDevolucao);
             System.out.println("DATA ENTREGA: " + dataEntrega);
             System.out.println("LOTE: " + lote);
+            System.out.println("ID ENTRADA: " + idEntrada);
             System.out.println("QUANTIDADE: " + peso);
             System.out.println("ID ENTRADA SELECIONADO : " + idEntradaSeleccionada);
             System.out.println("QUANTIDADE ENTRADA : " + quantidadeEntradaTotalSelecionada);
@@ -2455,6 +2462,7 @@ public class Entradas extends javax.swing.JFrame {
                 embalagem = rs.getString("EMBALAGEM");
                 devolucao = rs.getString("DEVOLUCAO");
                 aDevolver = rs.getString("ADEVOLVER");
+                
 
                 if (devolucao.equals("S")) {
                     devolucao = "Sim";
@@ -2491,6 +2499,7 @@ public class Entradas extends javax.swing.JFrame {
         String caraOrgonolept = "";
         String embalagem = "";
         String devolucao = "";
+        String aDevolver = "";
 
         String where = "S";
         model = (DefaultTableModel) jTableConsultaEntradas.getModel();
@@ -2529,7 +2538,7 @@ public class Entradas extends javax.swing.JFrame {
                 caraOrgonolept = rs.getString("CARATORGONOLEPTICAS");
                 embalagem = rs.getString("EMBALAGEM");
                 devolucao = rs.getString("DEVOLUCAO");
-
+                aDevolver = rs.getString("ADEVOLVER");
 
                 if (devolucao.equals("S")) {
                     devolucao = "Sim";
@@ -2537,7 +2546,7 @@ public class Entradas extends javax.swing.JFrame {
                     devolucao = "Não";
                 }
 
-                model.addRow(new Object[]{nomeFuncionario, nomeFornecedor, nomeMateriaPrima, dataEntrega, loteOrigem, peso, devolucao});
+                model.addRow(new Object[]{nomeFuncionario, nomeFornecedor, nomeMateriaPrima, dataEntrega, loteOrigem, peso, aDevolver});
             }
 
             st.close();
@@ -2787,8 +2796,6 @@ public class Entradas extends javax.swing.JFrame {
             System.out.println("O driver expecificado nao foi encontrado.");
         }
 
-
-
         try {
 
             con = DriverManager.getConnection(url);
@@ -2828,12 +2835,12 @@ public class Entradas extends javax.swing.JFrame {
                     con2.close();            
                 
                 JOptionPane.showMessageDialog(jDialogConsultaDevolucoes, "INFORMAÇÃO!\n "
-                                                                       + "NOME FUNCIONARIO : " + nomeFuncionario+"\n"
-                                                                       + "NOME FORNECEDOR : " + nomeFornecedor+"\n"
-                                                                       + "LOTE : " + loteOriginal + "\n"
-                                                                       + "MATER. PRIMA : " + nomeMatPrima + "\n"
-                                                                       + "DATA DEVOLUÇÃO : " + dataDevolucao + "\n"
-                                                                       + "QUANTID. DEVOLV. : " +quantiDevolvida + "\n"
+                                                                       + "NOME FUNCIONARIO : " + nomeFuncionario+"\n\n"
+                                                                       + "NOME FORNECEDOR : " + nomeFornecedor+"\n\n"
+                                                                       + "LOTE : " + loteOriginal + "\n\n"
+                                                                       + "MATER. PRIMA : " + nomeMatPrima + "\n\n"
+                                                                       + "DATA DEVOLUÇÃO : " + dataDevolucao + "\n\n"
+                                                                       + "QUANTID. DEVOLV. : " +quantiDevolvida + "\n\n"
                                                                        + "OBSERVAÇÃO : " + observacao + "\n\n\n");
                 
             }
@@ -2934,6 +2941,7 @@ public class Entradas extends javax.swing.JFrame {
 
 
         try {
+          
             CONTA_NUMERO_DEVOLUCOES = 0;
             con = DriverManager.getConnection(url);
             String nomeTabela = "DEVOLUCOES";
@@ -2997,6 +3005,9 @@ public class Entradas extends javax.swing.JFrame {
         
         System.out.println("\nCONTA_NUMERO_DEVOLUÇOES --> " + CONTA_NUMERO_DEVOLUCOES );
         
+//         if (CONTA_NUMERO_DEVOLUCOES == 0){
+//           
+//         }
       
         
     
@@ -3400,6 +3411,8 @@ public class Entradas extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(jDialogDevolucoes, "Quantidade a devolvel nao pode ser tanta\nFALTA Devolver Apenas : " + (quantidadeADevolverSelecionada - quantidadeDevolvidadaAteAgora_TOTAL));
 
             } else if (quantidadeDevolvidadaAteAgora_FINAL == quantidadeADevolverSelecionada) {
+                //QANTIDADE A DEVELVER = A DEVOLVIDA
+                
                 //inserir na mesma o registo mas actualizar o estado na tabela entradas
                 try {
                     Class.forName("org.apache.derby.jdbc.ClientDriver");
@@ -3422,8 +3435,12 @@ public class Entradas extends javax.swing.JFrame {
                     st.close();
 
                     //VAMOS TER DE ACTUALIZAR O ESTADO DA DEVOLUÇÃO DE "SIM" PARA "NAO"
+                    //VAMOS TER DE ACTUALUZAR O VALOR DE ADEVOLVER PARA 0
+                    double aDevolter = 0.0;
+                  
+                    
                     String nomeTabela2 = "ENTRADA";
-                    String sql2 = "UPDATE " + nomeTabela2 + " SET DEVOLUCAO='" + devolucao + "'  WHERE IDENTRADA=" + idEntradaSeleccionada;
+                    String sql2 = "UPDATE " + nomeTabela2 + " SET DEVOLUCAO='" + devolucao + "', ADEVOLVER="+ aDevolter +" WHERE IDENTRADA=" + idEntradaSeleccionada;
                     PreparedStatement st2 = (PreparedStatement) con.prepareStatement(sql2);
                     st2.executeUpdate();
                     st2.close();
@@ -3453,15 +3470,25 @@ public class Entradas extends javax.swing.JFrame {
                     System.err.println(e.getMessage());
                     System.out.println("O driver expecificado nao foi encontrado.");
                 }
-
+                
                 try {
                     con = DriverManager.getConnection(url);
                     String nomeTabela = "DEVOLUCOES";
                     sql = "INSERT INTO " + nomeTabela + "(IDFUNCIONARIO, IDFORNECEDOR, IDENTRADA, IDMATERIAPRIMA, DATADEVOLUCAO, QUANTIDADEDEVOLVIDA, OBSERVACAO, DEVOLUCAONUMERO)"
                             + " values(" + idFuncionarioRresponsavel + "," + idFornecedorDevolucao + "," + idEntradaSeleccionada + "," + idMateriaPrimaDevolucao + ",'" + dataDevolucao + "'," + quantidadeQueEstamosAdevolver + ",'" + observacao + "'," + devolucaoNumero + ")";
 
-                    System.out.println("\n\n** DADOS DA NOVA ENTRADA INSERIDOS COM SUCESSO !");
+                    System.out.println("\n\n** DADOS DA NOVA DEVOLUÇÃO INSERIDOS COM SUCESSO !");
 
+                        //ACTUALIZAR A TABELA ENTRADAS VALOR ADEVOLVER
+                        //FAZER A CONTA PARA ACTUALIZAR
+                        quantidadeActualizar = quantidadeADevolverSelecionada - quantidadeQueEstamosAdevolver;
+                        
+                        String nomeTabela2 = "ENTRADA";
+                        String sql2 = "UPDATE " + nomeTabela2 + " SET ADEVOLVER="+ quantidadeActualizar +" WHERE IDENTRADA=" + idEntradaSeleccionada;
+                        PreparedStatement st2 = (PreparedStatement) con.prepareStatement(sql2);
+                        st2.executeUpdate();
+                        st2.close();       
+                        
                     PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
                     st.executeUpdate();
                     st.close();
@@ -3474,7 +3501,9 @@ public class Entradas extends javax.swing.JFrame {
                     con.close();
                 } catch (SQLException ex) {
                     System.err.println("SQLException: " + ex.getMessage());
-                }
+                }             
+               
+               
             }
         }
 
@@ -3487,6 +3516,8 @@ public class Entradas extends javax.swing.JFrame {
         System.out.println("DATA DEVOL: " + dataDevolucao);
         System.out.println("DESCRICAO: " + observacao);
         System.out.println("DEVOLUÇÃO NUMERO: " + devolucaoNumero);
+        
+        System.out.println("\n\nQUANTIDADE ADEVOLVER ACTUAÇIZADA : " + quantidadeActualizar);
 
     }
 
@@ -3623,12 +3654,16 @@ public class Entradas extends javax.swing.JFrame {
     
    private void CalculaQuatidadeLoteTotalEntrada(){
         
+       int idEntrada = 0;
        int quantidade = 0;
        int adevolver = 0;
-       int quantidadeTotal = 0;
+       float quantidadeTotal = 0;
        String loteOrigem = "";
        
+       float quantidadeDevolvida = 0;
+       float quantidadeDevolvidaTotal = 0;
        
+       // TABLA ENTRADAS BUSCAS A QUANTIDADE DE MT E A QUANTIDADE A DEVOLVER(actualizada)
        try {
                 Class.forName("org.apache.derby.jdbc.ClientDriver");
             } catch (ClassNotFoundException e) { //driver não encontrado
@@ -3645,29 +3680,52 @@ public class Entradas extends javax.swing.JFrame {
                 ResultSet rs = st.executeQuery();
 
                 while (rs.next()) {
-                    
+                    idEntrada = rs.getInt("IDENTRADA");
                     quantidade = rs.getInt("QUANTIDADE");
                     adevolver = rs.getInt("ADEVOLVER");
                   //  loteOrigem = rs.getString("LOTEORIGEM");
                 }                
+            
+                        //PERCORERR A TABELA DEVOLUÇÕES PARA SABERMOS A QUANTIDADE DE MT JA DEVOLVIDA
+                        Connection con2 = DriverManager.getConnection(url);
+                        String nomeTabela2 = "DEVOLUCOES";
+                        String sql2 = "SELECT * FROM " + nomeTabela2 + " WHERE IDENTRADA= " + idEntrada ;
+                        PreparedStatement st2 = (PreparedStatement) con2.prepareStatement(sql2);
+                        ResultSet rs2 = st2.executeQuery();
+                        while(rs2.next()){
+                            quantidadeDevolvida = rs2.getFloat("QUANTIDADEDEVOLVIDA");
+                            System.out.println("QUANTIDADE DEVOLVIDA : " + quantidadeDevolvida);
+                            quantidadeDevolvidaTotal = quantidadeDevolvidaTotal + quantidadeDevolvida;
+                            
+                        }
+                        System.out.println("QUANTIDADE DEVOLVIDA TOTAL: " + quantidadeDevolvidaTotal);
+                        st2.close(); 
+                        con2.close();
+                
+                
                 st.close();
                 con.close();
             } catch (SQLException ex) {
                 System.err.println("SQLException: " + ex.getMessage());
             }
             
-            quantidadeTotal = quantidade + adevolver;
+            quantidadeTotal = quantidade + adevolver + quantidadeDevolvidaTotal;
+           
+//            
+            JOptionPane.showMessageDialog(jDialogConsultaEntradas, "CALCULO :\n"
+                    + "Qtd Disponivel : " + quantidade +"\n"
+                    + "Qtd a Devolver : " + adevolver + "\n"
+                    + "Qtd já Devolvida : " + quantidadeDevolvidaTotal + "\n\n"
+                    + "Quantidade que deu Entrada (S/Devoluções) :\n"
+                    + "--> " + quantidadeTotal);
+//            
             
-            JOptionPane.showMessageDialog(jDialogConsultaEntradas, "A Quantidade de Materia-Prima que deu entrada (S/Devoluções) :\n"
-                    +                                               "-> " + quantidadeTotal);
-            
-            
-            
+            System.out.println("IDENTRADA : " + idEntrada);
             System.out.println("QUANTIDADE : " +quantidade);
             System.out.println("ADEVOLVER : " + adevolver);
             System.out.println("QUANTIDADE TOTAL : " + quantidadeTotal);
            // System.out.println("LOTE ORIG : " + loteOrigem);
-   
+             System.out.println("QUANTIDADE TOTAL DE MATERIA PRIMA :  " + quantidadeTotal);
    }
     
     
