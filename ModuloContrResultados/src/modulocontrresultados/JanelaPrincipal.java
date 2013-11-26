@@ -143,6 +143,11 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jScrollPaneConsultaMedidasCorrectivas = new javax.swing.JScrollPane();
         jTableConsultaMedidasCorrectivas = new javax.swing.JTable();
         jButtonVoltarMedidasCorrectivas = new javax.swing.JButton();
+        jDialogMenuControloResultados = new javax.swing.JDialog();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        jButtonNovoControlo1 = new javax.swing.JButton();
+        jButtonControlos1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jButtonNovoControlo = new javax.swing.JButton();
@@ -849,6 +854,70 @@ public class JanelaPrincipal extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jDialogMenuControloResultados.setMinimumSize(new java.awt.Dimension(412, 148));
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel8.setText("Controlo de Resultados");
+
+        jButtonNovoControlo1.setText("Novo Controlo");
+        jButtonNovoControlo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonNovoControlo1ActionPerformed(evt);
+            }
+        });
+
+        jButtonControlos1.setText("Consultar Controlos");
+        jButtonControlos1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonControlos1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(88, 88, 88)
+                        .addComponent(jLabel8))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jButtonNovoControlo1)
+                        .addGap(40, 40, 40)
+                        .addComponent(jButtonControlos1)))
+                .addContainerGap(63, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel8)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonNovoControlo1)
+                    .addComponent(jButtonControlos1))
+                .addContainerGap(39, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jDialogMenuControloResultadosLayout = new javax.swing.GroupLayout(jDialogMenuControloResultados.getContentPane());
+        jDialogMenuControloResultados.getContentPane().setLayout(jDialogMenuControloResultadosLayout);
+        jDialogMenuControloResultadosLayout.setHorizontalGroup(
+            jDialogMenuControloResultadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogMenuControloResultadosLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jDialogMenuControloResultadosLayout.setVerticalGroup(
+            jDialogMenuControloResultadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogMenuControloResultadosLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Modulo Controlo Resultadosmo");
         setMinimumSize(new java.awt.Dimension(400, 180));
@@ -1102,7 +1171,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
             ActualizaMedidaCorrectiva();
             //ATUALIZAR A TABELA NAO CONFORMIDADES
             LimpaTabelaConsultaNaoConformidades();
-            ConsultaBDNaoConformidadeSelect(idFuncionarioNaoConformidade);
+            ConsultaBDNaoConformidadeSelect();
             
             jTextAreaObservacaoMedidaCorrectiva.setText("");
             jDialogMedidasCorrectiva.setVisible(false);
@@ -1217,6 +1286,14 @@ public class JanelaPrincipal extends javax.swing.JFrame {
             
         }
     }//GEN-LAST:event_jButtonAddMedidaCorrectivaActionPerformed
+
+    private void jButtonNovoControlo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoControlo1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonNovoControlo1ActionPerformed
+
+    private void jButtonControlos1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonControlos1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonControlos1ActionPerformed
     
     
     /* LER */ 
@@ -2170,12 +2247,14 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButtonCancelarMedidaCorrectiva;
     private javax.swing.JButton jButtonCancelarNaoConformidade;
     private javax.swing.JButton jButtonControlos;
+    private javax.swing.JButton jButtonControlos1;
     private javax.swing.JButton jButtonCriaNovoControloResultados;
     private javax.swing.JButton jButtonFecharConsultaControlosResultados;
     private javax.swing.JButton jButtonGravarMedidaCorrectiva;
     private javax.swing.JButton jButtonGravarNaoConformidade;
     private javax.swing.JButton jButtonInserir;
     private javax.swing.JButton jButtonNovoControlo;
+    private javax.swing.JButton jButtonNovoControlo1;
     private javax.swing.JButton jButtonVerNaoConformidade;
     private javax.swing.JButton jButtonVoltar;
     private javax.swing.JButton jButtonVoltarMedidasCorrectivas;
@@ -2192,6 +2271,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JDialog jDialogConsultarControlos;
     private javax.swing.JDialog jDialogConsultarMedidasCorrectivas;
     private javax.swing.JDialog jDialogMedidasCorrectiva;
+    private javax.swing.JDialog jDialogMenuControloResultados;
     private javax.swing.JDialog jDialogNaoConformidades;
     private javax.swing.JDialog jDialogNovoControloResultados;
     private javax.swing.JLabel jLabel1;
@@ -2201,6 +2281,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabelConsultaMedidasCorrectivas;
     private javax.swing.JLabel jLabelData;
     private javax.swing.JLabel jLabelDataMedidasCorrectivas;
@@ -2218,6 +2299,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelResultado;
     private javax.swing.JLabel jLabelTipo;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanelConsultaControlos;
     private javax.swing.JPanel jPanelConsultaNaoConformidades;

@@ -2126,7 +2126,8 @@ public class Entradas extends javax.swing.JFrame {
 
                         idEntradaSeleccionada = rs.getInt("IDENTRADA");
                         quantidadeEntradaTotalSelecionada = rs.getFloat("QUANTIDADE");
-                        quantidadeADevolverSelecionada = rs.getFloat("ADEVOLVER");
+                        //quantidadeADevolverSelecionada = rs.getFloat("ADEVOLVER");
+                        quantidadeADevolverSelecionada = rs.getFloat("QUANTIDADETOTALADEVOLVER");
                     }
 
                     st.close();
@@ -2911,7 +2912,6 @@ public class Entradas extends javax.swing.JFrame {
         
         
     }
-
     
     private void PesquisaDevolucoesComDadosDeEntrada(){
     
@@ -3207,11 +3207,10 @@ public class Entradas extends javax.swing.JFrame {
             try {
                 con = DriverManager.getConnection(url);
                 String nomeTabela = "ENTRADA";
-                sql = "INSERT INTO " + nomeTabela + "(IDFORNECEDOR, IDFUNCIONARIO, IDMATERIAPRIMA, DATAENTREGA, LOTEORIGEM, QUANTIDADE, TEMPERATURA, DATAVALIDADE, CARATORGONOLEPTICAS, EMBALAGEM, DEVOLUCAO, ADEVOLVER) "
-                        + " values(" + idForncedor + "," + idFuncionario + "," + idMateriaPrima + ",'" + dataEntrega + "','" + lote + "'," + quantidade + ",'" + temperatura + "','" + datavalidade + "','" + caratOrgonolepricas + "','" + embalagem + "','" + devolucao + "'," + adevolver + ")";
+                sql = "INSERT INTO " + nomeTabela + "(IDFORNECEDOR, IDFUNCIONARIO, IDMATERIAPRIMA, DATAENTREGA, LOTEORIGEM, QUANTIDADE, TEMPERATURA, DATAVALIDADE, CARATORGONOLEPTICAS, EMBALAGEM, DEVOLUCAO, ADEVOLVER, QUANTIDADETOTALDISPONIVEL, QUANTIDADETOTALADEVOLVER) "
+                        + " values(" + idForncedor + "," + idFuncionario + "," + idMateriaPrima + ",'" + dataEntrega + "','" + lote + "'," + quantidade + ",'" + temperatura + "','" + datavalidade + "','" + caratOrgonolepricas + "','" + embalagem + "','" + devolucao + "'," + adevolver+ ","+ quantidade + ","+ adevolver + " )";
 
-
-                //JOptionPane.showMessageDialog(jDialogNovaMateriaPrima, "Nova Fornecedor Adicionado com Sucesso !");
+      
                 System.out.println("\n\n** DADOS DA NOVA ENTRADA INSERIDOS COM SUCESSO !");
 
                 PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
@@ -3222,12 +3221,18 @@ public class Entradas extends javax.swing.JFrame {
                 System.err.println("SQLException: " + ex.getMessage());
             }
             
-            jDialogNovaEntrada.setVisible(false);
+          
             LimpaNovaEntrada();
             
+              //COLOCAR BOTAO A PERGUNTAR SE QUEREMOS REALIZAR A DEVOLUÇÃO OU NAO
+                
+             int resultNaoConformidade = JOptionPane.showConfirmDialog(jDialogNovaEntrada, "Deseja Fazer a Devolução ?", null, JOptionPane.YES_NO_OPTION);
+             if (resultNaoConformidade == JOptionPane.YES_OPTION){
            // FAZER PESQUISA PARA SABERMOS QUAL O IDENTRADA DA ENTRADA QUE 
            //ACABAMOS DE INSERIR VERIFCAMOS SE ESTAMOS A INSERIR NA BD
-                
+                 
+                 jDialogNovaEntrada.setVisible(false);
+                 
                 try {
                     Class.forName("org.apache.derby.jdbc.ClientDriver");
                 } catch (ClassNotFoundException e) {
@@ -3281,8 +3286,17 @@ public class Entradas extends javax.swing.JFrame {
                     con.close();
                 } catch (SQLException ex) {
                     System.err.println("SQLException: " + ex.getMessage());
-                }     
-            }
+                }
+                
+              
+                
+                }else {
+                   jDialogNovaEntrada.setVisible(false);
+                }
+                
+                
+                
+            }//FECHA O IF
               
 
         System.out.println("\n\n**BOTAO GUARDAR NOVA ENTRADA**");
@@ -3629,6 +3643,7 @@ public class Entradas extends javax.swing.JFrame {
                 ResultSet rs = st.executeQuery();
 
                 while (rs.next()) {
+                    //SOMAR VALOR DAS DEVOLUCOES JA EFECTUADAS
                     quantidadeDevolvidadaAteAgora = rs.getFloat("QUANTIDADEDEVOLVIDA");
                     quantidadeDevolvidadaAteAgora_TOTAL = quantidadeDevolvidadaAteAgora_TOTAL + quantidadeDevolvidadaAteAgora;
                     
@@ -3681,7 +3696,7 @@ public class Entradas extends javax.swing.JFrame {
 
                 while (rs.next()) {
                     idEntrada = rs.getInt("IDENTRADA");
-                    quantidade = rs.getInt("QUANTIDADE");
+                    quantidade = rs.getInt("QUANTIDADETOTALDISPONIVEL");
                     adevolver = rs.getInt("ADEVOLVER");
                   //  loteOrigem = rs.getString("LOTEORIGEM");
                 }                
