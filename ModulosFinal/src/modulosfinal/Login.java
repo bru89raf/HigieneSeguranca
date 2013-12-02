@@ -157,6 +157,9 @@ public class Login extends javax.swing.JFrame {
      /****************************************************************************************************/
     
     
+    String EstadoFornecedor = "";
+    int idFornecedorPesquisar ;
+    
     
     
     
@@ -199,6 +202,7 @@ public class Login extends javax.swing.JFrame {
         jButtonNovaMateriaPrima = new javax.swing.JButton();
         jButtonNovoForncedor = new javax.swing.JButton();
         jButtonConsultaDevolucoes = new javax.swing.JButton();
+        jButtonConsultarFornecedores = new javax.swing.JButton();
         jDialogNovaEntrada = new javax.swing.JDialog();
         jPanelNovaEntrada = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
@@ -229,6 +233,7 @@ public class Login extends javax.swing.JFrame {
         jComboBoxDataValidadeEntrada = new javax.swing.JComboBox();
         jComboBoxCaraOrgonolepticasEntradas = new javax.swing.JComboBox();
         jComboBoxEmbalagemEntradas = new javax.swing.JComboBox();
+        jLabel35 = new javax.swing.JLabel();
         jDialogNovaMateriaPrima = new javax.swing.JDialog();
         jPanelNovaMateriaPrima = new javax.swing.JPanel();
         jLabelNomeMateriaPrima = new javax.swing.JLabel();
@@ -275,6 +280,7 @@ public class Login extends javax.swing.JFrame {
         jLabel30 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
+        jComboBoxEstadoFornecedor = new javax.swing.JComboBox();
         jDialogNovoInsectocacador = new javax.swing.JDialog();
         jPanelNovoInsectocacador = new javax.swing.JPanel();
         jLabelNome = new javax.swing.JLabel();
@@ -429,6 +435,15 @@ public class Login extends javax.swing.JFrame {
         jScrollPaneConsultaMedidasCorrectivas = new javax.swing.JScrollPane();
         jTableConsultaMedidasCorrectivas = new javax.swing.JTable();
         jButtonVoltarMedidasCorrectivas = new javax.swing.JButton();
+        jDialogConsultaFornecedores = new javax.swing.JDialog();
+        jPanelConsultaFornecedores = new javax.swing.JPanel();
+        jLabel36 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableConsultaFornecedor = new javax.swing.JTable();
+        jButtonFecharConsultaFornecedores = new javax.swing.JButton();
+        jButtonFornecedoresInativos = new javax.swing.JButton();
+        jButtonEditarFornecedor = new javax.swing.JButton();
+        jButtonAlterarEstadoFornecedor = new javax.swing.JButton();
         jDialogDevolucoes = new javax.swing.JDialog();
         jPanelDevolucoes = new javax.swing.JPanel();
         jLabelFuncionarioResponsavel2 = new javax.swing.JLabel();
@@ -481,11 +496,12 @@ public class Login extends javax.swing.JFrame {
         jMenuItemNvInsectocaçador = new javax.swing.JMenuItem();
         jMenuItemNvControloRsultados = new javax.swing.JMenuItem();
 
-        jDialogMenuControloResultados.setMinimumSize(new java.awt.Dimension(412, 148));
+        jDialogMenuControloResultados.setMinimumSize(new java.awt.Dimension(420, 140));
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel11.setText("Controlo de Resultados");
 
+        jButtonNovoControlo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
         jButtonNovoControlo1.setText("Novo Controlo");
         jButtonNovoControlo1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -493,6 +509,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jButtonControlos1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Consltas_Menu.png"))); // NOI18N
         jButtonControlos1.setText("Consultar Controlos");
         jButtonControlos1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -507,14 +524,14 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(88, 88, 88)
-                        .addComponent(jLabel11))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(jButtonNovoControlo1)
                         .addGap(40, 40, 40)
-                        .addComponent(jButtonControlos1)))
-                .addContainerGap(63, Short.MAX_VALUE))
+                        .addComponent(jButtonControlos1))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(108, 108, 108)
+                        .addComponent(jLabel11)))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -525,7 +542,7 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonNovoControlo1)
                     .addComponent(jButtonControlos1))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jDialogMenuControloResultadosLayout = new javax.swing.GroupLayout(jDialogMenuControloResultados.getContentPane());
@@ -533,21 +550,22 @@ public class Login extends javax.swing.JFrame {
         jDialogMenuControloResultadosLayout.setHorizontalGroup(
             jDialogMenuControloResultadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogMenuControloResultadosLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
         jDialogMenuControloResultadosLayout.setVerticalGroup(
             jDialogMenuControloResultadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogMenuControloResultadosLayout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jDialogMenuInsectocacadores.setTitle("MENU INSECTOCAÇADORES");
-        jDialogMenuInsectocacadores.setMinimumSize(new java.awt.Dimension(467, 194));
+        jDialogMenuInsectocacadores.setMinimumSize(new java.awt.Dimension(436, 115));
 
+        jButtonNovoInsecto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
         jButtonNovoInsecto.setText("Novo Insectocaçador");
         jButtonNovoInsecto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -555,6 +573,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jButtonConsultaInsecto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Consltas_Menu.png"))); // NOI18N
         jButtonConsultaInsecto.setText("Consulta Insectocaçadores");
         jButtonConsultaInsecto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -569,18 +588,18 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jPanelMenuInsectocadoresLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButtonNovoInsecto)
-                .addGap(71, 71, 71)
+                .addGap(18, 18, 18)
                 .addComponent(jButtonConsultaInsecto)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanelMenuInsectocadoresLayout.setVerticalGroup(
             jPanelMenuInsectocadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelMenuInsectocadoresLayout.createSequentialGroup()
-                .addGap(55, 55, 55)
+                .addGap(23, 23, 23)
                 .addGroup(jPanelMenuInsectocadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonNovoInsecto)
                     .addComponent(jButtonConsultaInsecto))
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jDialogMenuInsectocacadoresLayout = new javax.swing.GroupLayout(jDialogMenuInsectocacadores.getContentPane());
@@ -588,29 +607,27 @@ public class Login extends javax.swing.JFrame {
         jDialogMenuInsectocacadoresLayout.setHorizontalGroup(
             jDialogMenuInsectocacadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogMenuInsectocacadoresLayout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jPanelMenuInsectocadores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addGap(0, 18, Short.MAX_VALUE))
         );
         jDialogMenuInsectocacadoresLayout.setVerticalGroup(
             jDialogMenuInsectocacadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialogMenuInsectocacadoresLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jPanelMenuInsectocadores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(48, Short.MAX_VALUE))
+            .addComponent(jPanelMenuInsectocadores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         jDialogMenuEquipamentos.setTitle("EQUIPAMENTOS");
-        jDialogMenuEquipamentos.setMinimumSize(new java.awt.Dimension(388, 186));
+        jDialogMenuEquipamentos.setMinimumSize(new java.awt.Dimension(390, 110));
 
-        jButtonAddNovoEquipa.setText("Adicionar Novo");
+        jButtonAddNovoEquipa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
+        jButtonAddNovoEquipa.setText("Novo Equipamento");
         jButtonAddNovoEquipa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonAddNovoEquipaActionPerformed(evt);
             }
         });
 
-        jButtonConsultaEquipamentos.setText("Consultar Equip.");
+        jButtonConsultaEquipamentos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Consltas_Menu.png"))); // NOI18N
+        jButtonConsultaEquipamentos.setText("Consultar Equipamento");
         jButtonConsultaEquipamentos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonConsultaEquipamentosActionPerformed(evt);
@@ -622,11 +639,11 @@ public class Login extends javax.swing.JFrame {
         jPanelMenuEquipamentosLayout.setHorizontalGroup(
             jPanelMenuEquipamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelMenuEquipamentosLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
+                .addContainerGap()
                 .addComponent(jButtonAddNovoEquipa)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonConsultaEquipamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         jPanelMenuEquipamentosLayout.setVerticalGroup(
             jPanelMenuEquipamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -635,7 +652,7 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(jPanelMenuEquipamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonAddNovoEquipa)
                     .addComponent(jButtonConsultaEquipamentos))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jDialogMenuEquipamentosLayout = new javax.swing.GroupLayout(jDialogMenuEquipamentos.getContentPane());
@@ -643,56 +660,75 @@ public class Login extends javax.swing.JFrame {
         jDialogMenuEquipamentosLayout.setHorizontalGroup(
             jDialogMenuEquipamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogMenuEquipamentosLayout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jPanelMenuEquipamentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addGap(0, 20, Short.MAX_VALUE))
         );
         jDialogMenuEquipamentosLayout.setVerticalGroup(
             jDialogMenuEquipamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogMenuEquipamentosLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
                 .addComponent(jPanelMenuEquipamentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addGap(0, 10, Short.MAX_VALUE))
         );
 
         jDialogMenuEntradas.setTitle("MENU ENTRADAS");
         jDialogMenuEntradas.setFocusCycleRoot(false);
-        jDialogMenuEntradas.setMinimumSize(new java.awt.Dimension(420, 285));
+        jDialogMenuEntradas.setMinimumSize(new java.awt.Dimension(420, 270));
 
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel12.setText("MENU ENTRADAS");
 
+        jButtonNovaEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
         jButtonNovaEntrada.setText("Nova Entrada");
+        jButtonNovaEntrada.setAlignmentY(0.0F);
+        jButtonNovaEntrada.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jButtonNovaEntrada.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jButtonNovaEntrada.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonNovaEntradaActionPerformed(evt);
             }
         });
 
+        jButtonConsultaEntradas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Consltas_Menu.png"))); // NOI18N
         jButtonConsultaEntradas.setText("Consultar Entradas");
+        jButtonConsultaEntradas.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jButtonConsultaEntradas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonConsultaEntradasActionPerformed(evt);
             }
         });
 
-        jButtonNovaMateriaPrima.setText("Nova Materia-Prima");
+        jButtonNovaMateriaPrima.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
+        jButtonNovaMateriaPrima.setText("Nova Matéria-Prima");
         jButtonNovaMateriaPrima.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonNovaMateriaPrimaActionPerformed(evt);
             }
         });
 
+        jButtonNovoForncedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fornecedor.png"))); // NOI18N
         jButtonNovoForncedor.setText("Novo Forncedor");
+        jButtonNovoForncedor.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jButtonNovoForncedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonNovoForncedorActionPerformed(evt);
             }
         });
 
+        jButtonConsultaDevolucoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Consltas_Menu.png"))); // NOI18N
         jButtonConsultaDevolucoes.setText("Consultar Devoluçõoes");
+        jButtonConsultaDevolucoes.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jButtonConsultaDevolucoes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonConsultaDevolucoesActionPerformed(evt);
+            }
+        });
+
+        jButtonConsultarFornecedores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Consltas_Menu.png"))); // NOI18N
+        jButtonConsultarFornecedores.setText("Consultar Fornecedores");
+        jButtonConsultarFornecedores.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButtonConsultarFornecedores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonConsultarFornecedoresActionPerformed(evt);
             }
         });
 
@@ -701,44 +737,41 @@ public class Login extends javax.swing.JFrame {
         jPanelMenuEntradasLayout.setHorizontalGroup(
             jPanelMenuEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelMenuEntradasLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanelMenuEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonNovaEntrada)
-                    .addComponent(jButtonNovaMateriaPrima))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
-                .addGroup(jPanelMenuEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonConsultaDevolucoes)
-                    .addComponent(jButtonConsultaEntradas))
-                .addGap(49, 49, 49))
-            .addGroup(jPanelMenuEntradasLayout.createSequentialGroup()
-                .addGroup(jPanelMenuEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelMenuEntradasLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButtonNovoForncedor))
                     .addGroup(jPanelMenuEntradasLayout.createSequentialGroup()
                         .addGap(113, 113, 113)
-                        .addComponent(jLabel12)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel12))
+                    .addGroup(jPanelMenuEntradasLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanelMenuEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jButtonNovoForncedor, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonNovaMateriaPrima, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonNovaEntrada, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanelMenuEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButtonConsultarFornecedores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonConsultaDevolucoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonConsultaEntradas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanelMenuEntradasLayout.setVerticalGroup(
             jPanelMenuEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelMenuEntradasLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel12)
-                .addGap(27, 27, 27)
-                .addGroup(jPanelMenuEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonNovaEntrada)
-                    .addComponent(jButtonConsultaEntradas))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelMenuEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonNovaEntrada, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonConsultaEntradas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanelMenuEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelMenuEntradasLayout.createSequentialGroup()
-                        .addComponent(jButtonConsultaDevolucoes)
-                        .addGap(26, 26, 26))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelMenuEntradasLayout.createSequentialGroup()
-                        .addComponent(jButtonNovaMateriaPrima)
-                        .addGap(18, 18, 18)))
-                .addComponent(jButtonNovoForncedor)
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addGroup(jPanelMenuEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonConsultaDevolucoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonNovaMateriaPrima, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelMenuEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonNovoForncedor, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonConsultarFornecedores))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jDialogMenuEntradasLayout = new javax.swing.GroupLayout(jDialogMenuEntradas.getContentPane());
@@ -748,18 +781,18 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jDialogMenuEntradasLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelMenuEntradas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
         jDialogMenuEntradasLayout.setVerticalGroup(
             jDialogMenuEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogMenuEntradasLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelMenuEntradas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         jDialogNovaEntrada.setTitle("NOVA ENTRADA");
-        jDialogNovaEntrada.setMinimumSize(new java.awt.Dimension(620, 500));
+        jDialogNovaEntrada.setMinimumSize(new java.awt.Dimension(620, 510));
 
         jLabel13.setText("Fornecedor");
 
@@ -845,6 +878,7 @@ public class Login extends javax.swing.JFrame {
                 .addGap(52, 52, 52))
         );
 
+        jButtonGuardarNovaEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
         jButtonGuardarNovaEntrada.setText("Guardar");
         jButtonGuardarNovaEntrada.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -852,13 +886,15 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jButtonSairNovaEntrada.setText("Voltar");
+        jButtonSairNovaEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
+        jButtonSairNovaEntrada.setText("Fechar");
         jButtonSairNovaEntrada.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSairNovaEntradaActionPerformed(evt);
             }
         });
 
+        jButtonDesvloquearPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/desbloquear.png"))); // NOI18N
         jButtonDesvloquearPanel.setText("Desbloquear");
         jButtonDesvloquearPanel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -901,7 +937,7 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jPanelADevolverNovaEntradaLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(jLabelQuantidadeADevolver)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(88, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelADevolverNovaEntradaLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jTextFieldQuantidadeADevolver, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -976,42 +1012,54 @@ public class Login extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jLabel35.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel35.setText("Nova Entrada");
+
         javax.swing.GroupLayout jDialogNovaEntradaLayout = new javax.swing.GroupLayout(jDialogNovaEntrada.getContentPane());
         jDialogNovaEntrada.getContentPane().setLayout(jDialogNovaEntradaLayout);
         jDialogNovaEntradaLayout.setHorizontalGroup(
             jDialogNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialogNovaEntradaLayout.createSequentialGroup()
-                .addGroup(jDialogNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogNovaEntradaLayout.createSequentialGroup()
+                .addGroup(jDialogNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jDialogNovaEntradaLayout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(6, 6, 6)
                         .addComponent(jPanelNovaEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jDialogNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanelConformidadesNovaEntrada, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanelADevolverNovaEntrada, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jDialogNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jDialogNovaEntradaLayout.createSequentialGroup()
+                                .addComponent(jPanelConformidadesNovaEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogNovaEntradaLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jPanelADevolverNovaEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jDialogNovaEntradaLayout.createSequentialGroup()
-                        .addGap(149, 149, 149)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanelBotoesNovaEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addGap(72, 72, 72))
+            .addGroup(jDialogNovaEntradaLayout.createSequentialGroup()
+                .addGap(219, 219, 219)
+                .addComponent(jLabel35)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jDialogNovaEntradaLayout.setVerticalGroup(
             jDialogNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogNovaEntradaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jDialogNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jDialogNovaEntradaLayout.createSequentialGroup()
+                .addContainerGap(30, Short.MAX_VALUE)
+                .addComponent(jLabel35)
+                .addGap(18, 18, 18)
+                .addGroup(jDialogNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogNovaEntradaLayout.createSequentialGroup()
                         .addComponent(jPanelConformidadesNovaEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanelADevolverNovaEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19))
-                    .addComponent(jPanelNovaEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanelADevolverNovaEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanelNovaEntrada, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanelBotoesNovaEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jDialogNovaMateriaPrima.setTitle("NOVA MAT. PRIMA");
-        jDialogNovaMateriaPrima.setMinimumSize(new java.awt.Dimension(352, 400));
+        jDialogNovaMateriaPrima.setMinimumSize(new java.awt.Dimension(332, 421));
 
         jLabelNomeMateriaPrima.setText("Nome");
 
@@ -1026,6 +1074,7 @@ public class Login extends javax.swing.JFrame {
         jTextAreaDescricaoMateriaPrima.setPreferredSize(new java.awt.Dimension(150, 94));
         jScrollPaneDescricaoMateriaPrima.setViewportView(jTextAreaDescricaoMateriaPrima);
 
+        jButtonGuardarMateriaPrima.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
         jButtonGuardarMateriaPrima.setText("Guardar");
         jButtonGuardarMateriaPrima.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1033,7 +1082,8 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jButtonSairMateriaPrima.setText("Voltar");
+        jButtonSairMateriaPrima.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
+        jButtonSairMateriaPrima.setText("Fechar");
         jButtonSairMateriaPrima.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSairMateriaPrimaActionPerformed(evt);
@@ -1052,18 +1102,9 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(jPanelNovaMateriaPrimaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelDescricaoMateriaPrima)
                     .addGroup(jPanelNovaMateriaPrimaLayout.createSequentialGroup()
-                        .addGap(57, 57, 57)
-                        .addComponent(jScrollPaneDescricaoMateriaPrima, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanelNovaMateriaPrimaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelNovaMateriaPrimaLayout.createSequentialGroup()
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonGuardarMateriaPrima)
-                            .addGap(41, 41, 41)
-                            .addComponent(jButtonSairMateriaPrima))
-                        .addGroup(jPanelNovaMateriaPrimaLayout.createSequentialGroup()
-                            .addComponent(jLabelUnidadeMateriaPrima)
-                            .addGap(18, 18, 18)
-                            .addComponent(jTextFieldUnidadeMateriaPrima, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabelUnidadeMateriaPrima)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextFieldUnidadeMateriaPrima, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanelNovaMateriaPrimaLayout.createSequentialGroup()
                         .addComponent(jLabelNomeMateriaPrima)
                         .addGap(29, 29, 29)
@@ -1071,8 +1112,16 @@ public class Login extends javax.swing.JFrame {
                             .addComponent(jTextFieldNomeMateriaPrima, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelNovaMateriaPrimaLayout.createSequentialGroup()
                                 .addComponent(jLabel23)
-                                .addGap(56, 56, 56)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(56, 56, 56))))
+                    .addGroup(jPanelNovaMateriaPrimaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelNovaMateriaPrimaLayout.createSequentialGroup()
+                            .addComponent(jButtonGuardarMateriaPrima)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonSairMateriaPrima))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelNovaMateriaPrimaLayout.createSequentialGroup()
+                            .addGap(57, 57, 57)
+                            .addComponent(jScrollPaneDescricaoMateriaPrima, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanelNovaMateriaPrimaLayout.setVerticalGroup(
             jPanelNovaMateriaPrimaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1105,7 +1154,7 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jDialogNovaMateriaPrimaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelNovaMateriaPrima, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         jDialogNovaMateriaPrimaLayout.setVerticalGroup(
             jDialogNovaMateriaPrimaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1134,7 +1183,7 @@ public class Login extends javax.swing.JFrame {
 
         jLabelTipoProduto.setText("Tipo Produto");
 
-        jLabel24.setText("Ficha Tecnica");
+        jLabel24.setText("Estado");
 
         jTextFieldCodPostalFornecedor.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
@@ -1153,6 +1202,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jButtonGuardarNovoFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
         jButtonGuardarNovoFornecedor.setText("Guardar");
         jButtonGuardarNovoFornecedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1160,6 +1210,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jButtonSairNovoFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
         jButtonSairNovoFornecedor.setText("Voltar");
         jButtonSairNovoFornecedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1202,6 +1253,8 @@ public class Login extends javax.swing.JFrame {
         jLabel32.setForeground(new java.awt.Color(255, 0, 51));
         jLabel32.setText("* - Campos Obrigatorios");
 
+        jComboBoxEstadoFornecedor.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Ativo", "Inativo" }));
+
         javax.swing.GroupLayout jPanelNovoFornecedorLayout = new javax.swing.GroupLayout(jPanelNovoFornecedor);
         jPanelNovoFornecedor.setLayout(jPanelNovoFornecedorLayout);
         jPanelNovoFornecedorLayout.setHorizontalGroup(
@@ -1213,10 +1266,9 @@ public class Login extends javax.swing.JFrame {
                         .addComponent(jLabelNovoFornecedor))
                     .addGroup(jPanelNovoFornecedorLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanelNovoFornecedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanelNovoFornecedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanelNovoFornecedorLayout.createSequentialGroup()
                                 .addGroup(jPanelNovoFornecedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel24)
                                     .addGroup(jPanelNovoFornecedorLayout.createSequentialGroup()
                                         .addGroup(jPanelNovoFornecedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(jLabelLocalidadeForncedor)
@@ -1224,15 +1276,22 @@ public class Login extends javax.swing.JFrame {
                                             .addComponent(jLabelContactoForncedor)
                                             .addComponent(jLabelEmailFornecedor)
                                             .addComponent(jLabelNIFFornecedor)
-                                            .addComponent(jLabelTipoProduto))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jLabelTipoProduto)
+                                            .addComponent(jLabel24))
                                         .addGroup(jPanelNovoFornecedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jTextFieldLocalidadeFornecedor)
-                                            .addComponent(jTextFieldContactoFornecedor)
-                                            .addComponent(jTextFieldEmailFornecedor)
-                                            .addComponent(jTextFieldNIFFornecedor)
-                                            .addComponent(jTextFieldTipoProdutoFornecedor)
                                             .addGroup(jPanelNovoFornecedorLayout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addGroup(jPanelNovoFornecedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jTextFieldLocalidadeFornecedor)
+                                                    .addComponent(jTextFieldContactoFornecedor)
+                                                    .addComponent(jTextFieldEmailFornecedor)
+                                                    .addComponent(jTextFieldNIFFornecedor)
+                                                    .addComponent(jTextFieldTipoProdutoFornecedor)
+                                                    .addGroup(jPanelNovoFornecedorLayout.createSequentialGroup()
+                                                        .addComponent(jComboBoxEstadoFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGap(0, 0, Short.MAX_VALUE))))
+                                            .addGroup(jPanelNovoFornecedorLayout.createSequentialGroup()
+                                                .addGap(17, 17, 17)
                                                 .addComponent(jTextFieldCodPostalFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(0, 0, Short.MAX_VALUE))))
                                     .addGroup(jPanelNovoFornecedorLayout.createSequentialGroup()
@@ -1254,10 +1313,10 @@ public class Login extends javax.swing.JFrame {
                                     .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanelNovoFornecedorLayout.createSequentialGroup()
-                                .addGap(28, 28, 28)
                                 .addComponent(jButtonGuardarNovoFornecedor)
-                                .addGap(36, 36, 36)
-                                .addComponent(jButtonSairNovoFornecedor))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonSairNovoFornecedor)
+                                .addGap(10, 10, 10))))
                     .addGroup(jPanelNovoFornecedorLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -1308,8 +1367,10 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(jTextFieldTipoProdutoFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel31))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel24)
-                .addGap(26, 26, 26)
+                .addGroup(jPanelNovoFornecedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel24)
+                    .addComponent(jComboBoxEstadoFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
                 .addGroup(jPanelNovoFornecedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonGuardarNovoFornecedor)
                     .addComponent(jButtonSairNovoFornecedor))
@@ -1352,6 +1413,7 @@ public class Login extends javax.swing.JFrame {
 
         jLabel1.setText("Novo Insectocaçador");
 
+        jButtonGuardarInsecto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
         jButtonGuardarInsecto.setText("Guardar");
         jButtonGuardarInsecto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1359,6 +1421,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jButtonSairInsecto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
         jButtonSairInsecto.setText("Sair");
         jButtonSairInsecto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1366,6 +1429,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jButtonActualizarInsecto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/atualizar.png"))); // NOI18N
         jButtonActualizarInsecto.setText("Actualizar");
         jButtonActualizarInsecto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1452,7 +1516,7 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jDialogNovoInsectocacadorLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelNovoInsectocacador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jDialogNovoControloResultados.setTitle("NOVO CONTROLO DE RESULTADOS");
@@ -1501,14 +1565,16 @@ public class Login extends javax.swing.JFrame {
 
         jLabel6.setText("UPLOAD");
 
-        jButtonInserir.setText("Inserir");
+        jButtonInserir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
+        jButtonInserir.setText("Guardar");
         jButtonInserir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonInserirActionPerformed(evt);
             }
         });
 
-        jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
+        jButtonCancelar.setText("Fechar");
         jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCancelarActionPerformed(evt);
@@ -1629,7 +1695,7 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(jPanelNovoControloResultdosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonInserir)
                     .addComponent(jButtonCancelar))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jDialogNovoControloResultadosLayout = new javax.swing.GroupLayout(jDialogNovoControloResultados.getContentPane());
@@ -1668,6 +1734,7 @@ public class Login extends javax.swing.JFrame {
         jTextAreaObservacaoManutencaoEquipameto.setRows(5);
         jScrollPaneObservacaManuetencaoEquipametno.setViewportView(jTextAreaObservacaoManutencaoEquipameto);
 
+        jButtonGravarManutencaoEquipametno.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
         jButtonGravarManutencaoEquipametno.setText("Guardar");
         jButtonGravarManutencaoEquipametno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1675,7 +1742,8 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jButtonSairManutencaoEquipamento.setText("Sair");
+        jButtonSairManutencaoEquipamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
+        jButtonSairManutencaoEquipamento.setText("Fechar");
         jButtonSairManutencaoEquipamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSairManutencaoEquipamentoActionPerformed(evt);
@@ -1754,7 +1822,7 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jDialogNovaManutencaoEquipamentoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelManutencaoEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jDialogNaoConformidades.setTitle("NOVA NÃO CONFORMIDADE");
@@ -1777,6 +1845,7 @@ public class Login extends javax.swing.JFrame {
         jTextAreaMedidaCorrctivaNaoConformidade.setRows(5);
         jScrollPanemedidaCorrectiva.setViewportView(jTextAreaMedidaCorrctivaNaoConformidade);
 
+        jButtonGravarNaoConformidade.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
         jButtonGravarNaoConformidade.setText("Guardar");
         jButtonGravarNaoConformidade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1784,7 +1853,8 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jButtonCancelarNaoConformidade.setText("Cancelar");
+        jButtonCancelarNaoConformidade.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
+        jButtonCancelarNaoConformidade.setText("Fechar");
         jButtonCancelarNaoConformidade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCancelarNaoConformidadeActionPerformed(evt);
@@ -1833,12 +1903,12 @@ public class Login extends javax.swing.JFrame {
                         .addComponent(jLabel7))
                     .addGroup(jPanelNaoConformidadesLayout.createSequentialGroup()
                         .addGap(81, 81, 81)
-                        .addGroup(jPanelNaoConformidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanelNaoConformidadesLayout.createSequentialGroup()
-                                .addComponent(jButtonGravarNaoConformidade)
-                                .addGap(28, 28, 28)
-                                .addComponent(jButtonCancelarNaoConformidade))
-                            .addComponent(jComboBoxNaoConformidadeFuncionarioResponsav, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jComboBoxNaoConformidadeFuncionarioResponsav, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelNaoConformidadesLayout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jButtonGravarNaoConformidade)
+                        .addGap(82, 82, 82)
+                        .addComponent(jButtonCancelarNaoConformidade)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelNaoConformidadesLayout.setVerticalGroup(
@@ -1886,7 +1956,7 @@ public class Login extends javax.swing.JFrame {
                     .addGroup(jDialogNaoConformidadesLayout.createSequentialGroup()
                         .addGap(33, 33, 33)
                         .addComponent(jPanelNaoConformidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         jDialogNaoConformidadesLayout.setVerticalGroup(
             jDialogNaoConformidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1895,11 +1965,11 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanelNaoConformidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jDialogNovaLimpeza.setTitle("NOVA LIMPEZA");
-        jDialogNovaLimpeza.setMinimumSize(new java.awt.Dimension(421, 301));
+        jDialogNovaLimpeza.setMinimumSize(new java.awt.Dimension(390, 240));
 
         jLabelFuncionarioResponsavel.setText("Funcionario Responsavel");
 
@@ -1907,6 +1977,7 @@ public class Login extends javax.swing.JFrame {
 
         jComboBoxFuncionarioResponsvelLimpeza.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jButtonGuardarLimpeza.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
         jButtonGuardarLimpeza.setText("Guardar");
         jButtonGuardarLimpeza.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1914,7 +1985,8 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jButtonSairLimpeza.setText("Sair");
+        jButtonSairLimpeza.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
+        jButtonSairLimpeza.setText("Fechar");
         jButtonSairLimpeza.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSairLimpezaActionPerformed(evt);
@@ -1926,9 +1998,9 @@ public class Login extends javax.swing.JFrame {
         jPanelNovaLimpezaLayout.setHorizontalGroup(
             jPanelNovaLimpezaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelNovaLimpezaLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanelNovaLimpezaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanelNovaLimpezaLayout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(jPanelNovaLimpezaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelFuncionarioResponsavel)
                             .addComponent(jLabelData, javax.swing.GroupLayout.Alignment.TRAILING))
@@ -1936,8 +2008,7 @@ public class Login extends javax.swing.JFrame {
                         .addGroup(jPanelNovaLimpezaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jComboBoxFuncionarioResponsvelLimpeza, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jDateChooserLimpeza, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)))
-                    .addGroup(jPanelNovaLimpezaLayout.createSequentialGroup()
-                        .addGap(26, 26, 26)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelNovaLimpezaLayout.createSequentialGroup()
                         .addComponent(jButtonGuardarLimpeza)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonSairLimpeza)))
@@ -1954,11 +2025,11 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(jPanelNovaLimpezaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabelData)
                     .addComponent(jDateChooserLimpeza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addGap(30, 30, 30)
                 .addGroup(jPanelNovaLimpezaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonGuardarLimpeza)
                     .addComponent(jButtonSairLimpeza))
-                .addGap(101, 101, 101))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jDialogNovaLimpezaLayout = new javax.swing.GroupLayout(jDialogNovaLimpeza.getContentPane());
@@ -1968,14 +2039,14 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jDialogNovaLimpezaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelNovaLimpeza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         jDialogNovaLimpezaLayout.setVerticalGroup(
             jDialogNovaLimpezaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogNovaLimpezaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelNovaLimpeza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         jDialogNovoEquipamento.setTitle("Novo Equipamento");
@@ -1991,6 +2062,7 @@ public class Login extends javax.swing.JFrame {
         jTextAreaObservacaoNovoEquipamento.setRows(5);
         jScrollPaneNovoEquipmanentoObservacao.setViewportView(jTextAreaObservacaoNovoEquipamento);
 
+        jButtonGuardarEquipametno.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
         jButtonGuardarEquipametno.setText("Guardar");
         jButtonGuardarEquipametno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1998,13 +2070,15 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jButtonSairNovoEquipamento.setText("Sair");
+        jButtonSairNovoEquipamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
+        jButtonSairNovoEquipamento.setText("Fechar");
         jButtonSairNovoEquipamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSairNovoEquipamentoActionPerformed(evt);
             }
         });
 
+        jButtonActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/atualizar.png"))); // NOI18N
         jButtonActualizar.setText("Actualizar");
         jButtonActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2032,7 +2106,7 @@ public class Login extends javax.swing.JFrame {
                                 .addComponent(jButtonActualizar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButtonSairNovoEquipamento))
-                            .addComponent(jScrollPaneNovoEquipmanentoObservacao, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+                            .addComponent(jScrollPaneNovoEquipmanentoObservacao)
                             .addComponent(jTextFieldNomeEquipamento))))
                 .addContainerGap())
         );
@@ -2049,7 +2123,7 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(jPanelNovoEquipamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelDescrição)
                     .addComponent(jScrollPaneNovoEquipmanentoObservacao, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanelNovoEquipamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelNovoEquipamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButtonGuardarEquipametno)
@@ -2076,7 +2150,7 @@ public class Login extends javax.swing.JFrame {
         );
 
         jDialogConsultaInsectocacadores.setTitle("CONSULTA INSECTOCADORES");
-        jDialogConsultaInsectocacadores.setMinimumSize(new java.awt.Dimension(672, 412));
+        jDialogConsultaInsectocacadores.setMinimumSize(new java.awt.Dimension(672, 400));
 
         jTableConsultaInsecto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -2096,6 +2170,7 @@ public class Login extends javax.swing.JFrame {
         });
         jScrollPaneConsultInsecto.setViewportView(jTableConsultaInsecto);
 
+        jButtonAddNovoInsecto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
         jButtonAddNovoInsecto.setText("Novo Insecto.");
         jButtonAddNovoInsecto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2103,13 +2178,15 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jButtonSairConsultaInsecto.setText("Voltar");
+        jButtonSairConsultaInsecto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
+        jButtonSairConsultaInsecto.setText("Fechar");
         jButtonSairConsultaInsecto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSairConsultaInsectoActionPerformed(evt);
             }
         });
 
+        jButtonNovaLimpeza.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Limpeza.png"))); // NOI18N
         jButtonNovaLimpeza.setText("Nova Limpeza");
         jButtonNovaLimpeza.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2117,6 +2194,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jButtonConsultarLimpezas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Consulta.png"))); // NOI18N
         jButtonConsultarLimpezas.setText("Consultar Limpezas");
         jButtonConsultarLimpezas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2124,6 +2202,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jButtonEditarInsectoca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/editar.png"))); // NOI18N
         jButtonEditarInsectoca.setText("Editar");
         jButtonEditarInsectoca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2131,6 +2210,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jButtonControloResultadosInsectoca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Nao Conformidades.png"))); // NOI18N
         jButtonControloResultadosInsectoca.setText("Controlo Resultados");
         jButtonControloResultadosInsectoca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2144,6 +2224,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jLabelPesquisarInsectocacador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pesquisar.png"))); // NOI18N
         jLabelPesquisarInsectocacador.setText("Pesquisar");
 
         javax.swing.GroupLayout jPanelConsultaInsectoLayout = new javax.swing.GroupLayout(jPanelConsultaInsecto);
@@ -2161,30 +2242,30 @@ public class Login extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonSairConsultaInsecto))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConsultaInsectoLayout.createSequentialGroup()
-                        .addComponent(jTextFieldPesquisaInsectocacador, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanelConsultaInsectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldPesquisaInsectocacador, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelPesquisarInsectocacador))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonConsultarLimpezas)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonEditarInsectoca)
                         .addGap(18, 18, 18)
-                        .addComponent(jButtonControloResultadosInsectoca))
-                    .addGroup(jPanelConsultaInsectoLayout.createSequentialGroup()
-                        .addComponent(jLabelPesquisarInsectocacador)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jButtonControloResultadosInsectoca)))
                 .addContainerGap())
         );
         jPanelConsultaInsectoLayout.setVerticalGroup(
             jPanelConsultaInsectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelConsultaInsectoLayout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jLabelPesquisarInsectocacador)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelConsultaInsectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldPesquisaInsectocacador, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addGroup(jPanelConsultaInsectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanelConsultaInsectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButtonEditarInsectoca)
                         .addComponent(jButtonControloResultadosInsectoca)
-                        .addComponent(jButtonConsultarLimpezas)))
+                        .addComponent(jButtonConsultarLimpezas))
+                    .addGroup(jPanelConsultaInsectoLayout.createSequentialGroup()
+                        .addComponent(jLabelPesquisarInsectocacador)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldPesquisaInsectocacador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPaneConsultInsecto, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -2193,7 +2274,7 @@ public class Login extends javax.swing.JFrame {
                     .addGroup(jPanelConsultaInsectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButtonAddNovoInsecto)
                         .addComponent(jButtonNovaLimpeza)))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jDialogConsultaInsectocacadoresLayout = new javax.swing.GroupLayout(jDialogConsultaInsectocacadores.getContentPane());
@@ -2203,14 +2284,14 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jDialogConsultaInsectocacadoresLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelConsultaInsecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
         jDialogConsultaInsectocacadoresLayout.setVerticalGroup(
             jDialogConsultaInsectocacadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogConsultaInsectocacadoresLayout.createSequentialGroup()
-                .addContainerGap(31, Short.MAX_VALUE)
+            .addGroup(jDialogConsultaInsectocacadoresLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jPanelConsultaInsecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         jDialogConsultaLimpezas.setTitle("CONSULTA LIMPEZAS");
@@ -2234,6 +2315,7 @@ public class Login extends javax.swing.JFrame {
         });
         jScrollPaneConsultaLimpezas.setViewportView(jTableConsultaLimpezas);
 
+        jButtonNovaLimpezaConsultaLimpezas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
         jButtonNovaLimpezaConsultaLimpezas.setText("Nova Limpeza");
         jButtonNovaLimpezaConsultaLimpezas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2241,7 +2323,8 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jButtonSairConsultaLimpezas.setText("Sair");
+        jButtonSairConsultaLimpezas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
+        jButtonSairConsultaLimpezas.setText("Fechar");
         jButtonSairConsultaLimpezas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSairConsultaLimpezasActionPerformed(evt);
@@ -2288,7 +2371,7 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jDialogConsultaLimpezasLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelConsultaLimpezas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         jDialogConsultaEquipamentos.setTitle("CONSULTA EQUIPAMENTOS");
@@ -2532,13 +2615,15 @@ public class Login extends javax.swing.JFrame {
         });
         jScrollPaneConsultarControlos.setViewportView(jTableConsultarControlos);
 
-        jButtonFecharConsultaControlosResultados.setText("Cancelar");
+        jButtonFecharConsultaControlosResultados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
+        jButtonFecharConsultaControlosResultados.setText("Fechar");
         jButtonFecharConsultaControlosResultados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonFecharConsultaControlosResultadosActionPerformed(evt);
             }
         });
 
+        jButtonCriaNovoControloResultados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
         jButtonCriaNovoControloResultados.setText("Criar Novo");
         jButtonCriaNovoControloResultados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2546,6 +2631,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jButtonVerNaoConformidade.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Nao Conformidades.png"))); // NOI18N
         jButtonVerNaoConformidade.setText("Ver Não Conformidade");
         jButtonVerNaoConformidade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2553,13 +2639,14 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jComboBoxSeccao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--Sessão--", "ENTRADA", "EQUIPAMENTO", "INSECTOCACADORES", "OUTROS" }));
+        jComboBoxSeccao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--Secção--", "ENTRADA", "EQUIPAMENTO", "INSECTOCACADORES", "OUTROS" }));
         jComboBoxSeccao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxSeccaoActionPerformed(evt);
             }
         });
 
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pesquisar.png"))); // NOI18N
         jLabel10.setText("Secção");
 
         javax.swing.GroupLayout jPanelConsultaControlosLayout = new javax.swing.GroupLayout(jPanelConsultaControlos);
@@ -2572,9 +2659,8 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(jScrollPaneConsultarControlos)
                     .addGroup(jPanelConsultaControlosLayout.createSequentialGroup()
                         .addComponent(jButtonCriaNovoControloResultados)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButtonFecharConsultaControlosResultados)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonFecharConsultaControlosResultados))
                     .addGroup(jPanelConsultaControlosLayout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -2604,7 +2690,7 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(jPanelConsultaControlosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonFecharConsultaControlosResultados)
                     .addComponent(jButtonCriaNovoControloResultados))
-                .addContainerGap(71, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jDialogConsultarControlosLayout = new javax.swing.GroupLayout(jDialogConsultarControlos.getContentPane());
@@ -2612,20 +2698,20 @@ public class Login extends javax.swing.JFrame {
         jDialogConsultarControlosLayout.setHorizontalGroup(
             jDialogConsultarControlosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogConsultarControlosLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
+                .addContainerGap()
                 .addComponent(jPanelConsultaControlos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(28, 28, 28))
         );
         jDialogConsultarControlosLayout.setVerticalGroup(
             jDialogConsultarControlosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogConsultarControlosLayout.createSequentialGroup()
-                .addGap(36, 36, 36)
+                .addContainerGap()
                 .addComponent(jPanelConsultaControlos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         jDialogConsultaNaoConformidades.setTitle("CONSULTAR NÃO CONFORMIDADES");
-        jDialogConsultaNaoConformidades.setMinimumSize(new java.awt.Dimension(840, 375));
+        jDialogConsultaNaoConformidades.setMinimumSize(new java.awt.Dimension(806, 361));
 
         jLabelNaoConformidades.setText("CONSULTA NAO CONFORMIDADES");
 
@@ -2647,13 +2733,15 @@ public class Login extends javax.swing.JFrame {
         });
         jScrollPaneNaoConformidades.setViewportView(jTableNaoConformidades);
 
-        jButtonVoltar.setText("Voltar");
+        jButtonVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
+        jButtonVoltar.setText("Fechar");
         jButtonVoltar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonVoltarActionPerformed(evt);
             }
         });
 
+        jButtonAddNovaNaoConformidade.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Nao Conformidades.png"))); // NOI18N
         jButtonAddNovaNaoConformidade.setText("Nova Não Conformidade");
         jButtonAddNovaNaoConformidade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2661,6 +2749,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jButtonAddMedidaCorrectiva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/medida_correctiva.png"))); // NOI18N
         jButtonAddMedidaCorrectiva.setText("Medida Correctiva");
         jButtonAddMedidaCorrectiva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2673,26 +2762,21 @@ public class Login extends javax.swing.JFrame {
         jPanelConsultaNaoConformidadesLayout.setHorizontalGroup(
             jPanelConsultaNaoConformidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelConsultaNaoConformidadesLayout.createSequentialGroup()
-                .addGroup(jPanelConsultaNaoConformidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelConsultaNaoConformidadesLayout.createSequentialGroup()
+                .addGroup(jPanelConsultaNaoConformidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButtonAddMedidaCorrectiva, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelConsultaNaoConformidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanelConsultaNaoConformidadesLayout.createSequentialGroup()
+                            .addGap(184, 184, 184)
+                            .addComponent(jLabelNaoConformidades))
+                        .addGroup(jPanelConsultaNaoConformidadesLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jScrollPaneNaoConformidades, javax.swing.GroupLayout.PREFERRED_SIZE, 735, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelConsultaNaoConformidadesLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPaneNaoConformidades, javax.swing.GroupLayout.DEFAULT_SIZE, 736, Short.MAX_VALUE))
-                    .addGroup(jPanelConsultaNaoConformidadesLayout.createSequentialGroup()
-                        .addGap(184, 184, 184)
-                        .addComponent(jLabelNaoConformidades)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanelConsultaNaoConformidadesLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanelConsultaNaoConformidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanelConsultaNaoConformidadesLayout.createSequentialGroup()
-                                .addComponent(jButtonVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(83, 83, 83)
-                                .addComponent(jButtonAddNovaNaoConformidade)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConsultaNaoConformidadesLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jButtonAddMedidaCorrectiva, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap())
+                        .addComponent(jButtonAddNovaNaoConformidade)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         jPanelConsultaNaoConformidadesLayout.setVerticalGroup(
             jPanelConsultaNaoConformidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2704,10 +2788,10 @@ public class Login extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPaneNaoConformidades, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelConsultaNaoConformidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelConsultaNaoConformidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonVoltar)
                     .addComponent(jButtonAddNovaNaoConformidade))
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jDialogConsultaNaoConformidadesLayout = new javax.swing.GroupLayout(jDialogConsultaNaoConformidades.getContentPane());
@@ -2715,20 +2799,20 @@ public class Login extends javax.swing.JFrame {
         jDialogConsultaNaoConformidadesLayout.setHorizontalGroup(
             jDialogConsultaNaoConformidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogConsultaNaoConformidadesLayout.createSequentialGroup()
-                .addGap(27, 27, 27)
+                .addContainerGap()
                 .addComponent(jPanelConsultaNaoConformidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         jDialogConsultaNaoConformidadesLayout.setVerticalGroup(
             jDialogConsultaNaoConformidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogConsultaNaoConformidadesLayout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addContainerGap()
                 .addComponent(jPanelConsultaNaoConformidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         jDialogMedidasCorrectiva.setTitle("NOVA MEDIDA CORRECTIVA");
-        jDialogMedidasCorrectiva.setMinimumSize(new java.awt.Dimension(500, 600));
+        jDialogMedidasCorrectiva.setMinimumSize(new java.awt.Dimension(375, 367));
 
         jLabelMedidasCorrectivas.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabelMedidasCorrectivas.setText("Medidas Correctivas");
@@ -2743,6 +2827,7 @@ public class Login extends javax.swing.JFrame {
         jTextAreaObservacaoMedidaCorrectiva.setRows(5);
         jScrollPane2.setViewportView(jTextAreaObservacaoMedidaCorrectiva);
 
+        jButtonGravarMedidaCorrectiva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
         jButtonGravarMedidaCorrectiva.setText("Gravar");
         jButtonGravarMedidaCorrectiva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2750,7 +2835,8 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jButtonCancelarMedidaCorrectiva.setText("Cancelar");
+        jButtonCancelarMedidaCorrectiva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
+        jButtonCancelarMedidaCorrectiva.setText("Fechar");
         jButtonCancelarMedidaCorrectiva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCancelarMedidaCorrectivaActionPerformed(evt);
@@ -2761,44 +2847,41 @@ public class Login extends javax.swing.JFrame {
         jPanelMedidasCorrectivas.setLayout(jPanelMedidasCorrectivasLayout);
         jPanelMedidasCorrectivasLayout.setHorizontalGroup(
             jPanelMedidasCorrectivasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelMedidasCorrectivasLayout.createSequentialGroup()
-                .addGroup(jPanelMedidasCorrectivasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelMedidasCorrectivasLayout.createSequentialGroup()
-                        .addGap(122, 122, 122)
-                        .addComponent(jButtonGravarMedidaCorrectiva)
-                        .addGap(39, 39, 39)
-                        .addComponent(jButtonCancelarMedidaCorrectiva))
-                    .addGroup(jPanelMedidasCorrectivasLayout.createSequentialGroup()
-                        .addGap(90, 90, 90)
-                        .addComponent(jLabelDataMedidasCorrectivas)
-                        .addGap(31, 31, 31)
-                        .addComponent(jDateChooserMedidaCorrectiva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(115, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelMedidasCorrectivasLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanelMedidasCorrectivasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelMedidasCorrectivasLayout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabelObservacaoMedidasCorrectivas))
-                .addGap(59, 59, 59))
+                        .addGroup(jPanelMedidasCorrectivasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabelDataMedidasCorrectivas)
+                            .addComponent(jLabelObservacaoMedidasCorrectivas))
+                        .addGap(18, 18, 18)
+                        .addComponent(jDateChooserMedidaCorrectiva, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelMedidasCorrectivasLayout.createSequentialGroup()
+                        .addGap(76, 76, 76)
+                        .addGroup(jPanelMedidasCorrectivasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanelMedidasCorrectivasLayout.createSequentialGroup()
+                                .addComponent(jButtonGravarMedidaCorrectiva)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonCancelarMedidaCorrectiva))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(43, 43, 43))
         );
         jPanelMedidasCorrectivasLayout.setVerticalGroup(
             jPanelMedidasCorrectivasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelMedidasCorrectivasLayout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addGroup(jPanelMedidasCorrectivasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(15, 15, 15)
+                .addGroup(jPanelMedidasCorrectivasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabelDataMedidasCorrectivas)
                     .addComponent(jDateChooserMedidaCorrectiva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(34, 34, 34)
+                .addGap(18, 18, 18)
                 .addComponent(jLabelObservacaoMedidasCorrectivas)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49)
-                .addGroup(jPanelMedidasCorrectivasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonGravarMedidaCorrectiva)
-                    .addComponent(jButtonCancelarMedidaCorrectiva))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelMedidasCorrectivasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonCancelarMedidaCorrectiva)
+                    .addComponent(jButtonGravarMedidaCorrectiva, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jDialogMedidasCorrectivaLayout = new javax.swing.GroupLayout(jDialogMedidasCorrectiva.getContentPane());
@@ -2808,21 +2891,21 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jDialogMedidasCorrectivaLayout.createSequentialGroup()
                 .addGroup(jDialogMedidasCorrectivaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jDialogMedidasCorrectivaLayout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(jPanelMedidasCorrectivas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap()
+                        .addComponent(jPanelMedidasCorrectivas, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jDialogMedidasCorrectivaLayout.createSequentialGroup()
-                        .addGap(114, 114, 114)
+                        .addGap(86, 86, 86)
                         .addComponent(jLabelMedidasCorrectivas)))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
         jDialogMedidasCorrectivaLayout.setVerticalGroup(
             jDialogMedidasCorrectivaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogMedidasCorrectivaLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addContainerGap()
                 .addComponent(jLabelMedidasCorrectivas)
-                .addGap(34, 34, 34)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanelMedidasCorrectivas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         jDialogConsultarMedidasCorrectivas.setTitle("CONSULTAR MEDIDAS CORRECCTIVAS");
@@ -2893,6 +2976,112 @@ public class Login extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jDialogConsultaFornecedores.setMinimumSize(new java.awt.Dimension(800, 450));
+
+        jLabel36.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel36.setText("Consulta Fornecedores");
+
+        jTableConsultaFornecedor.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nome", "NIF", "Tipo Produto"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTableConsultaFornecedor);
+
+        jButtonFecharConsultaFornecedores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
+        jButtonFecharConsultaFornecedores.setText("Fechar");
+
+        jButtonFornecedoresInativos.setText("Ver Inativos");
+        jButtonFornecedoresInativos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFornecedoresInativosActionPerformed(evt);
+            }
+        });
+
+        jButtonEditarFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/editar.png"))); // NOI18N
+        jButtonEditarFornecedor.setText("Editar");
+        jButtonEditarFornecedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditarFornecedorActionPerformed(evt);
+            }
+        });
+
+        jButtonAlterarEstadoFornecedor.setText("Alterar Estado");
+        jButtonAlterarEstadoFornecedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAlterarEstadoFornecedorActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelConsultaFornecedoresLayout = new javax.swing.GroupLayout(jPanelConsultaFornecedores);
+        jPanelConsultaFornecedores.setLayout(jPanelConsultaFornecedoresLayout);
+        jPanelConsultaFornecedoresLayout.setHorizontalGroup(
+            jPanelConsultaFornecedoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelConsultaFornecedoresLayout.createSequentialGroup()
+                .addGap(277, 277, 277)
+                .addComponent(jLabel36)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanelConsultaFornecedoresLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelConsultaFornecedoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 760, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConsultaFornecedoresLayout.createSequentialGroup()
+                        .addComponent(jButtonFornecedoresInativos)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonEditarFornecedor)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonFecharConsultaFornecedores))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConsultaFornecedoresLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonAlterarEstadoFornecedor)))
+                .addContainerGap())
+        );
+        jPanelConsultaFornecedoresLayout.setVerticalGroup(
+            jPanelConsultaFornecedoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelConsultaFornecedoresLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel36)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addComponent(jButtonAlterarEstadoFornecedor)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelConsultaFornecedoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelConsultaFornecedoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButtonFecharConsultaFornecedores)
+                        .addComponent(jButtonEditarFornecedor))
+                    .addComponent(jButtonFornecedoresInativos))
+                .addGap(29, 29, 29))
+        );
+
+        javax.swing.GroupLayout jDialogConsultaFornecedoresLayout = new javax.swing.GroupLayout(jDialogConsultaFornecedores.getContentPane());
+        jDialogConsultaFornecedores.getContentPane().setLayout(jDialogConsultaFornecedoresLayout);
+        jDialogConsultaFornecedoresLayout.setHorizontalGroup(
+            jDialogConsultaFornecedoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogConsultaFornecedoresLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanelConsultaFornecedores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jDialogConsultaFornecedoresLayout.setVerticalGroup(
+            jDialogConsultaFornecedoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogConsultaFornecedoresLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanelConsultaFornecedores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         jDialogDevolucoes.setTitle("NOVA DEVOLUÇÃO");
         jDialogDevolucoes.setMinimumSize(new java.awt.Dimension(400, 505));
 
@@ -2914,6 +3103,7 @@ public class Login extends javax.swing.JFrame {
         jTextAreaObservacoesDevolucao.setRows(5);
         jScrollPaneObservacoesDevolucao.setViewportView(jTextAreaObservacoesDevolucao);
 
+        jButtonGuardaDevolucao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
         jButtonGuardaDevolucao.setText("Guardar");
         jButtonGuardaDevolucao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2921,7 +3111,8 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jButtonSairDevolucao.setText("Voltar");
+        jButtonSairDevolucao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
+        jButtonSairDevolucao.setText("Fechar");
         jButtonSairDevolucao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSairDevolucaoActionPerformed(evt);
@@ -3025,13 +3216,14 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jDialogDevolucoesLayout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(jPanelDevolucoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         jDialogConsultaEntradas.setTitle("CONSULTA ENTRADAS");
         jDialogConsultaEntradas.setMinimumSize(new java.awt.Dimension(1014, 430));
 
-        jButtonConsultaEntradasSair.setText("Voltar");
+        jButtonConsultaEntradasSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
+        jButtonConsultaEntradasSair.setText("Fechar");
         jButtonConsultaEntradasSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonConsultaEntradasSairActionPerformed(evt);
@@ -3056,6 +3248,7 @@ public class Login extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(jTableConsultaEntradas);
 
+        jButtonVerDevolucoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/trocar.png"))); // NOI18N
         jButtonVerDevolucoes.setText("Fazer Devolução");
         jButtonVerDevolucoes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3063,6 +3256,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jButtonDevolucao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/devolução.png"))); // NOI18N
         jButtonDevolucao.setText("Devolução");
         jButtonDevolucao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3070,6 +3264,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jLabelPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pesquisar.png"))); // NOI18N
         jLabelPesquisar.setText("Pesquisar Por Lote");
 
         jTextFieldPesquisarEntrada.addCaretListener(new javax.swing.event.CaretListener() {
@@ -3078,6 +3273,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jButtonVerControloResultados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Nao Conformidades.png"))); // NOI18N
         jButtonVerControloResultados.setText("Ver Controlo Resultados");
         jButtonVerControloResultados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3085,6 +3281,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jButtonVerLoteTotal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Consulta.png"))); // NOI18N
         jButtonVerLoteTotal.setText("Ver Lote Total(S/Devoluções)");
         jButtonVerLoteTotal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3112,7 +3309,7 @@ public class Login extends javax.swing.JFrame {
                         .addComponent(jTextFieldPesquisarEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonVerControloResultados)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonDevolucao)))
                 .addContainerGap())
         );
@@ -3163,7 +3360,7 @@ public class Login extends javax.swing.JFrame {
         );
 
         jDialogConsultaDevolucoes.setTitle("CONSULTA DEVOLUÇÕES");
-        jDialogConsultaDevolucoes.setMinimumSize(new java.awt.Dimension(970, 400));
+        jDialogConsultaDevolucoes.setMinimumSize(new java.awt.Dimension(1000, 425));
 
         jTableConsultaDevolucoes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -3183,13 +3380,15 @@ public class Login extends javax.swing.JFrame {
         });
         jScrollPane4.setViewportView(jTableConsultaDevolucoes);
 
-        jButtonConsultaDevolucoesSair.setText("Voltar");
+        jButtonConsultaDevolucoesSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
+        jButtonConsultaDevolucoesSair.setText("Fechar");
         jButtonConsultaDevolucoesSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonConsultaDevolucoesSairActionPerformed(evt);
             }
         });
 
+        jButtonVerFichaDetalhadaConsultaDevolucoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Consulta.png"))); // NOI18N
         jButtonVerFichaDetalhadaConsultaDevolucoes.setText("Ver Ficha Detalhada");
         jButtonVerFichaDetalhadaConsultaDevolucoes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3219,10 +3418,13 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jLabelFornecedorDevolucoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pesquisar.png"))); // NOI18N
         jLabelFornecedorDevolucoes.setText("Fornecedor");
 
+        jLabelMateriaPrimaDevolucoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pesquisar.png"))); // NOI18N
         jLabelMateriaPrimaDevolucoes.setText("Materia-Prima");
 
+        jButtonVerTodasAsDevolucoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Consltas_Menu.png"))); // NOI18N
         jButtonVerTodasAsDevolucoes.setText("Ver Todas as Devoluções");
         jButtonVerTodasAsDevolucoes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3242,14 +3444,14 @@ public class Login extends javax.swing.JFrame {
                         .addGroup(jPanelConsultaDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelConsultaDevolucoesLayout.createSequentialGroup()
                                 .addGroup(jPanelConsultaDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBoxFornecedorDevolucoes, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabelFornecedorDevolucoes))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jLabelFornecedorDevolucoes)
+                                    .addComponent(jComboBoxFornecedorDevolucoes, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanelConsultaDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabelMateriaPrimaDevolucoes)
-                                    .addComponent(jComboBoxMateriaPrimaDevolucoes, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jComboBoxMateriaPrimaDevolucoes, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jButtonVerFichaDetalhadaConsultaDevolucoes))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 438, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 387, Short.MAX_VALUE)
                         .addGroup(jPanelConsultaDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButtonVerTodasAsDevolucoes, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jButtonConsultaDevolucoesSair, javax.swing.GroupLayout.Alignment.TRAILING))))
@@ -3258,7 +3460,7 @@ public class Login extends javax.swing.JFrame {
         jPanelConsultaDevolucoesLayout.setVerticalGroup(
             jPanelConsultaDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConsultaDevolucoesLayout.createSequentialGroup()
-                .addContainerGap(28, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanelConsultaDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelFornecedorDevolucoes)
                     .addComponent(jLabelMateriaPrimaDevolucoes))
@@ -3283,17 +3485,18 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jDialogConsultaDevolucoesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelConsultaDevolucoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
         jDialogConsultaDevolucoesLayout.setVerticalGroup(
             jDialogConsultaDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogConsultaDevolucoesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelConsultaDevolucoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Higiene e Segurança - Principio Base");
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -3316,7 +3519,7 @@ public class Login extends javax.swing.JFrame {
         });
         jMenuMenus.add(jMenuItemEntradas);
 
-        jMenuItemInsectocacadores.setText("Insectocaçadores");
+        jMenuItemInsectocacadores.setText("Contr. Pragas");
         jMenuItemInsectocacadores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemInsectocacadoresActionPerformed(evt);
@@ -4512,24 +4715,29 @@ public class Login extends javax.swing.JFrame {
 
     private void jButtonAddNovaNaoConformidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddNovaNaoConformidadeActionPerformed
         // ADICIONAR NOVA NAO CONFORMIDADE AKELE CONTROLO RESULTADOS
+        int linha = jTableNaoConformidades.getSelectedRow();
 
-        jDialogNaoConformidades.setVisible(true);
+        if (linha == -1) {
+            JOptionPane.showMessageDialog(jDialogConsultaNaoConformidades, "Seleccione Uma Linha da Tabela de Não Conformidade");
+        } else {
+            
+            jDialogNaoConformidades.setLocationRelativeTo(this);
+            jDialogNaoConformidades.setVisible(true);
 
-        //PARA ADICIONAR UMA NOVA NAO CONFORMIDADE NECESSITAMOS DE PASSAR OS CAMPOS "IDCONTRESULT" e "IDFUNCIONARIO"
+            //PARA ADICIONAR UMA NOVA NAO CONFORMIDADE NECESSITAMOS DE PASSAR OS CAMPOS "IDCONTRESULT" e "IDFUNCIONARIO"
+            int funcionario = addNewNaoConformidadeIdFuncionario;
+            int controResult = idControloResultadosID;
 
-        int funcionario = addNewNaoConformidadeIdFuncionario ;
-        int controResult = idControloResultadosID;
+            //CARREGAR COMBOBOX FUNCIONARIO
+            LerBDFuncionario(jComboBoxNaoConformidadeFuncionarioResponsav);
+            LerBDFuncionario(jComboBoxFuncionarioNaoConformidade);
 
-        //CARREGAR COMBOBOX FUNCIONARIO
-        LerBDFuncionario(jComboBoxNaoConformidadeFuncionarioResponsav);
-        LerBDFuncionario(jComboBoxFuncionarioNaoConformidade);
-        
-        //ESCREVER
-        System.out.println("CONTROLO RESULTADOS");
-        System.out.println("FUNCIONARIO: " + funcionario);
-        System.out.println("CONTRO RESULT: " + controResult);
-        System.out.println("\n\n");
-
+            //ESCREVER
+            System.out.println("CONTROLO RESULTADOS");
+            System.out.println("FUNCIONARIO: " + funcionario);
+            System.out.println("CONTRO RESULT: " + controResult);
+            System.out.println("\n\n");
+        }
     }//GEN-LAST:event_jButtonAddNovaNaoConformidadeActionPerformed
 
     private void jButtonAddMedidaCorrectivaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddMedidaCorrectivaActionPerformed
@@ -4539,7 +4747,7 @@ public class Login extends javax.swing.JFrame {
         idMedidaCorrectivaUpdate = 0;
 
         if (linha == -1) {
-            JOptionPane.showMessageDialog(null, "Seleccione Uma Linha da Tabela de Não Conformidade");
+            JOptionPane.showMessageDialog(jDialogConsultaNaoConformidades, "Seleccione Uma Linha da Tabela de Não Conformidade");
         }else{
             //VER O ID DA NAO CONFORMIDADE
                         
@@ -4595,6 +4803,95 @@ public class Login extends javax.swing.JFrame {
         jDialogNovoControloResultados.setLocationRelativeTo(this);
         jDialogNovoControloResultados.setVisible(true);
     }//GEN-LAST:event_jMenuItemNvControloRsultadosActionPerformed
+
+    private void jButtonConsultarFornecedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarFornecedoresActionPerformed
+        // BOTAO CONSULTA FORNECEDORES 
+        jDialogConsultaFornecedores.setLocationRelativeTo(this);
+        jDialogConsultaFornecedores.setVisible(true);
+        EstadoFornecedor = "true";
+        LimpaTabelaFornecedores();
+        ConsultaFornecedores();
+    }//GEN-LAST:event_jButtonConsultarFornecedoresActionPerformed
+
+    private void jButtonFornecedoresInativosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFornecedoresInativosActionPerformed
+        // VER FORNECEDORES INATIVOS
+        String nomeBotao = jButtonFornecedoresInativos.getText();
+      
+        //VERFICAR SE TEMOS A LINHA SELECCIONADA
+        int linha = jTableConsultaFornecedor.getSelectedRow();
+
+        if (linha == -1){
+            JOptionPane.showMessageDialog(jDialogConsultaFornecedores, "Seleccione a Linha de um Fornecedor !");
+        } else {
+
+            //VER NOME DO FORNECEDOR (so existe um fornecedor com o mesmo nome)
+            
+            
+            if (nomeBotao.equals("Ver Inativos")) {
+                jButtonFornecedoresInativos.setText("Ver Ativos");
+                //mostrar Inativos
+                EstadoFornecedor = "false";
+                LimpaTabelaFornecedores();
+                ConsultaFornecedores();
+
+            } else if (nomeBotao.equals("Ver Ativos")) {
+                jButtonFornecedoresInativos.setText("Ver Inativos");
+                //mostrar ativos
+                EstadoFornecedor = "true";
+                LimpaTabelaFornecedores();
+                ConsultaFornecedores();
+            }
+            
+            
+            
+        }
+    }//GEN-LAST:event_jButtonFornecedoresInativosActionPerformed
+
+    private void jButtonEditarFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarFornecedorActionPerformed
+        // BOTAO EDITAR FORNECEDOR
+         int linha = jTableConsultaFornecedor.getSelectedRow();
+
+        if (linha == -1){
+            JOptionPane.showMessageDialog(jDialogConsultaFornecedores, "Seleccione a Linha de um Fornecedor !");
+        } else {
+            //BUSCAR NOME DO FORNECEDOR
+            String nomeForncedor = (String) jTableConsultaFornecedor.getValueAt(linha, 0);
+            String nif = (String) jTableConsultaFornecedor.getValueAt(linha, 1);
+            
+            //buscar o id
+            idFornecedorPesquisar = selectId("FORNECEDOR", "NOME", nomeForncedor, "IDFORNECEDOR");
+            
+            System.out.println("ID FORNECEDOR -> " + idFornecedorPesquisar);
+            ConsultaDadosForncedorAlterar();
+            
+            jDialogNovoFornecedor.setLocationRelativeTo(this);
+            jDialogNovoFornecedor.setVisible(true);
+            
+        }
+        
+        
+        
+    }//GEN-LAST:event_jButtonEditarFornecedorActionPerformed
+
+    private void jButtonAlterarEstadoFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarEstadoFornecedorActionPerformed
+        // BOTAO ALTERAR ESTADO DO FORNECEDOR
+         int linha = jTableConsultaFornecedor.getSelectedRow();
+
+        if (linha == -1){
+            JOptionPane.showMessageDialog(jDialogConsultaFornecedores, "Seleccione a Linha de um Fornecedor Inativo !");
+        } else {
+            //VER QUAL O FORNECEDOR SELECCIONADO
+            String nomeForncedor = (String) jTableConsultaFornecedor.getValueAt(linha, 0);
+                        
+            //buscar o id
+            idFornecedorPesquisar = selectId("FORNECEDOR", "NOME", nomeForncedor, "IDFORNECEDOR");
+            
+            System.out.println("ID FORNECEDOR -> " + idFornecedorPesquisar);
+            //ALTERAR ESTADO DO FORNECEDOR
+            
+        
+        }
+    }//GEN-LAST:event_jButtonAlterarEstadoFornecedorActionPerformed
 
 /*  ******************************    FUNCÇOES ************************************************************************************   */
     
@@ -5949,6 +6246,16 @@ public class Login extends javax.swing.JFrame {
 
 
         //validarEmail(email);
+                
+        //VERIFICAR O ESTADO DO FORNECEDOR
+        String estadoFornecedor = jComboBoxEstadoFornecedor.getSelectedItem().toString();
+        int estado = 0;
+        
+        if (estadoFornecedor.equals("Ativo")){
+            estado = 1;
+        }else{
+        estado = 0;
+        }
 
         try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
@@ -5961,8 +6268,8 @@ public class Login extends javax.swing.JFrame {
         try {
             con = DriverManager.getConnection(url);
             String nomeTabela = "FORNECEDOR";
-            sql = "INSERT INTO " + nomeTabela + "(NOME, MORADA, COD_POSTAL, LOCALIDADE, CONTATO, EMAIL, NIF, TIPOPRODUTO)"
-                    + " values(" + "'" + nome + "','" + morada + "','" + codPostal + "','" + localidade + "'," + contacto + ",'" + email + "'," + nif + ",'" + tipoProduto + "'" + ")";
+            sql = "INSERT INTO " + nomeTabela + "(NOME, MORADA, COD_POSTAL, LOCALIDADE, CONTATO, EMAIL, NIF, TIPOPRODUTO, ESTADO)"
+                    + " values(" + "'" + nome + "','" + morada + "','" + codPostal + "','" + localidade + "'," + contacto + ",'" + email + "'," + nif + ",'" + tipoProduto + "'" + estado + ")";
 
 
             JOptionPane.showMessageDialog(jDialogNovaMateriaPrima, "Nova Fornecedor Adicionado com Sucesso !");
@@ -5987,6 +6294,7 @@ public class Login extends javax.swing.JFrame {
         System.out.println("EMAIL: " + email);
         System.out.println("NIF: " + nif);
         System.out.println("TIPOPRODUTO: " + tipoProduto);
+        System.out.println("ESTADO: " + estado);
 
     }
     }
@@ -6034,9 +6342,13 @@ public class Login extends javax.swing.JFrame {
 
         if (devolucao.equals("N")) {
             //NAO VAI HAVER DEVOLUCAO
-            jDialogNovaEntrada.setVisible(false);
-            adevolver = 0.0f;
-            gravarEntrada = true;
+            
+            int resultNaoConformidade = JOptionPane.showConfirmDialog(jDialogNaoConformidades, "Não Existem Não Conformidades !\n Deseja Guardar a Entrada?", null, JOptionPane.YES_NO_OPTION);
+            if (resultNaoConformidade == JOptionPane.YES_OPTION) {
+                jDialogNovaEntrada.setVisible(false);
+                adevolver = 0.0f;
+                gravarEntrada = true;
+            }
  
         } else {
             
@@ -6882,7 +7194,7 @@ public class Login extends javax.swing.JFrame {
 
             if (resultNaoConformidade == JOptionPane.YES_OPTION) {
                 //ATUALIZAR RESULTADO DO CONTROLO
-
+                jDialogMedidasCorrectiva.setVisible(false);
                 try {
                     Class.forName("org.apache.derby.jdbc.ClientDriver");
                 } catch (ClassNotFoundException e) {
@@ -6923,6 +7235,8 @@ public class Login extends javax.swing.JFrame {
             jDialogConsultaNaoConformidades.setLocationRelativeTo(this);
             jDialogConsultaNaoConformidades.setVisible(true);
         }
+        
+        jDialogNaoConformidades.setVisible(false);
    
         
          
@@ -7212,82 +7526,6 @@ public class Login extends javax.swing.JFrame {
             System.err.println("SQLException: " + ex.getMessage());
         }
 
-
-
-    }
-
-    private void ConsultaNaoConformidadesEntradas(int idFuncionarioSelecionado) {
-
-        int funcionario = idFuncionarioSelecionado;
-
-        int idFuncionario = 0;
-        String nomefuncionario = "";
-        String dataNaoConform = "";
-        String ocorrencia = "";
-        String medidaCorrecti = "";
-        String resultado = "NC";
-        String correctiva = "N";
-        int idFuncionarioResponsavel = 0;
-        String nomeFuncionarioResponsavel = "";
-
-               
-        model = (DefaultTableModel) jTableNaoConformidades.getModel();
-        
-        CONTA_LINHAS_NAOCONFORMIDADES = 0;
-
-        try {
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-        } catch (ClassNotFoundException e) {
-            System.err.print("ClassNotFoundException: ");
-            System.err.println(e.getMessage());
-            System.out.println("O driver expecificado nao foi encontrado.");
-        }
-
-        try {
-            con = DriverManager.getConnection(url);
-            String nomeTabela = "CONTROLORESULTADOS";
-            String sql = "select * from " + nomeTabela + " where IDFUNCIONARIO=" + funcionario + " and RESULTADO=" + "'" + resultado + "'";
-            PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
-            ResultSet rs = st.executeQuery();
-
-            while (rs.next()) {
-                idControloResuladoSeleccionado = rs.getInt("IDCONTRESULTADOS");
-                System.out.println("IDCONTROLORESULTADO Pesquisar -> " + idControloResuladoSeleccionado);
-                //VARIVAEL GLOBAL
-
-                //ESCREVER NA TABELA A PESQUISA
-                String nomeTabela2 = "NAOCONFORMIDADES";
-                String sql2 = "select * from " + nomeTabela2 + " where IDCONTRESULTADOS=" + idControloResuladoSeleccionado + " and CORRECTIVA='" + correctiva + "'";
-                PreparedStatement st2 = (PreparedStatement) con.prepareStatement(sql2);
-                ResultSet rs2 = st2.executeQuery();
-
-                while (rs2.next()) {
-
-                    //idNaoConformidade = rs2.getInt("IDNAOCONF");
-                    //idContResultado = rs2.getInt("IDCONTRESULTADOS");
-
-                    idFuncionario = rs2.getInt("IDFUNCIONARIO");
-                    nomefuncionario = selectString("FUNCIONARIO", "IDFUNCIONARIO", idFuncionario, "NOME");
-
-                    dataNaoConform = rs2.getString("DATANAOCONFORMIDADE");
-                    ocorrencia = rs2.getString("OCORRENCIA");
-                    medidaCorrecti = rs2.getString("MEDIDACORRECTIVA");
-
-                    idFuncionarioResponsavel = rs2.getInt("IDFUNCIONARIOMEDIDACORRECTIVA");
-                    nomeFuncionarioResponsavel = selectString("FUNCIONARIO", "IDFUNCIONARIO", idFuncionarioResponsavel, "NOME");
-
-                    model.addRow(new Object[]{nomefuncionario, dataNaoConform, ocorrencia, nomeFuncionarioResponsavel, medidaCorrecti});
-
-                    CONTA_LINHAS_NAOCONFORMIDADES++;
-                }
-                st2.close();
-            }
-
-            st.close();
-            con.close();
-        } catch (SQLException ex) {
-            System.err.println("SQLException: " + ex.getMessage());
-        }
 
 
     }
@@ -7613,7 +7851,97 @@ public class Login extends javax.swing.JFrame {
     
     }
     
+    private void ConsultaFornecedores(){
+        String nome = "";
+        String nif = "";
+        String tipoProduto = "";
+        
+        model = (DefaultTableModel) jTableConsultaFornecedor.getModel();
+
+        try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+        } catch (ClassNotFoundException e) {
+            System.err.print("ClassNotFoundException: ");
+            System.err.println(e.getMessage());
+            System.out.println("O driver expecificado nao foi encontrado.");
+        }
+
+        try {
+
+            con = DriverManager.getConnection(url);
+            String nomeTabela = "FORNECEDOR";
+            String sql = "SELECT * FROM " + nomeTabela+ " WHERE ESTADO='"+EstadoFornecedor+"'";
+            PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                nome = rs.getString("NOME");
+                nif = rs.getString("NIF");
+                tipoProduto = rs.getString("TIPOPRODUTO");
+
+                model.addRow(new Object[]{nome, nif, tipoProduto});
+            }
+
+            st.close();
+            con.close();
+        } catch (SQLException ex) {
+            System.err.println("SQLException: " + ex.getMessage());
+        }
     
+    }
+    
+    
+    
+    /*  CONSULTA ENTRADAS   -  eidtar entrada*/
+    private void ConsultaDadosForncedorAlterar(){
+        int contacto = 0;
+        boolean estado ;
+        
+        model = (DefaultTableModel) jTableConsultaEquipamentos.getModel();
+                
+        try{
+            Class.forName("org.apache.derby.jdbc.ClientDriver");  
+        }catch(ClassNotFoundException e){
+           System.err.print("ClassNotFoundException: ");
+           System.err.println(e.getMessage());
+           System.out.println("O driver expecificado nao foi encontrado."); 
+        }    
+        
+        try{
+                     
+            con = DriverManager.getConnection(url);
+            String nomeTabela = "FORNECEDOR";
+            String sql = "SELECT * FROM "+nomeTabela + " WHERE IDFORNECEDOR="+ idFornecedorPesquisar;
+            PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+           
+            while(rs.next()){
+                contacto = rs.getInt("CONTATO");
+                estado = rs.getBoolean("ESTADO");
+                        
+                jTextFieldNomeFornecedor.setText(rs.getString("NOME") );
+                jTextFieldMoradaFornecedor.setText(rs.getString("MORADA"));
+                jTextFieldCodPostalFornecedor.setText(rs.getString("COD_POSTAL"));
+                jTextFieldLocalidadeFornecedor.setText(rs.getString("LOCALIDADE"));
+                jTextFieldContactoFornecedor.setText(""+contacto);
+                jTextFieldEmailFornecedor.setText(rs.getString("EMAIL"));
+                jTextFieldNIFFornecedor.setText(rs.getString("NIF"));
+                jTextFieldTipoProdutoFornecedor.setText(rs.getString("TIPOPRODUTO"));
+                
+                if(estado == true){
+                    jComboBoxEstadoFornecedor.setSelectedItem(0);
+                }else{
+                    jComboBoxEstadoFornecedor.setSelectedItem(1);
+                }
+                
+            }
+            
+            st.close();
+            con.close();
+        }catch (SQLException ex){
+            System.err.println("SQLException: " + ex.getMessage());
+        }
+    }
     
     
    
@@ -7908,31 +8236,48 @@ public class Login extends javax.swing.JFrame {
         }
     
         
-        //VERIFICAR SE AINDA EXISTEM NAO CONFORMIDADES PENDENTES
+        //VERIFICAR SE AINDA EXISTEM NAO CONFORMIDADES PENDENTES        
         
-        try {
-            con = DriverManager.getConnection(url);
-            String nomeTabela = "NAOCONFORMIDADES";
-            String sql = "SELECT * FROM " + nomeTabela + " WHERE IDNAOCONF="+idEntradaSeleccionada+" AND IDCONTRESULTADOS="+idControloResultadosParaPesquisarNConformidade;
-            PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
-            ResultSet rs = st.executeQuery();
+        if(CONTA_LINHAS_NAOCONFORMIDADES == 0){
+              
+            
+            
+             int resultAlterarEstado = JOptionPane.showConfirmDialog(jDialogMedidasCorrectiva, "Ultima Medida Correctica atualizada com Sucesso.\n"
+                     + "Deseja Actualizar o Resulta do Controlo de Resultado ?", null, JOptionPane.YES_NO_OPTION);
 
-            while (rs.next()) {
-                 CONTA_LINHAS_MEDIDASCORRECTIVAS++;   
-                 System.out.println(".. " + CONTA_LINHAS_MEDIDASCORRECTIVAS );
+             if (resultAlterarEstado == JOptionPane.YES_OPTION) {
+                 //AQUI ALTERAMOS O ESTADO DO CONTROLO RESULTADO
+                 String resultado = "C";
+                 jDialogMedidasCorrectiva.setVisible(false); 
+                 
+                 try {
+                     Class.forName("org.apache.derby.jdbc.ClientDriver");
+                 } catch (ClassNotFoundException e) { //driver não encontrado
+                     System.err.print("ClassNotFoundException: ");
+                     System.err.println(e.getMessage());
+                     System.out.println("O driver expecificado nao foi encontrado.");
+                 }
+
+                 try {
+                     con = DriverManager.getConnection(url);
+                     String nomeTabela = "CONTROLORESULTADOS";
+                     String sql = "UPDATE " + nomeTabela + " SET RESULTADO='" + resultado +"' WHERE IDCONTRESULTADOS= " + idControloResultadosParaPesquisarNConformidade;
+                     PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+                     st.executeUpdate();
+
+                     st.close();
+                     con.close();
+                 } catch (SQLException ex) {
+                     System.err.println("SQLException: " + ex.getMessage());
+                 }
+            
+             
+                System.out.println("\n\n**** MEDIDA CORRECTIVA -> ATUALIZAR RESULTADO");
+                System.out.println("RESULTADO : " + resultado);
+                System.out.println("ID CONTROLO : " + idControloResultadosParaPesquisarNConformidade);
             }
 
-            st.close();
-            con.close();
-        } catch (SQLException ex) {
-            System.err.println("SQLException: " + ex.getMessage());
-        }
-        
-        
-        if(CONTA_LINHAS_MEDIDASCORRECTIVAS == 0)
-             System.out.println("NUMERO DE MEDIDAS CORRECTIVAS = 0");
-        else
-             System.out.println("NUMERO DE MEDIDAS CORRECTICAS != 0");
+         }
         
         
         
@@ -7943,6 +8288,7 @@ public class Login extends javax.swing.JFrame {
         System.out.println("CORRECTIVA: " + correctiva);
         System.out.println("OBSERVAÇÃO MED. CORREC: " + observacaoMedidaCorrectiva);
         System.out.println("ID CONT. RESULTADO : " + idControloResultadosParaPesquisarNConformidade);
+        
          
         
         
@@ -7976,6 +8322,12 @@ public class Login extends javax.swing.JFrame {
             System.err.println("SQLException: " + ex.getMessage());
         }
     
+        
+    }
+    
+   
+    /*  ATUALIZAR FORNECEDOR  */
+    private void UpdateDadosFornecedor(){
         
     }
     
@@ -8355,6 +8707,15 @@ public class Login extends javax.swing.JFrame {
         }
     }
     
+    private void LimpaTabelaFornecedores(){
+    DefaultTableModel model = (DefaultTableModel) jTableConsultaFornecedor.getModel();
+        int linhas = model.getRowCount();
+
+        for (int i = 0; i < linhas; i++) {
+            model.removeRow(0);
+        }
+    }
+    
      
     /*   FUNÇAO PARA LER OS CAMPO DE UMA TABELAS */
     private int selectId(String tab, String col, String cam, String colId){
@@ -8468,6 +8829,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton jButtonAddNovaNaoConformidade;
     private javax.swing.JButton jButtonAddNovoEquipa;
     private javax.swing.JButton jButtonAddNovoInsecto;
+    private javax.swing.JButton jButtonAlterarEstadoFornecedor;
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonCancelarMedidaCorrectiva;
     private javax.swing.JButton jButtonCancelarNaoConformidade;
@@ -8478,6 +8840,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton jButtonConsultaEquipamentos;
     private javax.swing.JButton jButtonConsultaInsecto;
     private javax.swing.JButton jButtonConsultaManutencao;
+    private javax.swing.JButton jButtonConsultarFornecedores;
     private javax.swing.JButton jButtonConsultarLimpezas;
     private javax.swing.JButton jButtonControloResultados;
     private javax.swing.JButton jButtonControloResultadosInsectoca;
@@ -8486,8 +8849,11 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton jButtonDesvloquearPanel;
     private javax.swing.JButton jButtonDevolucao;
     private javax.swing.JButton jButtonEditarEquipamento;
+    private javax.swing.JButton jButtonEditarFornecedor;
     private javax.swing.JButton jButtonEditarInsectoca;
     private javax.swing.JButton jButtonFecharConsultaControlosResultados;
+    private javax.swing.JButton jButtonFecharConsultaFornecedores;
+    private javax.swing.JButton jButtonFornecedoresInativos;
     private javax.swing.JButton jButtonGravarManutencaoEquipametno;
     private javax.swing.JButton jButtonGravarMedidaCorrectiva;
     private javax.swing.JButton jButtonGravarNaoConformidade;
@@ -8530,6 +8896,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JComboBox jComboBoxCaraOrgonolepticasEntradas;
     private javax.swing.JComboBox jComboBoxDataValidadeEntrada;
     private javax.swing.JComboBox jComboBoxEmbalagemEntradas;
+    private javax.swing.JComboBox jComboBoxEstadoFornecedor;
     private javax.swing.JComboBox jComboBoxFornecedorDevolucoes;
     private javax.swing.JComboBox jComboBoxFornecedorEntrada;
     private javax.swing.JComboBox jComboBoxFuncionario;
@@ -8556,6 +8923,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JDialog jDialogConsultaDevolucoes;
     private javax.swing.JDialog jDialogConsultaEntradas;
     private javax.swing.JDialog jDialogConsultaEquipamentos;
+    private javax.swing.JDialog jDialogConsultaFornecedores;
     private javax.swing.JDialog jDialogConsultaInsectocacadores;
     private javax.swing.JDialog jDialogConsultaLimpezas;
     private javax.swing.JDialog jDialogConsultaManutencaoEquipamentos;
@@ -8605,6 +8973,8 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -8683,6 +9053,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelConsultaDevolucoes;
     private javax.swing.JPanel jPanelConsultaEntradas;
     private javax.swing.JPanel jPanelConsultaEquipamentos;
+    private javax.swing.JPanel jPanelConsultaFornecedores;
     private javax.swing.JPanel jPanelConsultaInsecto;
     private javax.swing.JPanel jPanelConsultaLimpezas;
     private javax.swing.JPanel jPanelConsultaManutencaoEquipamentos;
@@ -8702,6 +9073,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelNovoFornecedor;
     private javax.swing.JPanel jPanelNovoInsectocacador;
     private javax.swing.JPanel jPanelOutraOpcao;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -8722,6 +9094,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JTable jTableConsultaDevolucoes;
     private javax.swing.JTable jTableConsultaEntradas;
     private javax.swing.JTable jTableConsultaEquipamentos;
+    private javax.swing.JTable jTableConsultaFornecedor;
     private javax.swing.JTable jTableConsultaInsecto;
     private javax.swing.JTable jTableConsultaLimpezas;
     private javax.swing.JTable jTableConsultaManutencaoEquipamentos;
