@@ -159,9 +159,16 @@ public class Login extends javax.swing.JFrame {
     
     String EstadoFornecedor = "";
     int idFornecedorPesquisar ;
+    boolean estadoFornecedor ;
     
+    boolean estadoMateriaPrima;
+    int idMateriaPrimaPesquisar;
     
+    boolean estadoInsectocacadores ;
+    int idInsectocacadorPesquisar;
     
+    boolean estadoEquipamento;
+    int idEquipamentoPesquisar;
     
     
     /**
@@ -203,6 +210,7 @@ public class Login extends javax.swing.JFrame {
         jButtonNovoForncedor = new javax.swing.JButton();
         jButtonConsultaDevolucoes = new javax.swing.JButton();
         jButtonConsultarFornecedores = new javax.swing.JButton();
+        jButtonConsultaMateriasPrimas = new javax.swing.JButton();
         jDialogNovaEntrada = new javax.swing.JDialog();
         jPanelNovaEntrada = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
@@ -281,6 +289,7 @@ public class Login extends javax.swing.JFrame {
         jLabel31 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
         jComboBoxEstadoFornecedor = new javax.swing.JComboBox();
+        jButtonUpdateFornecedor = new javax.swing.JButton();
         jDialogNovoInsectocacador = new javax.swing.JDialog();
         jPanelNovoInsectocacador = new javax.swing.JPanel();
         jLabelNome = new javax.swing.JLabel();
@@ -365,6 +374,22 @@ public class Login extends javax.swing.JFrame {
         jButtonGuardarEquipametno = new javax.swing.JButton();
         jButtonSairNovoEquipamento = new javax.swing.JButton();
         jButtonActualizar = new javax.swing.JButton();
+        jDialogDevolucoes = new javax.swing.JDialog();
+        jPanelDevolucoes = new javax.swing.JPanel();
+        jLabelFuncionarioResponsavel2 = new javax.swing.JLabel();
+        jLabelDataDevolucao = new javax.swing.JLabel();
+        jLabelQuantidadeDevolvida = new javax.swing.JLabel();
+        jLabelObservação = new javax.swing.JLabel();
+        jComboBoxFuncionarioResponsavelDevolucao = new javax.swing.JComboBox();
+        jDateChooserDataDevolucao = new com.toedter.calendar.JDateChooser();
+        jTextFieldQuantidadeDevolucao = new javax.swing.JTextField();
+        jScrollPaneObservacoesDevolucao = new javax.swing.JScrollPane();
+        jTextAreaObservacoesDevolucao = new javax.swing.JTextArea();
+        jButtonGuardaDevolucao = new javax.swing.JButton();
+        jButtonSairDevolucao = new javax.swing.JButton();
+        jLabelQuantidadeADevolverDevolucao = new javax.swing.JLabel();
+        jTextFieldQuantidadeADevolverDevolucao = new javax.swing.JTextField();
+        jLabel33 = new javax.swing.JLabel();
         jDialogConsultaInsectocacadores = new javax.swing.JDialog();
         jPanelConsultaInsecto = new javax.swing.JPanel();
         jScrollPaneConsultInsecto = new javax.swing.JScrollPane();
@@ -377,6 +402,9 @@ public class Login extends javax.swing.JFrame {
         jButtonControloResultadosInsectoca = new javax.swing.JButton();
         jTextFieldPesquisaInsectocacador = new javax.swing.JTextField();
         jLabelPesquisarInsectocacador = new javax.swing.JLabel();
+        jButtonVerInsectocacadoresInativos = new javax.swing.JButton();
+        jButtonAlterarEstadoInsectocacadores = new javax.swing.JButton();
+        jLabelConsultaControloPragas = new javax.swing.JLabel();
         jDialogConsultaLimpezas = new javax.swing.JDialog();
         jPanelConsultaLimpezas = new javax.swing.JPanel();
         jScrollPaneConsultaLimpezas = new javax.swing.JScrollPane();
@@ -395,6 +423,9 @@ public class Login extends javax.swing.JFrame {
         jButtonConsultaManutencao = new javax.swing.JButton();
         jTextFieldPesquisaEquipamento = new javax.swing.JTextField();
         jLabelPesquisarEquipamento = new javax.swing.JLabel();
+        jButtonAlterarEstadoEquipamento = new javax.swing.JButton();
+        jButtonVerInativasEquipamentos = new javax.swing.JButton();
+        jLabelConsultarEquipamentos = new javax.swing.JLabel();
         jDialogConsultaManutencaoEquipamentos = new javax.swing.JDialog();
         jPanelConsultaManutencaoEquipamentos = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -411,6 +442,7 @@ public class Login extends javax.swing.JFrame {
         jButtonVerNaoConformidade = new javax.swing.JButton();
         jComboBoxSeccao = new javax.swing.JComboBox();
         jLabel10 = new javax.swing.JLabel();
+        jButtonVerNaoConformidadeEntrada = new javax.swing.JButton();
         jDialogConsultaNaoConformidades = new javax.swing.JDialog();
         jPanelConsultaNaoConformidades = new javax.swing.JPanel();
         jLabelNaoConformidades = new javax.swing.JLabel();
@@ -437,29 +469,13 @@ public class Login extends javax.swing.JFrame {
         jButtonVoltarMedidasCorrectivas = new javax.swing.JButton();
         jDialogConsultaFornecedores = new javax.swing.JDialog();
         jPanelConsultaFornecedores = new javax.swing.JPanel();
-        jLabel36 = new javax.swing.JLabel();
+        jLabelConsultaFornecedores = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableConsultaFornecedor = new javax.swing.JTable();
         jButtonFecharConsultaFornecedores = new javax.swing.JButton();
         jButtonFornecedoresInativos = new javax.swing.JButton();
         jButtonEditarFornecedor = new javax.swing.JButton();
         jButtonAlterarEstadoFornecedor = new javax.swing.JButton();
-        jDialogDevolucoes = new javax.swing.JDialog();
-        jPanelDevolucoes = new javax.swing.JPanel();
-        jLabelFuncionarioResponsavel2 = new javax.swing.JLabel();
-        jLabelDataDevolucao = new javax.swing.JLabel();
-        jLabelQuantidadeDevolvida = new javax.swing.JLabel();
-        jLabelObservação = new javax.swing.JLabel();
-        jComboBoxFuncionarioResponsavelDevolucao = new javax.swing.JComboBox();
-        jDateChooserDataDevolucao = new com.toedter.calendar.JDateChooser();
-        jTextFieldQuantidadeDevolucao = new javax.swing.JTextField();
-        jScrollPaneObservacoesDevolucao = new javax.swing.JScrollPane();
-        jTextAreaObservacoesDevolucao = new javax.swing.JTextArea();
-        jButtonGuardaDevolucao = new javax.swing.JButton();
-        jButtonSairDevolucao = new javax.swing.JButton();
-        jLabelQuantidadeADevolverDevolucao = new javax.swing.JLabel();
-        jTextFieldQuantidadeADevolverDevolucao = new javax.swing.JTextField();
-        jLabel33 = new javax.swing.JLabel();
         jDialogConsultaEntradas = new javax.swing.JDialog();
         jPanelConsultaEntradas = new javax.swing.JPanel();
         jButtonConsultaEntradasSair = new javax.swing.JButton();
@@ -483,6 +499,17 @@ public class Login extends javax.swing.JFrame {
         jLabelFornecedorDevolucoes = new javax.swing.JLabel();
         jLabelMateriaPrimaDevolucoes = new javax.swing.JLabel();
         jButtonVerTodasAsDevolucoes = new javax.swing.JButton();
+        jDialogConsultaMateriasPrimas = new javax.swing.JDialog();
+        jPanelConsutaMateriasPrimas = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTableConsultaMateriasPrimas = new javax.swing.JTable();
+        jButtonSairConsultaMateriaPrima = new javax.swing.JButton();
+        jLabelPesquisarMateriaPrima = new javax.swing.JLabel();
+        jTextFieldPesquisarMateriaPrima = new javax.swing.JTextField();
+        jButtonAlterarEstadoMP = new javax.swing.JButton();
+        jButtonVerInativosMP = new javax.swing.JButton();
+        jButtonEditarMP = new javax.swing.JButton();
+        jLabelConsultarMateriasPrimas = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuMenus = new javax.swing.JMenu();
@@ -672,7 +699,7 @@ public class Login extends javax.swing.JFrame {
 
         jDialogMenuEntradas.setTitle("MENU ENTRADAS");
         jDialogMenuEntradas.setFocusCycleRoot(false);
-        jDialogMenuEntradas.setMinimumSize(new java.awt.Dimension(420, 270));
+        jDialogMenuEntradas.setMinimumSize(new java.awt.Dimension(450, 370));
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel12.setText("MENU ENTRADAS");
@@ -732,6 +759,14 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jButtonConsultaMateriasPrimas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Consltas_Menu.png"))); // NOI18N
+        jButtonConsultaMateriasPrimas.setText("Consulta Materias-Primas");
+        jButtonConsultaMateriasPrimas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonConsultaMateriasPrimasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelMenuEntradasLayout = new javax.swing.GroupLayout(jPanelMenuEntradas);
         jPanelMenuEntradas.setLayout(jPanelMenuEntradasLayout);
         jPanelMenuEntradasLayout.setHorizontalGroup(
@@ -751,7 +786,8 @@ public class Login extends javax.swing.JFrame {
                         .addGroup(jPanelMenuEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButtonConsultarFornecedores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButtonConsultaDevolucoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonConsultaEntradas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jButtonConsultaEntradas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonConsultaMateriasPrimas))))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanelMenuEntradasLayout.setVerticalGroup(
@@ -759,19 +795,24 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jPanelMenuEntradasLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel12)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelMenuEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonNovaEntrada, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonConsultaEntradas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanelMenuEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonConsultaDevolucoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonNovaMateriaPrima, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanelMenuEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelMenuEntradasLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonConsultaEntradas)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonConsultaDevolucoes))
+                    .addGroup(jPanelMenuEntradasLayout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(jButtonNovaEntrada)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelMenuEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonNovoForncedor, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonConsultarFornecedores))
-                .addContainerGap(36, Short.MAX_VALUE))
+                    .addComponent(jButtonConsultaMateriasPrimas)
+                    .addComponent(jButtonNovaMateriaPrima))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelMenuEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonConsultarFornecedores)
+                    .addComponent(jButtonNovoForncedor, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jDialogMenuEntradasLayout = new javax.swing.GroupLayout(jDialogMenuEntradas.getContentPane());
@@ -781,14 +822,14 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jDialogMenuEntradasLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelMenuEntradas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         jDialogMenuEntradasLayout.setVerticalGroup(
             jDialogMenuEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogMenuEntradasLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanelMenuEntradas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addComponent(jPanelMenuEntradas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jDialogNovaEntrada.setTitle("NOVA ENTRADA");
@@ -1255,6 +1296,14 @@ public class Login extends javax.swing.JFrame {
 
         jComboBoxEstadoFornecedor.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Ativo", "Inativo" }));
 
+        jButtonUpdateFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/atualizar.png"))); // NOI18N
+        jButtonUpdateFornecedor.setText("Atualizar");
+        jButtonUpdateFornecedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonUpdateFornecedorActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelNovoFornecedorLayout = new javax.swing.GroupLayout(jPanelNovoFornecedor);
         jPanelNovoFornecedor.setLayout(jPanelNovoFornecedorLayout);
         jPanelNovoFornecedorLayout.setHorizontalGroup(
@@ -1314,13 +1363,15 @@ public class Login extends javax.swing.JFrame {
                                     .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanelNovoFornecedorLayout.createSequentialGroup()
                                 .addComponent(jButtonGuardarNovoFornecedor)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonUpdateFornecedor)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButtonSairNovoFornecedor)
                                 .addGap(10, 10, 10))))
                     .addGroup(jPanelNovoFornecedorLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelNovoFornecedorLayout.setVerticalGroup(
             jPanelNovoFornecedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1373,7 +1424,8 @@ public class Login extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addGroup(jPanelNovoFornecedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonGuardarNovoFornecedor)
-                    .addComponent(jButtonSairNovoFornecedor))
+                    .addComponent(jButtonSairNovoFornecedor)
+                    .addComponent(jButtonUpdateFornecedor))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel32)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -2149,8 +2201,145 @@ public class Login extends javax.swing.JFrame {
                 .addGap(33, 33, 33))
         );
 
+        jDialogDevolucoes.setTitle("NOVA DEVOLUÇÃO");
+        jDialogDevolucoes.setMinimumSize(new java.awt.Dimension(400, 505));
+
+        jPanelDevolucoes.setToolTipText("DEVOLUÇÃO");
+
+        jLabelFuncionarioResponsavel2.setText("Funcionario Responsavel");
+
+        jLabelDataDevolucao.setText("Data de Devolução");
+
+        jLabelQuantidadeDevolvida.setText("Quantidade Devolvida");
+
+        jLabelObservação.setText("Observação");
+
+        jComboBoxFuncionarioResponsavelDevolucao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jDateChooserDataDevolucao.setDateFormatString("yyyy-MM-dd");
+
+        jTextAreaObservacoesDevolucao.setColumns(20);
+        jTextAreaObservacoesDevolucao.setRows(5);
+        jScrollPaneObservacoesDevolucao.setViewportView(jTextAreaObservacoesDevolucao);
+
+        jButtonGuardaDevolucao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
+        jButtonGuardaDevolucao.setText("Guardar");
+        jButtonGuardaDevolucao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGuardaDevolucaoActionPerformed(evt);
+            }
+        });
+
+        jButtonSairDevolucao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
+        jButtonSairDevolucao.setText("Fechar");
+        jButtonSairDevolucao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSairDevolucaoActionPerformed(evt);
+            }
+        });
+
+        jLabelQuantidadeADevolverDevolucao.setText("Quantidade que Falta");
+
+        jTextFieldQuantidadeADevolverDevolucao.setEditable(false);
+        jTextFieldQuantidadeADevolverDevolucao.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jTextFieldQuantidadeADevolverDevolucao.setForeground(new java.awt.Color(255, 0, 0));
+
+        jLabel33.setText("Devolver");
+
+        javax.swing.GroupLayout jPanelDevolucoesLayout = new javax.swing.GroupLayout(jPanelDevolucoes);
+        jPanelDevolucoes.setLayout(jPanelDevolucoesLayout);
+        jPanelDevolucoesLayout.setHorizontalGroup(
+            jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelDevolucoesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelDevolucoesLayout.createSequentialGroup()
+                        .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabelObservação)
+                            .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabelFuncionarioResponsavel2)
+                                .addComponent(jLabelDataDevolucao, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addComponent(jLabelQuantidadeADevolverDevolucao)
+                            .addComponent(jLabel33)
+                            .addComponent(jLabelQuantidadeDevolvida))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelDevolucoesLayout.createSequentialGroup()
+                                .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jDateChooserDataDevolucao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(jPanelDevolucoesLayout.createSequentialGroup()
+                                        .addComponent(jComboBoxFuncionarioResponsavelDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(233, 233, 233))
+                            .addGroup(jPanelDevolucoesLayout.createSequentialGroup()
+                                .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextFieldQuantidadeDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextFieldQuantidadeADevolverDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(jPanelDevolucoesLayout.createSequentialGroup()
+                        .addGap(61, 61, 61)
+                        .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jPanelDevolucoesLayout.createSequentialGroup()
+                                .addComponent(jButtonGuardaDevolucao)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonSairDevolucao))
+                            .addComponent(jScrollPaneObservacoesDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
+        );
+        jPanelDevolucoesLayout.setVerticalGroup(
+            jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelDevolucoesLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelFuncionarioResponsavel2)
+                    .addComponent(jComboBoxFuncionarioResponsavelDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabelDataDevolucao)
+                    .addComponent(jDateChooserDataDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelDevolucoesLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(jLabelQuantidadeADevolverDevolucao)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel33))
+                    .addGroup(jPanelDevolucoesLayout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(jTextFieldQuantidadeADevolverDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelQuantidadeDevolvida)
+                    .addComponent(jTextFieldQuantidadeDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
+                .addComponent(jLabelObservação)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPaneObservacoesDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonGuardaDevolucao)
+                    .addComponent(jButtonSairDevolucao))
+                .addContainerGap(45, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jDialogDevolucoesLayout = new javax.swing.GroupLayout(jDialogDevolucoes.getContentPane());
+        jDialogDevolucoes.getContentPane().setLayout(jDialogDevolucoesLayout);
+        jDialogDevolucoesLayout.setHorizontalGroup(
+            jDialogDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogDevolucoesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanelDevolucoes, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(35, Short.MAX_VALUE))
+        );
+        jDialogDevolucoesLayout.setVerticalGroup(
+            jDialogDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogDevolucoesLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(jPanelDevolucoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+
         jDialogConsultaInsectocacadores.setTitle("CONSULTA INSECTOCADORES");
-        jDialogConsultaInsectocacadores.setMinimumSize(new java.awt.Dimension(672, 400));
+        jDialogConsultaInsectocacadores.setMinimumSize(new java.awt.Dimension(850, 480));
 
         jTableConsultaInsecto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -2227,54 +2416,85 @@ public class Login extends javax.swing.JFrame {
         jLabelPesquisarInsectocacador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pesquisar.png"))); // NOI18N
         jLabelPesquisarInsectocacador.setText("Pesquisar");
 
+        jButtonVerInsectocacadoresInativos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/inativos.png"))); // NOI18N
+        jButtonVerInsectocacadoresInativos.setText("Ver Inativas");
+        jButtonVerInsectocacadoresInativos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonVerInsectocacadoresInativosActionPerformed(evt);
+            }
+        });
+
+        jButtonAlterarEstadoInsectocacadores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/trocar.png"))); // NOI18N
+        jButtonAlterarEstadoInsectocacadores.setText("Alterar Estado");
+        jButtonAlterarEstadoInsectocacadores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAlterarEstadoInsectocacadoresActionPerformed(evt);
+            }
+        });
+
+        jLabelConsultaControloPragas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabelConsultaControloPragas.setText("Consulta Controlo de Pragas - Ativos");
+
         javax.swing.GroupLayout jPanelConsultaInsectoLayout = new javax.swing.GroupLayout(jPanelConsultaInsecto);
         jPanelConsultaInsecto.setLayout(jPanelConsultaInsectoLayout);
         jPanelConsultaInsectoLayout.setHorizontalGroup(
             jPanelConsultaInsectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelConsultaInsectoLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanelConsultaInsectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPaneConsultInsecto, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
                     .addGroup(jPanelConsultaInsectoLayout.createSequentialGroup()
-                        .addComponent(jButtonAddNovoInsecto)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonNovaLimpeza)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonSairConsultaInsecto))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConsultaInsectoLayout.createSequentialGroup()
-                        .addGroup(jPanelConsultaInsectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldPesquisaInsectocacador, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelPesquisarInsectocacador))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonConsultarLimpezas)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonEditarInsectoca)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonControloResultadosInsectoca)))
-                .addContainerGap())
+                        .addContainerGap()
+                        .addGroup(jPanelConsultaInsectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPaneConsultInsecto)
+                            .addGroup(jPanelConsultaInsectoLayout.createSequentialGroup()
+                                .addComponent(jButtonVerInsectocacadoresInativos)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonAddNovoInsecto)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButtonNovaLimpeza)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonSairConsultaInsecto))
+                            .addGroup(jPanelConsultaInsectoLayout.createSequentialGroup()
+                                .addGroup(jPanelConsultaInsectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextFieldPesquisaInsectocacador, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabelPesquisarInsectocacador))
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonConsultarLimpezas)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButtonEditarInsectoca)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButtonAlterarEstadoInsectocacadores)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButtonControloResultadosInsectoca))))
+                    .addGroup(jPanelConsultaInsectoLayout.createSequentialGroup()
+                        .addGap(226, 226, 226)
+                        .addComponent(jLabelConsultaControloPragas)))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         jPanelConsultaInsectoLayout.setVerticalGroup(
             jPanelConsultaInsectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelConsultaInsectoLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jLabelConsultaControloPragas)
+                .addGap(16, 16, 16)
                 .addGroup(jPanelConsultaInsectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanelConsultaInsectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButtonEditarInsectoca)
                         .addComponent(jButtonControloResultadosInsectoca)
-                        .addComponent(jButtonConsultarLimpezas))
+                        .addComponent(jButtonConsultarLimpezas)
+                        .addComponent(jButtonAlterarEstadoInsectocacadores))
                     .addGroup(jPanelConsultaInsectoLayout.createSequentialGroup()
                         .addComponent(jLabelPesquisarInsectocacador)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldPesquisaInsectocacador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPaneConsultInsecto, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelConsultaInsectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonSairConsultaInsecto)
-                    .addGroup(jPanelConsultaInsectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButtonAddNovoInsecto)
-                        .addComponent(jButtonNovaLimpeza)))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelConsultaInsectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonAddNovoInsecto)
+                    .addComponent(jButtonNovaLimpeza)
+                    .addComponent(jButtonVerInsectocacadoresInativos)
+                    .addComponent(jButtonSairConsultaInsecto))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jDialogConsultaInsectocacadoresLayout = new javax.swing.GroupLayout(jDialogConsultaInsectocacadores.getContentPane());
@@ -2284,14 +2504,14 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jDialogConsultaInsectocacadoresLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelConsultaInsecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         jDialogConsultaInsectocacadoresLayout.setVerticalGroup(
             jDialogConsultaInsectocacadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogConsultaInsectocacadoresLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelConsultaInsecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         jDialogConsultaLimpezas.setTitle("CONSULTA LIMPEZAS");
@@ -2375,7 +2595,8 @@ public class Login extends javax.swing.JFrame {
         );
 
         jDialogConsultaEquipamentos.setTitle("CONSULTA EQUIPAMENTOS");
-        jDialogConsultaEquipamentos.setMinimumSize(new java.awt.Dimension(667, 376));
+        jDialogConsultaEquipamentos.setMinimumSize(new java.awt.Dimension(880, 400));
+        jDialogConsultaEquipamentos.setPreferredSize(new java.awt.Dimension(900, 500));
 
         jTableConsultaEquipamentos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -2419,6 +2640,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jButtonControloResultados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Nao Conformidades.png"))); // NOI18N
         jButtonControloResultados.setText("Controlo de Resultados");
         jButtonControloResultados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2451,6 +2673,25 @@ public class Login extends javax.swing.JFrame {
         jLabelPesquisarEquipamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pesquisar.png"))); // NOI18N
         jLabelPesquisarEquipamento.setText("Pesquisar");
 
+        jButtonAlterarEstadoEquipamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/trocar.png"))); // NOI18N
+        jButtonAlterarEstadoEquipamento.setText("Alterar Estado");
+        jButtonAlterarEstadoEquipamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAlterarEstadoEquipamentoActionPerformed(evt);
+            }
+        });
+
+        jButtonVerInativasEquipamentos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/inativos.png"))); // NOI18N
+        jButtonVerInativasEquipamentos.setText("Ver Inativas");
+        jButtonVerInativasEquipamentos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonVerInativasEquipamentosActionPerformed(evt);
+            }
+        });
+
+        jLabelConsultarEquipamentos.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabelConsultarEquipamentos.setText("Consultar Equipamentos - Ativos");
+
         javax.swing.GroupLayout jPanelConsultaEquipamentosLayout = new javax.swing.GroupLayout(jPanelConsultaEquipamentos);
         jPanelConsultaEquipamentos.setLayout(jPanelConsultaEquipamentosLayout);
         jPanelConsultaEquipamentosLayout.setHorizontalGroup(
@@ -2459,37 +2700,44 @@ public class Login extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanelConsultaEquipamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelConsultaEquipamentosLayout.createSequentialGroup()
-                        .addGroup(jPanelConsultaEquipamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanelConsultaEquipamentosLayout.createSequentialGroup()
-                                .addComponent(jButtonNovoEquipamento)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButtonManutencaoConsultaEquipamentos)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonEditarEquipamento)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonSairConsultaEquipamentos))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConsultaEquipamentosLayout.createSequentialGroup()
-                                .addComponent(jTextFieldPesquisaEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonConsultaManutencao)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButtonControloResultados))
-                            .addComponent(jScrollPaneConsultaEquipamentos, javax.swing.GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE))
-                        .addGap(41, 41, 41))
-                    .addGroup(jPanelConsultaEquipamentosLayout.createSequentialGroup()
                         .addComponent(jLabelPesquisarEquipamento)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(149, 149, 149)
+                        .addComponent(jLabelConsultarEquipamentos))
+                    .addGroup(jPanelConsultaEquipamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jScrollPaneConsultaEquipamentos)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelConsultaEquipamentosLayout.createSequentialGroup()
+                            .addComponent(jTextFieldPesquisaEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonConsultaManutencao)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButtonAlterarEstadoEquipamento)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButtonControloResultados))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelConsultaEquipamentosLayout.createSequentialGroup()
+                            .addComponent(jButtonVerInativasEquipamentos)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButtonNovoEquipamento)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButtonManutencaoConsultaEquipamentos)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButtonEditarEquipamento)
+                            .addGap(56, 56, 56)
+                            .addComponent(jButtonSairConsultaEquipamentos))))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
         jPanelConsultaEquipamentosLayout.setVerticalGroup(
             jPanelConsultaEquipamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelConsultaEquipamentosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelPesquisarEquipamento)
+                .addGroup(jPanelConsultaEquipamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelConsultarEquipamentos)
+                    .addComponent(jLabelPesquisarEquipamento))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelConsultaEquipamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonControloResultados)
                     .addComponent(jButtonConsultaManutencao)
-                    .addComponent(jTextFieldPesquisaEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldPesquisaEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonAlterarEstadoEquipamento))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPaneConsultaEquipamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -2497,7 +2745,8 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(jButtonNovoEquipamento)
                     .addComponent(jButtonSairConsultaEquipamentos)
                     .addComponent(jButtonManutencaoConsultaEquipamentos)
-                    .addComponent(jButtonEditarEquipamento))
+                    .addComponent(jButtonEditarEquipamento)
+                    .addComponent(jButtonVerInativasEquipamentos))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -2515,7 +2764,7 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jDialogConsultaEquipamentosLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelConsultaEquipamentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(126, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         jDialogConsultaManutencaoEquipamentos.setTitle("CONSULTA MANUTENÇÃO DE EQUIPAMENTOS");
@@ -2649,6 +2898,14 @@ public class Login extends javax.swing.JFrame {
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pesquisar.png"))); // NOI18N
         jLabel10.setText("Secção");
 
+        jButtonVerNaoConformidadeEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Consltas_Menu.png"))); // NOI18N
+        jButtonVerNaoConformidadeEntrada.setText("Ver Nao Conformidade (Entrada)");
+        jButtonVerNaoConformidadeEntrada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonVerNaoConformidadeEntradaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelConsultaControlosLayout = new javax.swing.GroupLayout(jPanelConsultaControlos);
         jPanelConsultaControlos.setLayout(jPanelConsultaControlosLayout);
         jPanelConsultaControlosLayout.setHorizontalGroup(
@@ -2666,6 +2923,8 @@ public class Login extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jComboBoxSeccao, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonVerNaoConformidadeEntrada)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonVerNaoConformidade)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConsultaControlosLayout.createSequentialGroup()
@@ -2683,7 +2942,8 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(jButtonVerNaoConformidade, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanelConsultaControlosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jComboBoxSeccao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel10)))
+                        .addComponent(jLabel10)
+                        .addComponent(jButtonVerNaoConformidadeEntrada)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPaneConsultarControlos, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -2978,8 +3238,8 @@ public class Login extends javax.swing.JFrame {
 
         jDialogConsultaFornecedores.setMinimumSize(new java.awt.Dimension(800, 450));
 
-        jLabel36.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel36.setText("Consulta Fornecedores");
+        jLabelConsultaFornecedores.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabelConsultaFornecedores.setText("Consulta Fornecedores");
 
         jTableConsultaFornecedor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -3001,7 +3261,13 @@ public class Login extends javax.swing.JFrame {
 
         jButtonFecharConsultaFornecedores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
         jButtonFecharConsultaFornecedores.setText("Fechar");
+        jButtonFecharConsultaFornecedores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFecharConsultaFornecedoresActionPerformed(evt);
+            }
+        });
 
+        jButtonFornecedoresInativos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/inativos.png"))); // NOI18N
         jButtonFornecedoresInativos.setText("Ver Inativos");
         jButtonFornecedoresInativos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3017,6 +3283,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jButtonAlterarEstadoFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/trocar.png"))); // NOI18N
         jButtonAlterarEstadoFornecedor.setText("Alterar Estado");
         jButtonAlterarEstadoFornecedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3028,10 +3295,6 @@ public class Login extends javax.swing.JFrame {
         jPanelConsultaFornecedores.setLayout(jPanelConsultaFornecedoresLayout);
         jPanelConsultaFornecedoresLayout.setHorizontalGroup(
             jPanelConsultaFornecedoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelConsultaFornecedoresLayout.createSequentialGroup()
-                .addGap(277, 277, 277)
-                .addComponent(jLabel36)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanelConsultaFornecedoresLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelConsultaFornecedoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3046,13 +3309,17 @@ public class Login extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButtonAlterarEstadoFornecedor)))
                 .addContainerGap())
+            .addGroup(jPanelConsultaFornecedoresLayout.createSequentialGroup()
+                .addGap(165, 165, 165)
+                .addComponent(jLabelConsultaFornecedores)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelConsultaFornecedoresLayout.setVerticalGroup(
             jPanelConsultaFornecedoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelConsultaFornecedoresLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel36)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addComponent(jLabelConsultaFornecedores)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonAlterarEstadoFornecedor)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3080,143 +3347,6 @@ public class Login extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanelConsultaFornecedores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jDialogDevolucoes.setTitle("NOVA DEVOLUÇÃO");
-        jDialogDevolucoes.setMinimumSize(new java.awt.Dimension(400, 505));
-
-        jPanelDevolucoes.setToolTipText("DEVOLUÇÃO");
-
-        jLabelFuncionarioResponsavel2.setText("Funcionario Responsavel");
-
-        jLabelDataDevolucao.setText("Data de Devolução");
-
-        jLabelQuantidadeDevolvida.setText("Quantidade Devolvida");
-
-        jLabelObservação.setText("Observação");
-
-        jComboBoxFuncionarioResponsavelDevolucao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jDateChooserDataDevolucao.setDateFormatString("yyyy-MM-dd");
-
-        jTextAreaObservacoesDevolucao.setColumns(20);
-        jTextAreaObservacoesDevolucao.setRows(5);
-        jScrollPaneObservacoesDevolucao.setViewportView(jTextAreaObservacoesDevolucao);
-
-        jButtonGuardaDevolucao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
-        jButtonGuardaDevolucao.setText("Guardar");
-        jButtonGuardaDevolucao.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonGuardaDevolucaoActionPerformed(evt);
-            }
-        });
-
-        jButtonSairDevolucao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
-        jButtonSairDevolucao.setText("Fechar");
-        jButtonSairDevolucao.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSairDevolucaoActionPerformed(evt);
-            }
-        });
-
-        jLabelQuantidadeADevolverDevolucao.setText("Quantidade que Falta");
-
-        jTextFieldQuantidadeADevolverDevolucao.setEditable(false);
-        jTextFieldQuantidadeADevolverDevolucao.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jTextFieldQuantidadeADevolverDevolucao.setForeground(new java.awt.Color(255, 0, 0));
-
-        jLabel33.setText("Devolver");
-
-        javax.swing.GroupLayout jPanelDevolucoesLayout = new javax.swing.GroupLayout(jPanelDevolucoes);
-        jPanelDevolucoes.setLayout(jPanelDevolucoesLayout);
-        jPanelDevolucoesLayout.setHorizontalGroup(
-            jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelDevolucoesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelDevolucoesLayout.createSequentialGroup()
-                        .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabelObservação)
-                            .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabelFuncionarioResponsavel2)
-                                .addComponent(jLabelDataDevolucao, javax.swing.GroupLayout.Alignment.TRAILING))
-                            .addComponent(jLabelQuantidadeADevolverDevolucao)
-                            .addComponent(jLabel33)
-                            .addComponent(jLabelQuantidadeDevolvida))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanelDevolucoesLayout.createSequentialGroup()
-                                .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jDateChooserDataDevolucao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(jPanelDevolucoesLayout.createSequentialGroup()
-                                        .addComponent(jComboBoxFuncionarioResponsavelDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE)))
-                                .addGap(233, 233, 233))
-                            .addGroup(jPanelDevolucoesLayout.createSequentialGroup()
-                                .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextFieldQuantidadeDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextFieldQuantidadeADevolverDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(jPanelDevolucoesLayout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(jPanelDevolucoesLayout.createSequentialGroup()
-                                .addComponent(jButtonGuardaDevolucao)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonSairDevolucao))
-                            .addComponent(jScrollPaneObservacoesDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
-        );
-        jPanelDevolucoesLayout.setVerticalGroup(
-            jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelDevolucoesLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelFuncionarioResponsavel2)
-                    .addComponent(jComboBoxFuncionarioResponsavelDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabelDataDevolucao)
-                    .addComponent(jDateChooserDataDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelDevolucoesLayout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(jLabelQuantidadeADevolverDevolucao)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel33))
-                    .addGroup(jPanelDevolucoesLayout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addComponent(jTextFieldQuantidadeADevolverDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelQuantidadeDevolvida)
-                    .addComponent(jTextFieldQuantidadeDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addComponent(jLabelObservação)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPaneObservacoesDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonGuardaDevolucao)
-                    .addComponent(jButtonSairDevolucao))
-                .addContainerGap(45, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout jDialogDevolucoesLayout = new javax.swing.GroupLayout(jDialogDevolucoes.getContentPane());
-        jDialogDevolucoes.getContentPane().setLayout(jDialogDevolucoesLayout);
-        jDialogDevolucoesLayout.setHorizontalGroup(
-            jDialogDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialogDevolucoesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanelDevolucoes, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
-        );
-        jDialogDevolucoesLayout.setVerticalGroup(
-            jDialogDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialogDevolucoesLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jPanelDevolucoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         jDialogConsultaEntradas.setTitle("CONSULTA ENTRADAS");
@@ -3367,11 +3497,11 @@ public class Login extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Fornecedor", "Mater. Prima", "Lote Original", "Devolução Nº", "Data Devolução", "Quantidade"
+                "#", "Fornecedor", "Mater. Prima", "Lote Original", "Devolução Nº", "Data Devolução", "Quantidade"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -3379,6 +3509,10 @@ public class Login extends javax.swing.JFrame {
             }
         });
         jScrollPane4.setViewportView(jTableConsultaDevolucoes);
+        if (jTableConsultaDevolucoes.getColumnModel().getColumnCount() > 0) {
+            jTableConsultaDevolucoes.getColumnModel().getColumn(0).setMinWidth(10);
+            jTableConsultaDevolucoes.getColumnModel().getColumn(0).setMaxWidth(30);
+        }
 
         jButtonConsultaDevolucoesSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
         jButtonConsultaDevolucoesSair.setText("Fechar");
@@ -3495,6 +3629,138 @@ public class Login extends javax.swing.JFrame {
                 .addContainerGap(37, Short.MAX_VALUE))
         );
 
+        jDialogConsultaMateriasPrimas.setMinimumSize(new java.awt.Dimension(680, 400));
+
+        jTableConsultaMateriasPrimas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "#", "Nome", "Descrição", "Unidade"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane5.setViewportView(jTableConsultaMateriasPrimas);
+        if (jTableConsultaMateriasPrimas.getColumnModel().getColumnCount() > 0) {
+            jTableConsultaMateriasPrimas.getColumnModel().getColumn(0).setMinWidth(10);
+            jTableConsultaMateriasPrimas.getColumnModel().getColumn(0).setMaxWidth(30);
+        }
+
+        jButtonSairConsultaMateriaPrima.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
+        jButtonSairConsultaMateriaPrima.setText("Fechar");
+        jButtonSairConsultaMateriaPrima.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSairConsultaMateriaPrimaActionPerformed(evt);
+            }
+        });
+
+        jLabelPesquisarMateriaPrima.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pesquisar.png"))); // NOI18N
+        jLabelPesquisarMateriaPrima.setText("Pesquisar");
+
+        jTextFieldPesquisarMateriaPrima.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                jTextFieldPesquisarMateriaPrimaCaretUpdate(evt);
+            }
+        });
+
+        jButtonAlterarEstadoMP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/trocar.png"))); // NOI18N
+        jButtonAlterarEstadoMP.setText("Alterar Estado");
+        jButtonAlterarEstadoMP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAlterarEstadoMPActionPerformed(evt);
+            }
+        });
+
+        jButtonVerInativosMP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/inativos.png"))); // NOI18N
+        jButtonVerInativosMP.setText("Ver Inativas");
+        jButtonVerInativosMP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonVerInativosMPActionPerformed(evt);
+            }
+        });
+
+        jButtonEditarMP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/editar.png"))); // NOI18N
+        jButtonEditarMP.setText("Editar");
+        jButtonEditarMP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditarMPActionPerformed(evt);
+            }
+        });
+
+        jLabelConsultarMateriasPrimas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabelConsultarMateriasPrimas.setText("Consultar Matérias-Primas - Ativas");
+
+        javax.swing.GroupLayout jPanelConsutaMateriasPrimasLayout = new javax.swing.GroupLayout(jPanelConsutaMateriasPrimas);
+        jPanelConsutaMateriasPrimas.setLayout(jPanelConsutaMateriasPrimasLayout);
+        jPanelConsutaMateriasPrimasLayout.setHorizontalGroup(
+            jPanelConsutaMateriasPrimasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelConsutaMateriasPrimasLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jPanelConsutaMateriasPrimasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelConsutaMateriasPrimasLayout.createSequentialGroup()
+                        .addComponent(jButtonVerInativosMP)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonSairConsultaMateriaPrima))
+                    .addGroup(jPanelConsutaMateriasPrimasLayout.createSequentialGroup()
+                        .addComponent(jLabelPesquisarMateriaPrima)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextFieldPesquisarMateriaPrima, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonEditarMP)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonAlterarEstadoMP))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 609, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(jPanelConsutaMateriasPrimasLayout.createSequentialGroup()
+                .addGap(164, 164, 164)
+                .addComponent(jLabelConsultarMateriasPrimas)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanelConsutaMateriasPrimasLayout.setVerticalGroup(
+            jPanelConsutaMateriasPrimasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelConsutaMateriasPrimasLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelConsultarMateriasPrimas)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelConsutaMateriasPrimasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabelPesquisarMateriaPrima)
+                    .addGroup(jPanelConsutaMateriasPrimasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextFieldPesquisarMateriaPrima, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonAlterarEstadoMP)
+                        .addComponent(jButtonEditarMP)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelConsutaMateriasPrimasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonVerInativosMP)
+                    .addComponent(jButtonSairConsultaMateriaPrima))
+                .addContainerGap(29, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jDialogConsultaMateriasPrimasLayout = new javax.swing.GroupLayout(jDialogConsultaMateriasPrimas.getContentPane());
+        jDialogConsultaMateriasPrimas.getContentPane().setLayout(jDialogConsultaMateriasPrimasLayout);
+        jDialogConsultaMateriasPrimasLayout.setHorizontalGroup(
+            jDialogConsultaMateriasPrimasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogConsultaMateriasPrimasLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanelConsutaMateriasPrimas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(31, Short.MAX_VALUE))
+        );
+        jDialogConsultaMateriasPrimasLayout.setVerticalGroup(
+            jDialogConsultaMateriasPrimasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogConsultaMateriasPrimasLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanelConsutaMateriasPrimas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Higiene e Segurança - Principio Base");
 
@@ -3603,6 +3869,8 @@ public class Login extends javax.swing.JFrame {
         jDialogConsultaInsectocacadores.setLocationRelativeTo(this);
         jDialogConsultaInsectocacadores.setVisible(true);
         //cCARREGAR A TABELA
+        jLabelConsultaControloPragas.setText("Consulta Controlo de Pragas - Ativos");
+        estadoInsectocacadores = true;
         LimpaTabelaConsultaInsectocacadores();
         ConsultaInsectocacadores();
     }//GEN-LAST:event_jButtonConsultaInsectoActionPerformed
@@ -3812,10 +4080,12 @@ public class Login extends javax.swing.JFrame {
 
     private void jButtonConsultaEquipamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultaEquipamentosActionPerformed
         // CONSULTAR EQUIPAMENTOS
+        estadoEquipamento = true;
         LimpaTabelaConsultaEquipamentos();
         ConsultaEquipamentos();
         jDialogConsultaEquipamentos.setLocationRelativeTo(this);
         jDialogConsultaEquipamentos.setVisible(true);
+        
 
     }//GEN-LAST:event_jButtonConsultaEquipamentosActionPerformed
 
@@ -4195,21 +4465,25 @@ public class Login extends javax.swing.JFrame {
             LimpaTabelaControloResultados();
             nomeColuna = "IDENTRADA";
             LerBDControloResultados(nomeColuna);
+            jButtonVerNaoConformidadeEntrada.setVisible(true);
 
         }else if (comboPesquisa.equals("EQUIPAMENTO")){
             LimpaTabelaControloResultados();
             nomeColuna = "IDEQUIPAMENTO";
             LerBDControloResultados(nomeColuna);
+            jButtonVerNaoConformidadeEntrada.setVisible(false);
 
         }else if (comboPesquisa.equals("INSECTOCACADORES")){
             LimpaTabelaControloResultados();
             nomeColuna = "IDINSECTOCACADORES";
             LerBDControloResultados(nomeColuna);
+            jButtonVerNaoConformidadeEntrada.setVisible(false);
 
         }else if (comboPesquisa.equals("OUTROS")){
             LimpaTabelaControloResultados();
             nomeColuna = "OUTROS";
             LerBDControloResultados(nomeColuna);
+            jButtonVerNaoConformidadeEntrada.setVisible(false);
 
         }
 
@@ -4264,6 +4538,8 @@ public class Login extends javax.swing.JFrame {
         
         jDialogConsultarControlos.setLocationRelativeTo(this);
         jDialogConsultarControlos.setVisible(true);
+        
+        jButtonVerNaoConformidadeEntrada.setVisible(false);
         
         
     }//GEN-LAST:event_jButtonControlos1ActionPerformed
@@ -4333,6 +4609,10 @@ public class Login extends javax.swing.JFrame {
 
     private void jButtonNovoForncedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoForncedorActionPerformed
         // BOTAO NOVO FORNECEDOR -> JANELA MENU
+        
+        //ESCONDER BOTAO ATUALIZAR
+        jButtonUpdateFornecedor.setVisible(false);
+        
         jDialogNovoFornecedor.setLocationRelativeTo(this);
         jDialogNovoFornecedor.setVisible(true);
     }//GEN-LAST:event_jButtonNovoForncedorActionPerformed
@@ -4480,7 +4760,7 @@ public class Login extends javax.swing.JFrame {
 
     private void jButtonGuardaDevolucaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardaDevolucaoActionPerformed
         // BOTAO GUARDAR -> JANELA DEVOLUÇOES
-
+        
         InserirDevolucao();
 
     }//GEN-LAST:event_jButtonGuardaDevolucaoActionPerformed
@@ -4529,16 +4809,22 @@ public class Login extends javax.swing.JFrame {
 
     private void jButtonDevolucaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDevolucaoActionPerformed
         // BOTAO DEVOLUÇÃO -> JANELA CONSULTA ENTRADAS
+        //VERIFICAR SE TEMOS ALGUMA LINHA SELECIONADA
+        int linha = jTableConsultaEntradas.getSelectedRow();
 
-        VerEntradaSeleccionadaConsultaDevolucao();
-        jDialogDevolucoes.setLocationRelativeTo(this);
-        jDialogDevolucoes.setVisible(true);
-        LerBDFuncionario(jComboBoxFuncionarioResponsavelDevolucao);
+        if (linha == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione a Linha de uma Entrada ! ");
+        } else {
 
-        CalculaQuantoFaltaDevolver();
+            VerEntradaSeleccionadaConsultaDevolucao();
+            jDialogDevolucoes.setLocationRelativeTo(this);
+            jDialogDevolucoes.setVisible(true);
+            LerBDFuncionario(jComboBoxFuncionarioResponsavelDevolucao);
 
-        LimpaNovaDevolucao();
+            CalculaQuantoFaltaDevolver();
 
+            LimpaNovaDevolucao();
+        }
     }//GEN-LAST:event_jButtonDevolucaoActionPerformed
 
     private void jTextFieldPesquisarEntradaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextFieldPesquisarEntradaCaretUpdate
@@ -4594,18 +4880,18 @@ public class Login extends javax.swing.JFrame {
         } else {
             //VERIFCAR QUAL É A dEVOLUÇÃO
 
-            String nomeForncedor = (String) jTableConsultaDevolucoes.getValueAt(linha, 0);
+            String nomeForncedor = (String) jTableConsultaDevolucoes.getValueAt(linha, 1);
             int idFornecedor = selectId("FORNECEDOR", "NOME", nomeForncedor, "IDFORNECEDOR");
 
-            String materiaPrima = (String) jTableConsultaDevolucoes.getValueAt(linha, 1);
+            String materiaPrima = (String) jTableConsultaDevolucoes.getValueAt(linha, 2);
             int idMateriaPrima = selectId("MATERIA_PRIMA", "NOME", materiaPrima, "IDMATERIAPRIMA");
 
-            String dataDevolucao = (String) jTableConsultaDevolucoes.getValueAt(linha, 4);
+            String dataDevolucao = (String) jTableConsultaDevolucoes.getValueAt(linha, 5);
 
-            String quant = (String) jTableConsultaDevolucoes.getValueAt(linha, 5);
+            String quant = (String) jTableConsultaDevolucoes.getValueAt(linha, 6);
             float quantidade = Float.parseFloat(quant);
 
-            try {
+            try { 
                 Class.forName("org.apache.derby.jdbc.ClientDriver");
             } catch (ClassNotFoundException e) {
                 System.err.print("ClassNotFoundException: ");
@@ -4809,6 +5095,7 @@ public class Login extends javax.swing.JFrame {
         jDialogConsultaFornecedores.setLocationRelativeTo(this);
         jDialogConsultaFornecedores.setVisible(true);
         EstadoFornecedor = "true";
+        jLabelConsultaFornecedores.setText("CONSULTA FORNECEDORES - ATIVOS");
         LimpaTabelaFornecedores();
         ConsultaFornecedores();
     }//GEN-LAST:event_jButtonConsultarFornecedoresActionPerformed
@@ -4818,24 +5105,24 @@ public class Login extends javax.swing.JFrame {
         String nomeBotao = jButtonFornecedoresInativos.getText();
       
         //VERFICAR SE TEMOS A LINHA SELECCIONADA
-        int linha = jTableConsultaFornecedor.getSelectedRow();
-
-        if (linha == -1){
-            JOptionPane.showMessageDialog(jDialogConsultaFornecedores, "Seleccione a Linha de um Fornecedor !");
-        } else {
+       
 
             //VER NOME DO FORNECEDOR (so existe um fornecedor com o mesmo nome)
             
             
             if (nomeBotao.equals("Ver Inativos")) {
                 jButtonFornecedoresInativos.setText("Ver Ativos");
+                jButtonFornecedoresInativos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/ativos.png")));
+                jLabelConsultaFornecedores.setText("CONSULTA FORNECEDORES - INATIVOS");
                 //mostrar Inativos
                 EstadoFornecedor = "false";
                 LimpaTabelaFornecedores();
                 ConsultaFornecedores();
-
+                
             } else if (nomeBotao.equals("Ver Ativos")) {
                 jButtonFornecedoresInativos.setText("Ver Inativos");
+                jButtonFornecedoresInativos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/inativos.png")));
+                jLabelConsultaFornecedores.setText("CONSULTA FORNECEDORES - ATIVOS");
                 //mostrar ativos
                 EstadoFornecedor = "true";
                 LimpaTabelaFornecedores();
@@ -4844,7 +5131,7 @@ public class Login extends javax.swing.JFrame {
             
             
             
-        }
+        
     }//GEN-LAST:event_jButtonFornecedoresInativosActionPerformed
 
     private void jButtonEditarFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarFornecedorActionPerformed
@@ -4864,6 +5151,12 @@ public class Login extends javax.swing.JFrame {
             System.out.println("ID FORNECEDOR -> " + idFornecedorPesquisar);
             ConsultaDadosForncedorAlterar();
             
+            
+            //esconder botao guardar
+            jButtonGuardarNovoFornecedor.setVisible(false);
+            jButtonUpdateFornecedor.setVisible(true);
+            
+            
             jDialogNovoFornecedor.setLocationRelativeTo(this);
             jDialogNovoFornecedor.setVisible(true);
             
@@ -4875,23 +5168,362 @@ public class Login extends javax.swing.JFrame {
 
     private void jButtonAlterarEstadoFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarEstadoFornecedorActionPerformed
         // BOTAO ALTERAR ESTADO DO FORNECEDOR
-         int linha = jTableConsultaFornecedor.getSelectedRow();
+        int linha = jTableConsultaFornecedor.getSelectedRow();
 
+        
         if (linha == -1){
             JOptionPane.showMessageDialog(jDialogConsultaFornecedores, "Seleccione a Linha de um Fornecedor Inativo !");
         } else {
             //VER QUAL O FORNECEDOR SELECCIONADO
             String nomeForncedor = (String) jTableConsultaFornecedor.getValueAt(linha, 0);
                         
-            //buscar o id
+            //ID FORNECEDOR
             idFornecedorPesquisar = selectId("FORNECEDOR", "NOME", nomeForncedor, "IDFORNECEDOR");
             
-            System.out.println("ID FORNECEDOR -> " + idFornecedorPesquisar);
-            //ALTERAR ESTADO DO FORNECEDOR
             
+            
+            //VER QUAL O ESTADO 
+            String nomeBotao = jButtonFornecedoresInativos.getText();
+            
+            if (nomeBotao.equals("Ver Inativos")){
+                //colocar fornecedor Inactivo
+                estadoFornecedor = false;
+                ActualizaEstadoFornecedor();
+                LimpaTabelaFornecedores();
+                ConsultaFornecedores();
+                JOptionPane.showMessageDialog(jDialogConsultaFornecedores, "Fornecedor Ficou Inativo !");               
+            }else{
+                //colcoar fornecedor Ativo
+                estadoFornecedor = true;
+                ActualizaEstadoFornecedor();
+                LimpaTabelaFornecedores();
+                ConsultaFornecedores();
+                JOptionPane.showMessageDialog(jDialogConsultaFornecedores, "Fornecedor Ficou Ativo !");
+            }               
+            
+            System.out.println("ID FORNECEDOR -> " + idFornecedorPesquisar);
         
         }
     }//GEN-LAST:event_jButtonAlterarEstadoFornecedorActionPerformed
+
+    private void jButtonUpdateFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateFornecedorActionPerformed
+        // UPDATE FORNECEDOR -> DEPOIS DE EDITAR
+        String nome = jTextFieldNomeFornecedor.getText();
+        String morada = jTextFieldMoradaFornecedor.getText();
+        String codPostal = jTextFieldCodPostalFornecedor.getText();
+        String localidade = jTextFieldLocalidadeFornecedor.getText();
+        String contacto = jTextFieldContactoFornecedor.getText();
+        String email = jTextFieldEmailFornecedor.getText();
+        String nif = jTextFieldNIFFornecedor.getText();
+        String tipoProduto = jTextFieldTipoProdutoFornecedor.getText();
+
+        if (nome.equals("")) {
+            JOptionPane.showMessageDialog(jDialogNovaMateriaPrima, "Insira o Nome !");
+        } else if (morada.equals("")) {
+            JOptionPane.showMessageDialog(jDialogNovaMateriaPrima, "Insira a Morada !");
+        } else if (codPostal.equals("")) {
+            JOptionPane.showMessageDialog(jDialogNovaMateriaPrima, "Insira o Codigo Postal !");
+        } else if (localidade.equals("")) {
+            JOptionPane.showMessageDialog(jDialogNovaMateriaPrima, "Insira a Localidade !");
+        } else if (contacto.equals("")) {
+            JOptionPane.showMessageDialog(jDialogNovaMateriaPrima, "Insira o Contacto !");
+        } else if (nif.equals("")) {
+            JOptionPane.showMessageDialog(jDialogNovaMateriaPrima, "Insira o NIF !");
+        }else if (tipoProduto.equals("")) {
+            JOptionPane.showMessageDialog(jDialogNovaMateriaPrima, "Insira o Tipo de Produto !");
+        }else {
+            UpdateDadosFornecedor();
+        }
+    }//GEN-LAST:event_jButtonUpdateFornecedorActionPerformed
+
+    private void jButtonFecharConsultaFornecedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFecharConsultaFornecedoresActionPerformed
+        //BOTAO FECHAR CONSULTA FORNECEDORES
+        jDialogConsultaFornecedores.setVisible(false);
+    }//GEN-LAST:event_jButtonFecharConsultaFornecedoresActionPerformed
+
+    private void jButtonSairConsultaMateriaPrimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSairConsultaMateriaPrimaActionPerformed
+        // FECHAR JAELA CONSULTA MATERIAS-PRIMAS
+        jDialogConsultaMateriasPrimas.setVisible(false);
+    }//GEN-LAST:event_jButtonSairConsultaMateriaPrimaActionPerformed
+
+    private void jButtonConsultaMateriasPrimasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultaMateriasPrimasActionPerformed
+        // ABRIR CONSULTA DE MATERIAS PRIMAS
+        jDialogConsultaMateriasPrimas.setLocationRelativeTo(this);
+        jDialogConsultaMateriasPrimas.setVisible(true);
+        estadoMateriaPrima = true;
+        jLabelConsultarMateriasPrimas.setText("Consultar Matérias-Primas - Ativas");
+        ConsultaMateriasPrimas();
+        
+        
+    }//GEN-LAST:event_jButtonConsultaMateriasPrimasActionPerformed
+
+    private void jButtonVerInativosMPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVerInativosMPActionPerformed
+        // TBOTAO VER INATIVOS - MATERIA PRIMA
+        
+        String nomeBotao = jButtonVerInativosMP.getText();
+        
+        if (nomeBotao.equals("Ver Inativas")){
+            jButtonVerInativosMP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/ativos.png")));
+            jButtonVerInativosMP.setText("Ver Ativas");
+            jLabelConsultarMateriasPrimas.setText("Consultar Matérias-Primas - Inativas");
+            estadoMateriaPrima = false;
+            LimpaTabelaMateriaPrimas();
+            ConsultaMateriasPrimas();
+            
+            
+                
+        } else if (nomeBotao.equals("Ver Ativas")){
+            jButtonVerInativosMP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/inativos.png")));
+            jButtonVerInativosMP.setText("Ver Inativas");
+            jLabelConsultarMateriasPrimas.setText("Consultar Matérias-Primas - Ativas");
+            estadoMateriaPrima = true;
+            LimpaTabelaMateriaPrimas();
+            ConsultaMateriasPrimas();
+           
+             
+        } 
+        
+        
+        
+    }//GEN-LAST:event_jButtonVerInativosMPActionPerformed
+
+    private void jButtonAlterarEstadoMPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarEstadoMPActionPerformed
+        // ALTERAR ESTADO DA MATERIA PRIMA
+        int linha = jTableConsultaMateriasPrimas.getSelectedRow();
+        
+        if (linha == -1){
+            JOptionPane.showMessageDialog(jDialogConsultaMateriasPrimas, "Seleccione a Linha de uma Matéria-Prima !");
+        } else {
+            //VER QUAL O FORNECEDOR SELECCIONADO
+            String nomeMateriaPrima = (String) jTableConsultaMateriasPrimas.getValueAt(linha, 1);
+//            System.out.println("NOME MATERI PRIMA -> " + nomeMateriaPrima);
+            //ID MATERIA-PRIMA 
+            idMateriaPrimaPesquisar = selectId("MATERIA_PRIMA", "NOME", nomeMateriaPrima, "IDMATERIAPRIMA");
+//            System.out.println("ID MATERI PRIMA -> " + idMateriaPrimaPesquisar);
+            
+            //VER QUAL O ESTADO 
+            String nomeBotao = jButtonVerInativosMP.getText();
+            
+            if (nomeBotao.equals("Ver Inativas")){
+                //colocar materia prima Inactivo
+                estadoMateriaPrima = false;
+                ActualizaEstadoMateriaPrima();
+                LimpaTabelaMateriaPrimas();
+                ConsultaMateriasPrimas();
+                jLabelConsultarMateriasPrimas.setText("Consultar Matérias-Primas - Inativas");
+                
+                JOptionPane.showMessageDialog(jDialogConsultaFornecedores, "Matéria-Prima Ficou Inativa !");               
+            }else{
+                //colcoar fornecedor Ativo
+                estadoMateriaPrima = true;
+                ActualizaEstadoMateriaPrima();
+                LimpaTabelaMateriaPrimas();
+                ConsultaMateriasPrimas();
+                JOptionPane.showMessageDialog(jDialogConsultaFornecedores, "Matéria-Prima Ficou Ativa !");
+                jLabelConsultarMateriasPrimas.setText("Consultar Matérias-Primas - Ativas");
+            }          
+            
+            System.out.println("ID MATERIA PRIMA -> " + idMateriaPrimaPesquisar);
+        }
+    }//GEN-LAST:event_jButtonAlterarEstadoMPActionPerformed
+
+    private void jTextFieldPesquisarMateriaPrimaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextFieldPesquisarMateriaPrimaCaretUpdate
+        //TEXT FIEL PESQUISAR MATERIA PRIMA
+       LimpaTabelaMateriaPrimas();
+       PesquisaMateriaPrima();
+    }//GEN-LAST:event_jTextFieldPesquisarMateriaPrimaCaretUpdate
+
+    private void jButtonEditarMPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarMPActionPerformed
+        // EDITAR MATERIA PRIMA 
+        int linha = jTableConsultaMateriasPrimas.getSelectedRow();
+
+        if (linha == -1) {
+            JOptionPane.showMessageDialog(jDialogConsultaMateriasPrimas, "Seleccione a Linha de uma Mat+eria-Prima!");
+        } else {
+            //DEVOLVE O NOME DO EQUIPAMENTO
+            String nomeMateriaPrima = (String) jTableConsultaMateriasPrimas.getValueAt(linha, 1);
+
+             idMateriaPrimaPesquisar = selectId("MATERIA_PRIMA", "NOME", nomeMateriaPrima, "IDMATERIAPRIMA");
+
+            jDialogNovaMateriaPrima.setLocationRelativeTo(this);
+            jDialogNovaMateriaPrima.setVisible(true);
+            ConsultaDadosMateriaPrimaAlterar();
+
+            // ESCONDER O BOTAO DE GUARDA
+            jButtonGuardarEquipametno.setVisible(false);
+            jButtonActualizar.setVisible(true);
+
+            System.out.println("\n***BOTAO DE CONTROLO RESULTADOS -> JANELA CONSULTA DADOS");
+            System.out.println("NOME EQUIPAMENTO SELEC.: " + nomeMateriaPrima);
+            System.out.println("ID EQUIPAMENTO SELEC.: " + idEquipamentoControloResultado);
+        }
+        
+    }//GEN-LAST:event_jButtonEditarMPActionPerformed
+
+    private void jButtonVerNaoConformidadeEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVerNaoConformidadeEntradaActionPerformed
+        // BOTAO VER NAO CONFORMIDADE DE UMA ENTRADA - JANELA CONSULTA CONTROLO DE RESULTADOS
+        int linha = jTableConsultarControlos.getSelectedRow();
+
+        if (linha == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione a Linha de um Controlo!");
+        } else {
+            String loteConsultaControloNaoConformidades = (String) jTableConsultarControlos.getValueAt(linha, 1);
+            
+            verNaoConformidadeDeUmaEntrada(loteConsultaControloNaoConformidades);
+        }
+        
+    }//GEN-LAST:event_jButtonVerNaoConformidadeEntradaActionPerformed
+
+    private void jButtonVerInsectocacadoresInativosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVerInsectocacadoresInativosActionPerformed
+        // VER ESTADO DO CONTROLO DE PRAGAS - ATIVO / INATIVO
+        
+        String nomeBotao = jButtonVerInsectocacadoresInativos.getText();
+        
+        
+        if (nomeBotao.equals("Ver Inativas")){
+            jButtonVerInsectocacadoresInativos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/ativos.png")));
+            jButtonVerInsectocacadoresInativos.setText("Ver Ativas");
+            jLabelConsultaControloPragas.setText("Consulta Controlo de Pragas - Inativos");
+            estadoInsectocacadores = false;
+            LimpaTabelaConsultaInsectocacadores();
+            ConsultaInsectocacadores();
+            
+            
+                
+        } else if (nomeBotao.equals("Ver Ativas")){
+            jButtonVerInsectocacadoresInativos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/inativos.png")));
+            jButtonVerInsectocacadoresInativos.setText("Ver Inativas");
+            jLabelConsultaControloPragas.setText("Consulta Controlo de Pragas - Ativos");
+            estadoInsectocacadores = true;
+            LimpaTabelaConsultaInsectocacadores();
+            ConsultaInsectocacadores();
+           
+             
+        } 
+        
+        
+        
+    }//GEN-LAST:event_jButtonVerInsectocacadoresInativosActionPerformed
+
+    private void jButtonAlterarEstadoInsectocacadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarEstadoInsectocacadoresActionPerformed
+        // ALTERAR ESTADO DE UM CONTROLO D PRAGAS - 
+        
+        int linha = jTableConsultaInsecto.getSelectedRow();
+
+        
+        if (linha == -1){
+            JOptionPane.showMessageDialog(jDialogConsultaInsectocacadores, "Seleccione a Linha de um Controlo de Pragas !");
+        } else {
+            //ver qual o controlo de resultados seleccionado
+            String refControlo = (String) jTableConsultaInsecto.getValueAt(linha, 0);
+                        
+            //ID FORNECEDOR
+            idInsectocacadorPesquisar = selectId("INSECTOCACADORES", "REFERENCIA", refControlo, "IDINSECTOCACADORES");
+            
+            
+            String nomeBotao = jButtonVerInsectocacadoresInativos.getText();
+        
+            if (nomeBotao.equals("Ver Inativas")){
+                //colocar fornecedor Inactivo
+                estadoInsectocacadores = false;
+                AtualizarEstadoInsectocacador();
+                LimpaTabelaConsultaInsectocacadores();
+                ConsultaInsectocacadores();
+                JOptionPane.showMessageDialog(jDialogConsultaInsectocacadores, "Controlo de Pragas Ficou Inativo !");     
+                jButtonVerInsectocacadoresInativos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/ativos.png")));
+                jButtonVerInsectocacadoresInativos.setText("Ver Ativas");
+                 jLabelConsultaControloPragas.setText("Consulta Controlo de Pragas - Inativos");
+                
+                
+                
+            }else if (nomeBotao.equals("Ver Ativas")){
+                //colcoar fornecedor Ativo
+                estadoInsectocacadores = true;
+                AtualizarEstadoInsectocacador();
+                LimpaTabelaConsultaInsectocacadores();
+                ConsultaInsectocacadores();
+                JOptionPane.showMessageDialog(jDialogConsultaInsectocacadores, "Controlo de Pragas Ficou Ativo !");
+                jButtonVerInsectocacadoresInativos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/inativos.png")));
+                jButtonVerInsectocacadoresInativos.setText("Ver Inativas");
+                jLabelConsultaControloPragas.setText("Consulta Controlo de Pragas - Ativos");
+                
+            }               
+        }
+        
+    }//GEN-LAST:event_jButtonAlterarEstadoInsectocacadoresActionPerformed
+
+    private void jButtonVerInativasEquipamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVerInativasEquipamentosActionPerformed
+        //botao ver inativas equipamento
+     
+        String nomeBotao = jButtonVerInativasEquipamentos.getText();
+
+        if (nomeBotao.equals("Ver Inativas")) {
+            jButtonVerInativasEquipamentos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/ativos.png")));
+            jButtonVerInativasEquipamentos.setText("Ver Ativas");
+            jLabelConsultarEquipamentos.setText("Consulta Equipamentos - Inativos");
+            estadoEquipamento = false;
+            LimpaTabelaConsultaEquipamentos();
+            ConsultaEquipamentos();
+
+        } else if (nomeBotao.equals("Ver Ativas")) {
+            jButtonVerInativasEquipamentos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/inativos.png")));
+            jButtonVerInativasEquipamentos.setText("Ver Inativas");
+            jLabelConsultarEquipamentos.setText("Consulta Equipamentos - Ativos");
+            estadoEquipamento = true;
+            LimpaTabelaConsultaEquipamentos();
+            ConsultaEquipamentos();
+
+        }
+
+    }//GEN-LAST:event_jButtonVerInativasEquipamentosActionPerformed
+
+    private void jButtonAlterarEstadoEquipamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarEstadoEquipamentoActionPerformed
+        //ALTERAR ESTADO EQUIPAMENTO
+         int linha = jTableConsultaEquipamentos.getSelectedRow();
+
+        
+        if (linha == -1){
+            JOptionPane.showMessageDialog(jDialogConsultaEquipamentos, "Seleccione a Linha de um Equipamento !");
+        } else {
+            //ver qual o controlo de resultados seleccionado
+            String nomeEquipa = (String) jTableConsultaEquipamentos.getValueAt(linha, 0);
+                        
+            //ID FORNECEDOR
+            idEquipamentoPesquisar = selectId("EQUIPAMENTO", "NOME", nomeEquipa, "IDEQUIPAMENTO");
+            System.out.println("ID Equuipamento -> " + idEquipamentoPesquisar);
+            
+            
+            String nomeBotao = jButtonVerInativasEquipamentos.getText();
+        
+            if (nomeBotao.equals("Ver Inativas")){
+                //colocar fornecedor Inactivo
+                estadoEquipamento = false;
+                AtualizaEstadoEquipametos();
+                LimpaTabelaConsultaEquipamentos();
+                ConsultaEquipamentos();
+                JOptionPane.showMessageDialog(jDialogConsultaEquipamentos, "Equipamento Ficou Inativo !");     
+                jButtonVerInativasEquipamentos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/ativos.png")));
+                jButtonVerInativasEquipamentos.setText("Ver Ativas");
+                jLabelConsultarEquipamentos.setText("Consulta Equipamentos - Inativos");
+                
+                
+                
+            }else if (nomeBotao.equals("Ver Ativas")){
+                //colcoar fornecedor Ativo
+                estadoEquipamento = true;
+                AtualizaEstadoEquipametos();
+                LimpaTabelaConsultaEquipamentos();
+                ConsultaEquipamentos();
+                JOptionPane.showMessageDialog(jDialogConsultaEquipamentos, "Equipamento Ficou Ativo !");
+                jButtonVerInativasEquipamentos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/inativos.png")));
+                jButtonVerInativasEquipamentos.setText("Ver Inativas");
+                jLabelConsultarEquipamentos.setText("Consulta Controlo de Pragas - Ativos");
+                
+            }               
+        }
+        
+        
+    }//GEN-LAST:event_jButtonAlterarEstadoEquipamentoActionPerformed
 
 /*  ******************************    FUNCÇOES ************************************************************************************   */
     
@@ -5056,10 +5688,7 @@ public class Login extends javax.swing.JFrame {
         
         
     }
-    
-    
-    
-    
+        
     
       /*   LER       */
      private void LerBDFuncionario(JComboBox nomeComboBox){
@@ -5339,6 +5968,13 @@ public class Login extends javax.swing.JFrame {
         //CARREGAR DADOS
         Set<String> opcao = new HashSet<String>();
         
+        //CAMPOS KE TÊM DE SER NC
+        String temperatura = "NC";
+        String dataValidade = "NC";
+        String caratorgonolepticas = "NC";
+        String embalagem = "NC";
+        
+        
         try{   
             Class.forName("org.apache.derby.jdbc.ClientDriver");
         
@@ -5352,16 +5988,15 @@ public class Login extends javax.swing.JFrame {
             con = DriverManager.getConnection(url);
             //            stmt = con.createStatement();
             String nomeTabela = "ENTRADA";
-            String sql = "select * from " +nomeTabela; 
+            String sql = "select * from " +nomeTabela + " WHERE TEMPERATURA='"+temperatura+"' or DATAVALIDADE='"+dataValidade+"' or CARATORGONOLEPTICAS='"+caratorgonolepticas+"' or EMBALAGEM='"+embalagem+"'" ; 
+          
+            
             PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             
             while(rs.next()){
                 loteEntradaSeleccionada = rs.getString("LOTEORIGEM");
                 opcao.add(loteEntradaSeleccionada);
-               
-                
-                //System.out.println(" " + idEntradaSeleccionada);
                 System.out.println(" " + loteEntradaSeleccionada);
             }
             st.close();
@@ -5440,7 +6075,7 @@ public class Login extends javax.swing.JFrame {
         try {
             con = DriverManager.getConnection(url);
             String nomeTabela = "FORNECEDOR";
-            String sql = "SELECT * FROM " + nomeTabela;
+            String sql = "SELECT * FROM " + nomeTabela + " WHERE ESTADO=true";
             PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
 
@@ -5561,8 +6196,8 @@ public class Login extends javax.swing.JFrame {
 
                         idEntradaSeleccionada = rs.getInt("IDENTRADA");
                         quantidadeEntradaTotalSelecionada = rs.getFloat("QUANTIDADE");
-                        //quantidadeADevolverSelecionada = rs.getFloat("ADEVOLVER");
-                        quantidadeADevolverSelecionada = rs.getFloat("QUANTIDADETOTALADEVOLVER");
+                        quantidadeADevolverSelecionada = rs.getFloat("ADEVOLVER");
+                        //quantidadeADevolverSelecionada = rs.getFloat("QUANTIDADETOTALADEVOLVER");
                     }
 
                     st.close();
@@ -5676,6 +6311,53 @@ public class Login extends javax.swing.JFrame {
         }
     }
     
+    private void verNaoConformidadeDeUmaEntrada(String loteSeleccionado){
+        //VARIAVEIS
+        String dataValidade = "";
+        String temperatura = "";
+        String caratOrgonolepticas = "";
+        String embalagem = "";
+       
+        
+        //LIGACAO
+        try {
+                Class.forName("org.apache.derby.jdbc.ClientDriver");
+            } catch (ClassNotFoundException e) {
+                System.err.print("ClassNotFoundException: ");
+                System.err.println(e.getMessage());
+                System.out.println("O driver expecificado nao foi encontrado.");
+            }
+
+            try {
+
+                con = DriverManager.getConnection(url);
+                String nomeTabela = "ENTRADA";
+                String sql = "SELECT * FROM " + nomeTabela + " WHERE LOTEORIGEM='"+loteSeleccionado+"'" ;
+                PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+                ResultSet rs = st.executeQuery();
+
+                while (rs.next()) {
+                    dataValidade = rs.getString("DATAVALIDADE");
+                    temperatura =  rs.getString("TEMPERATURA");
+                    caratOrgonolepticas = rs.getString("CARATORGONOLEPTICAS");
+                    embalagem = rs.getString("EMBALAGEM");  
+                }
+
+                st.close();
+                con.close();
+            } catch (SQLException ex) {
+                System.err.println("SQLException: " + ex.getMessage());
+            }
+    
+            
+            //MOSTRAR MENSAGEM COM AS NAO CONFORMIDADES
+            JOptionPane.showMessageDialog(this, "Não Conformidades Registadas na Entrada\n\n"
+                                                +"Data de Validade  :   " + dataValidade +"\n\n"
+                                                +"Temperatura       :   " + temperatura + "\n\n"
+                                                +"Caract. Orgonolep.:   " + caratOrgonolepticas+"\n\n"
+                                                +"Embal./Transporp. :   " + embalagem);
+    }
+    
     
    /*  INSERIR INSECTOCAÇADOR*/
     
@@ -5684,6 +6366,8 @@ public class Login extends javax.swing.JFrame {
         String nome = jTextFieldNomeInsecto.getText();
         String local = jTextFieldLocalInsecto.getText();
 
+        boolean existeInsectocacador = false;
+        
         if (referencia.equals("")) {
             JOptionPane.showMessageDialog(jDialogNovoInsectocacador, "Insira a REFERENCIA do Insecto.!");
         } else if (nome.equals("")) {
@@ -5692,28 +6376,66 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(jDialogNovoInsectocacador, "Insira o LOCAL do Insecto.!");
         } else {
 
+            
+            //VERIFICAR SE O NOME DO CONTROLO DE PRAGAS JA EXISTE 
+            
+            //VERIFICAR SE NOME JA EXISTE
             try {
                 Class.forName("org.apache.derby.jdbc.ClientDriver");
-            } catch (ClassNotFoundException e) { //driver não encontrado
+            } catch (ClassNotFoundException e) {
                 System.err.print("ClassNotFoundException: ");
                 System.err.println(e.getMessage());
                 System.out.println("O driver expecificado nao foi encontrado.");
             }
             try {
+
                 con = DriverManager.getConnection(url);
                 String nomeTabela = "INSECTOCACADORES";
-                sql = "INSERT INTO " + nomeTabela + " (REFERENCIA,NOME,LOCAL)" + " VALUES(" + "'" + referencia + "'" + "," + "'" + nome + "'" + "," + "'" + local + "'" + ")";
-
+                String sql = "SELECT * FROM " + nomeTabela + " WHERE REFERENCIA='"+referencia+"'";
                 PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
-                st.executeUpdate();
+                ResultSet rs = st.executeQuery();
+                while(rs.next()){               
+                   existeInsectocacador = true;
+                }
                 st.close();
                 con.close();
-                
-                jDialogNovoInsectocacador.setVisible(false);
-                JOptionPane.showMessageDialog(jDialogConsultaInsectocacadores, "DADOS INSERIDOS COM SUCESSO !");
-                
+
             } catch (SQLException ex) {
-                System.err.println("SQLException: " + ex.getMessage());
+
+                existeInsectocacador = false;
+                System.out.println("ERROR : " + ex);
+            }
+
+
+            System.out.println("EXISTE CONTROLO DE PRAGAS? -> " + existeInsectocacador);
+
+            if (existeInsectocacador == true) {
+                JOptionPane.showMessageDialog(jDialogConsultaInsectocacadores, "Controlador de Pragas já Existe !");
+            } else {
+                //INSERIRR NA BASE DE DADOS 
+                try {
+                    Class.forName("org.apache.derby.jdbc.ClientDriver");
+                } catch (ClassNotFoundException e) { //driver não encontrado
+                    System.err.print("ClassNotFoundException: ");
+                    System.err.println(e.getMessage());
+                    System.out.println("O driver expecificado nao foi encontrado.");
+                }
+                try {
+                    con = DriverManager.getConnection(url);
+                    String nomeTabela = "INSECTOCACADORES";
+                    sql = "INSERT INTO " + nomeTabela + " (REFERENCIA,NOME,LOCAL)" + " VALUES(" + "'" + referencia + "'" + "," + "'" + nome + "'" + "," + "'" + local + "'" + ")";
+
+                    PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+                    st.executeUpdate();
+                    st.close();
+                    con.close();
+
+                    jDialogNovoInsectocacador.setVisible(false);
+                    JOptionPane.showMessageDialog(jDialogConsultaInsectocacadores, "DADOS INSERIDOS COM SUCESSO !");
+
+                } catch (SQLException ex) {
+                    System.err.println("SQLException: " + ex.getMessage());
+                }
             }
         }
         System.out.println("\n*** INSERIR NOVO INSECTOCAÇADOR -> NOVO");
@@ -5796,31 +6518,67 @@ public class Login extends javax.swing.JFrame {
         String nomeEquipamento = jTextFieldNomeEquipamento.getText();
         String observacaoEquipamento = jTextAreaObservacaoNovoEquipamento.getText();
 
+        boolean existeEquipamento = false;
 
+        // VERIFICAR SE NOME JA EXISTE
         try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
-        } catch (ClassNotFoundException e) { //driver não encontrado
+        } catch (ClassNotFoundException e) {
             System.err.print("ClassNotFoundException: ");
             System.err.println(e.getMessage());
             System.out.println("O driver expecificado nao foi encontrado.");
         }
         try {
+
             con = DriverManager.getConnection(url);
             String nomeTabela = "EQUIPAMENTO";
-            sql = "INSERT INTO " + nomeTabela + "(NOME,DESCRICAO)" + " values(" + "'" + nomeEquipamento + "'" + "," + "'" + observacaoEquipamento + "'" + ")";
-            
-            
-            JOptionPane.showMessageDialog(jDialogNovoEquipamento, "Equipamento Gravado Com Sucesso !");
-            
+            String sql = "SELECT * FROM " + nomeTabela + " WHERE NOME='" + nomeEquipamento + "'";
             PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
-            st.executeUpdate();
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                System.out.println("\n\nNOME DO EQUIPAMENTO-> JA EXISTE");
+                existeEquipamento = true;
+            }
+
             st.close();
             con.close();
-        } catch (SQLException ex) {
-            System.err.println("SQLException: " + ex.getMessage());
-        }
 
+        } catch (SQLException ex) {
+            existeEquipamento = false;
+            System.out.println("ERROR : " + ex);
+
+        }//FECHA CATCH
+        
+        
+        //VER QUAL A ACÇÃO QUE VAI SER REALIZADA
+        if (existeEquipamento == true) {
+            JOptionPane.showMessageDialog(jDialogNovoEquipamento, "EQUIPAMENTO JA EXISTE !");
+        } else {
+
+            try {
+                Class.forName("org.apache.derby.jdbc.ClientDriver");
+            } catch (ClassNotFoundException e) { //driver não encontrado
+                System.err.print("ClassNotFoundException: ");
+                System.err.println(e.getMessage());
+                System.out.println("O driver expecificado nao foi encontrado.");
+            }
+            try {
+                con = DriverManager.getConnection(url);
+                String nomeTabela = "EQUIPAMENTO";
+                sql = "INSERT INTO " + nomeTabela + "(NOME,DESCRICAO)" + " values(" + "'" + nomeEquipamento + "'" + "," + "'" + observacaoEquipamento + "'" + ")";
+
+                JOptionPane.showMessageDialog(jDialogNovoEquipamento, "Equipamento Gravado Com Sucesso !");
+
+                PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+                st.executeUpdate();
+                st.close();
+                con.close();
+            } catch (SQLException ex2) {
+                System.err.println("SQLException: " + ex2.getMessage());
+            }
+        }
         System.out.println("\n*** INSERIR NOVO EQUIPAMENTO");
+        System.out.println("ESTADO -> " + existeEquipamento);
         System.out.println("NOME: " + nomeEquipamento);
         System.out.println("OBSERVAÇÃO: " + observacaoEquipamento);
 
@@ -6191,31 +6949,67 @@ public class Login extends javax.swing.JFrame {
         String nomeMateria = jTextFieldNomeMateriaPrima.getText();
         String descricaoMateria = jTextAreaDescricaoMateriaPrima.getText();
         String unidadeMateria = jTextFieldUnidadeMateriaPrima.getText();
-
+        
+        boolean existeMateriaPrima = false;
+        
+        //VERIFICAR SE NOME JA EXISTE
         try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
-        } catch (ClassNotFoundException e) { //driver não encontrado
+        } catch (ClassNotFoundException e) {
             System.err.print("ClassNotFoundException: ");
             System.err.println(e.getMessage());
             System.out.println("O driver expecificado nao foi encontrado.");
         }
         try {
+
             con = DriverManager.getConnection(url);
             String nomeTabela = "MATERIA_PRIMA";
-            sql = "INSERT INTO " + nomeTabela + "(NOME,DESCRISAO,UNIDADE)" + " values(" + "'" + nomeMateria + "'" + "," + "'" + descricaoMateria + "'" + "," + "'" + unidadeMateria + "'" + ")";
-
-
-            JOptionPane.showMessageDialog(jDialogNovaMateriaPrima, "Nova Materia Adiccionada Com Sucesso !");
-
+            String sql = "SELECT * FROM " + nomeTabela + " WHERE NOME='"+nomeMateria+"'";
             PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
-            st.executeUpdate();
+            ResultSet rs = st.executeQuery();
+            while(rs.next()){               
+               existeMateriaPrima = true;
+            }
             st.close();
             con.close();
+
         } catch (SQLException ex) {
-            System.err.println("SQLException: " + ex.getMessage());
+            
+            existeMateriaPrima = false;
+            System.out.println("ERROR : " + ex);
         }
 
-        System.out.println("\n*** INSERIR NOVA MATERIA PRIMA");
+        
+        System.out.println("EXISTE MATERIA-PRIMA -> " +existeMateriaPrima);
+        
+        if(existeMateriaPrima == true){
+             JOptionPane.showMessageDialog(jDialogNovaMateriaPrima, "Matéria-Prima ja Existe ! !");
+        } else if (existeMateriaPrima == false){
+
+            try {
+                Class.forName("org.apache.derby.jdbc.ClientDriver");
+            } catch (ClassNotFoundException e) { //driver não encontrado
+                System.err.print("ClassNotFoundException: ");
+                System.err.println(e.getMessage());
+                System.out.println("O driver expecificado nao foi encontrado.");
+            }
+            try {
+                con = DriverManager.getConnection(url);
+                String nomeTabela = "MATERIA_PRIMA";
+                sql = "INSERT INTO " + nomeTabela + "(NOME,DESCRISAO,UNIDADE)" + " values(" + "'" + nomeMateria + "'" + "," + "'" + descricaoMateria + "'" + "," + "'" + unidadeMateria + "'" + ")";
+
+                JOptionPane.showMessageDialog(jDialogNovaMateriaPrima, "Nova Materia Gravada Com Sucesso !");
+
+                PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+                st.executeUpdate();
+                st.close();
+                con.close();
+            } catch (SQLException ex2) {
+                System.err.println("SQLException: " + ex2.getMessage());
+            }
+
+        }
+        System.out.println("\n*** INSERIR NOVA MATERIA PRIMA");        
         System.out.println("NOME: " + nomeMateria);
         System.out.println("OBSERVAÇÃO: " + descricaoMateria);
         System.out.println("UNIDADE: " + unidadeMateria);
@@ -6231,72 +7025,104 @@ public class Login extends javax.swing.JFrame {
         String contacto = jTextFieldContactoFornecedor.getText();
         String email = jTextFieldEmailFornecedor.getText();
         String nif = jTextFieldNIFFornecedor.getText();
-        String tipoProduto = jTextFieldTipoProdutoFornecedor.getText();
-
+        String tipoProduto = jTextFieldTipoProdutoFornecedor.getText();     
         
+        boolean existeFornecedor =  false;
         
-        //VALIDAR NIF
-         if(!validarNif(nif)){
-            System.out.println("Invalido");
-            JOptionPane.showMessageDialog(jDialogNovaMateriaPrima, "NIF INVALIDO!");          
-         } else{
-                
-                System.out.println("Valido");
-           
-
-
-        //validarEmail(email);
-                
-        //VERIFICAR O ESTADO DO FORNECEDOR
-        String estadoFornecedor = jComboBoxEstadoFornecedor.getSelectedItem().toString();
-        int estado = 0;
-        
-        if (estadoFornecedor.equals("Ativo")){
-            estado = 1;
-        }else{
-        estado = 0;
-        }
-
+        //VERIFICAR SE NOME JA EXISTE
         try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
-        } catch (ClassNotFoundException e) { //driver não encontrado
+        } catch (ClassNotFoundException e) {
             System.err.print("ClassNotFoundException: ");
             System.err.println(e.getMessage());
             System.out.println("O driver expecificado nao foi encontrado.");
         }
-
         try {
+
             con = DriverManager.getConnection(url);
             String nomeTabela = "FORNECEDOR";
-            sql = "INSERT INTO " + nomeTabela + "(NOME, MORADA, COD_POSTAL, LOCALIDADE, CONTATO, EMAIL, NIF, TIPOPRODUTO, ESTADO)"
-                    + " values(" + "'" + nome + "','" + morada + "','" + codPostal + "','" + localidade + "'," + contacto + ",'" + email + "'," + nif + ",'" + tipoProduto + "'" + estado + ")";
-
-
-            JOptionPane.showMessageDialog(jDialogNovaMateriaPrima, "Nova Fornecedor Adicionado com Sucesso !");
-
+            String sql = "SELECT * FROM " + nomeTabela + " WHERE NOME='" + nome + "' OR NIF=" + nif;
             PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
-            st.executeUpdate();
+            ResultSet rs = st.executeQuery();
+            while(rs.next()){
+                existeFornecedor = true;
+                
+            }
             st.close();
             con.close();
+
         } catch (SQLException ex) {
-            System.err.println("SQLException: " + ex.getMessage());
-        }
+            existeFornecedor = false;
+            System.out.println("\n\nNOME DO FORNECEDOR -> NAO EXISTE");
 
-        jDialogNovoFornecedor.setVisible(false);
-        LimpaNovoFornecedor();
+        }//FEECHAR CATCH
+
         
-        System.out.println("\n*** INSERIR NOVO FORNECEDOR");
-        System.out.println("NOME: " + nome);
-        System.out.println("MORADA: " + morada);
-        System.out.println("CODPOSTAL: " + codPostal);
-        System.out.println("LOCALIDADE: " + localidade);
-        System.out.println("CONTACTO: " + contacto);
-        System.out.println("EMAIL: " + email);
-        System.out.println("NIF: " + nif);
-        System.out.println("TIPOPRODUTO: " + tipoProduto);
-        System.out.println("ESTADO: " + estado);
+        System.out.println("EXISTE FORNECEDOR -> " + existeFornecedor);
+        
+        
+        if (existeFornecedor == true) {
+            JOptionPane.showMessageDialog(jDialogNovaMateriaPrima, "Fornecedor já Existe!");
+        } else {
 
-    }
+            //VALIDAR NIF
+            if (!validarNif(nif)) {
+                System.out.println("Invalido");
+                JOptionPane.showMessageDialog(jDialogNovaMateriaPrima, "NIF INVALIDO!");
+            } else {
+
+                System.out.println("Valido");
+
+                //VERIFICAR O ESTADO DO FORNECEDOR
+                String estadoFornecedor = jComboBoxEstadoFornecedor.getSelectedItem().toString();
+                boolean estado;
+
+                if (estadoFornecedor.equals("Ativo")) {
+                    estado = true;
+                } else {
+                    estado = false;
+                }
+
+                try {
+                    Class.forName("org.apache.derby.jdbc.ClientDriver");
+                } catch (ClassNotFoundException e) { //driver não encontrado
+                    System.err.print("ClassNotFoundException: ");
+                    System.err.println(e.getMessage());
+                    System.out.println("O driver expecificado nao foi encontrado.");
+                }
+
+                try {
+                    con = DriverManager.getConnection(url);
+                    String nomeTabela = "FORNECEDOR";
+                    sql = "INSERT INTO " + nomeTabela + "(NOME, MORADA, COD_POSTAL, LOCALIDADE, CONTATO, EMAIL, NIF, TIPOPRODUTO, ESTADO)"
+                            + " values(" + "'" + nome + "','" + morada + "','" + codPostal + "','" + localidade + "'," + contacto + ",'" + email + "'," + nif + ",'" + tipoProduto + "'," + estado + ")";
+
+                    JOptionPane.showMessageDialog(jDialogNovaMateriaPrima, "Nova Fornecedor Adicionado com Sucesso !");
+
+                    PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+                    st.executeUpdate();
+                    st.close();
+                    con.close();
+                } catch (SQLException ex2) {
+                    System.err.println("SQLException: " + ex2.getMessage());
+                }
+
+                jDialogNovoFornecedor.setVisible(false);
+                LimpaNovoFornecedor();
+
+                System.out.println("\n*** INSERIR NOVO FORNECEDOR");
+                System.out.println("NOME: " + nome);
+                System.out.println("MORADA: " + morada);
+                System.out.println("CODPOSTAL: " + codPostal);
+                System.out.println("LOCALIDADE: " + localidade);
+                System.out.println("CONTACTO: " + contacto);
+                System.out.println("EMAIL: " + email);
+                System.out.println("NIF: " + nif);
+                System.out.println("TIPOPRODUTO: " + tipoProduto);
+                System.out.println("ESTADO: " + estado);
+
+            }
+        }//fecha if
     }
 
     private void InserirNovaEntrada() {
@@ -6620,7 +7446,7 @@ public class Login extends javax.swing.JFrame {
             //QUANTIDADE MAIOR
             if (quantidadeDevolvidadaAteAgora_FINAL > quantidadeADevolverSelecionada) {
 
-                JOptionPane.showMessageDialog(jDialogDevolucoes, "Quantidade a devolvel nao pode ser tanta\nFALTA Devolver Apenas : " + (quantidadeADevolverSelecionada - quantidadeDevolvidadaAteAgora_TOTAL));
+                JOptionPane.showMessageDialog(jDialogDevolucoes, "Quantidade a devolvel nao pode ser tanta\n\nFALTA Devolver Apenas : " + (quantidadeADevolverSelecionada - quantidadeDevolvidadaAteAgora_TOTAL));
 
             } else if (quantidadeDevolvidadaAteAgora_FINAL == quantidadeADevolverSelecionada) {
                 //QANTIDADE A DEVELVER = A DEVOLVIDA
@@ -6640,7 +7466,7 @@ public class Login extends javax.swing.JFrame {
                     sql = "INSERT INTO " + nomeTabela + "(IDFUNCIONARIO, IDFORNECEDOR, IDENTRADA, IDMATERIAPRIMA, DATADEVOLUCAO, QUANTIDADEDEVOLVIDA, OBSERVACAO)"
                             + " values(" + idFuncionarioRresponsavel + "," + idFornecedorDevolucao + "," + idEntradaSeleccionada + "," + idMateriaPrimaDevolucao + ",'" + dataDevolucao + "'," + quantidadeQueEstamosAdevolver + ",'" + observacao + "'" + ")";
 
-                    System.out.println("\n\n** DADOS DA NOVA ENTRADA INSERIDOS COM SUCESSO !");
+                    System.out.println("\n\n** DADOS DA NOVA DEVOLUÇÃO INSERIDOS COM SUCESSO !");
 
                     PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
                     st.executeUpdate();
@@ -6694,6 +7520,7 @@ public class Login extends javax.swing.JFrame {
                         //ACTUALIZAR A TABELA ENTRADAS VALOR ADEVOLVER
                         //FAZER A CONTA PARA ACTUALIZAR
                         quantidadeActualizar = quantidadeADevolverSelecionada - quantidadeQueEstamosAdevolver;
+                        System.out.println("\n\n\nQuantidadeAtualiza = quantidadeADevolver("+quantidadeADevolverSelecionada+") - quantidadeQueEstamosAdevolver("+quantidadeQueEstamosAdevolver+")");
                         
                         String nomeTabela2 = "ENTRADA";
                         String sql2 = "UPDATE " + nomeTabela2 + " SET ADEVOLVER="+ quantidadeActualizar +" WHERE IDENTRADA=" + idEntradaSeleccionada;
@@ -6738,8 +7565,7 @@ public class Login extends javax.swing.JFrame {
     
     
     
-    
-    /*  CONSULTAS INSECTOCAÇADOR  */
+        /*  CONSULTAS INSECTOCAÇADOR  */
     
     private void ConsultaInsectocacadores(){
         String referencia = "";
@@ -6763,7 +7589,7 @@ public class Login extends javax.swing.JFrame {
                      
             con = DriverManager.getConnection(url);
             String nomeTabela = "INSECTOCACADORES";
-            String sql = "SELECT * FROM "+nomeTabela;
+            String sql = "SELECT * FROM "+nomeTabela + " WHERE ESTADO="+estadoInsectocacadores;
             PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
            
@@ -6779,10 +7605,7 @@ public class Login extends javax.swing.JFrame {
             con.close();
         }catch (SQLException ex){
             System.err.println("SQLException: " + ex.getMessage());
-        }
-        
-        
-        
+        }    
         
     }
     
@@ -6917,6 +7740,34 @@ public class Login extends javax.swing.JFrame {
         
     }
     
+    private void AtualizarEstadoInsectocacador(){
+    
+        try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+        } catch (ClassNotFoundException e) { //driver não encontrado
+            System.err.print("ClassNotFoundException: ");
+            System.err.println(e.getMessage());
+            System.out.println("O driver expecificado nao foi encontrado.");
+        }
+
+        try {
+            con = DriverManager.getConnection(url);
+            String nomeTabela = "INSECTOCACADORES";
+           
+            String sql = "UPDATE " + nomeTabela + " SET ESTADO='" + estadoInsectocacadores  +"' WHERE IDINSECTOCACADORES=" + idInsectocacadorPesquisar;
+
+            System.out.println("ESTADO MATERIA-PRIMA ALTERADO COM SUCESSO : " + estadoInsectocacadores);
+            System.out.println("id materiaa -> " + idInsectocacadorPesquisar);
+            
+            PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+            st.executeUpdate();            
+            st.close();
+            con.close();
+        } catch (SQLException ex) {
+            System.err.println("SQLException: " + ex.getMessage());
+        }
+    }
+    
        
     
     
@@ -6939,7 +7790,7 @@ public class Login extends javax.swing.JFrame {
                      
             con = DriverManager.getConnection(url);
             String nomeTabela = "EQUIPAMENTO";
-            String sql = "SELECT * FROM "+nomeTabela;
+            String sql = "SELECT * FROM "+nomeTabela+ " WHERE ESTADO = '" + estadoEquipamento+"'";
             PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
            
@@ -7039,6 +7890,34 @@ public class Login extends javax.swing.JFrame {
         }
     }
     
+    private void AtualizaEstadoEquipametos(){
+     try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+        } catch (ClassNotFoundException e) { //driver não encontrado
+            System.err.print("ClassNotFoundException: ");
+            System.err.println(e.getMessage());
+            System.out.println("O driver expecificado nao foi encontrado.");
+        }
+
+        try {
+            con = DriverManager.getConnection(url);
+            String nomeTabela = "EQUIPAMENTO";
+           
+            String sql = "UPDATE " + nomeTabela + " SET ESTADO='" + estadoEquipamento  +"' WHERE IDEQUIPAMENTO=" + idEquipamentoPesquisar;
+
+            System.out.println("ESTADO MATERIA-PRIMA ALTERADO COM SUCESSO : " + estadoEquipamento);
+            System.out.println("id materiaa -> " + idEquipamentoPesquisar);
+            
+            PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+            st.executeUpdate();            
+            st.close();
+            con.close();
+        } catch (SQLException ex) {
+            System.err.println("SQLException: " + ex.getMessage());
+        }
+    
+    }
+    
     
      /* CONSULTAS CONTROLO DE RESULTADOS */    
     
@@ -7072,7 +7951,7 @@ public class Login extends javax.swing.JFrame {
         
         if (comboPesquisa.equals("ENTRADA")){
              nomeTabela = "ENTRADA";
-            nomeColuna = "LOTEORIGEM";
+             nomeColuna = "LOTEORIGEM";
         }else if (comboPesquisa.equals("EQUIPAMENTO")){
             nomeTabela = "EQUIPAMENTO";
             nomeColuna = "NOME";    
@@ -7083,7 +7962,8 @@ public class Login extends javax.swing.JFrame {
             nomeTabela = "CONTROLORESULTADOS";
             nomeColuna = "OUTROS";            
         }
-        //LIGAÇÃO PARA NOS DAR OS ID'S DO QUE ESTAMOS A SELECIONAR
+        
+        //LIGAÇÃO PARA NOS DAR OS ID DO QUE ESTAMOS A SELECIONAR
          try{
             Class.forName("org.apache.derby.jdbc.ClientDriver");  
         }catch(ClassNotFoundException e){
@@ -7223,8 +8103,24 @@ public class Login extends javax.swing.JFrame {
 
             } else {
                 //PERGUNTAR SE QUER ADICIONAR UM NOVO CONTROLO
+                int resultNovaNaoConformide = JOptionPane.showConfirmDialog(jDialogNaoConformidades, "Deseja Adicionar uma Não Conformide ?", null, JOptionPane.YES_NO_OPTION);
+
+                if (resultNovaNaoConformide == JOptionPane.YES_OPTION) {
+                    
+                    /*passar o IDCONTROLORESULTADO  e IDFUNCIONARIO pra a nova Não Conformidade
+                     *que sao as variaveis globais
+                     * idControloResultadosID
+                     * idFuncionarioNaoConformidade*/
+
+                    jDialogNaoConformidades.setLocationRelativeTo(this);
+                    jDialogNaoConformidades.setVisible(true);
+                    
+                    //ler funcionarios para a combo box funcionario responsavel
+                    LerBDFuncionario(jComboBoxNaoConformidadeFuncionarioResponsav);
+                }
                 
-                //passar o IDCONTROLORESULTADO  e IDFUNCIONARIO
+                
+                
                 
 
                 
@@ -7236,7 +8132,7 @@ public class Login extends javax.swing.JFrame {
             jDialogConsultaNaoConformidades.setVisible(true);
         }
         
-        jDialogNaoConformidades.setVisible(false);
+       // jDialogNaoConformidades.setVisible(false);
    
         
          
@@ -7545,6 +8441,8 @@ public class Login extends javax.swing.JFrame {
         String observacao = "";
         int devolucaoNum = 0;
         
+        int numeroLinha = 0;
+        
        model = (DefaultTableModel) jTableConsultaDevolucoes.getModel();
 
         try {
@@ -7590,11 +8488,12 @@ public class Login extends javax.swing.JFrame {
                     ResultSet rs2 = st2.executeQuery();
                     while (rs2.next()){
                         loteOriginal = rs2.getString("LOTEORIGEM");
+                        numeroLinha++;
                     }
                     st2.close();
                     con2.close();
                                  
-                model.addRow(new Object[]{nomeFornecedor, nomeMatPrima,loteOriginal, devolucaoNum, dataDevolucao, quantiDevolvida});
+                model.addRow(new Object[]{numeroLinha,nomeFornecedor, nomeMatPrima,loteOriginal, devolucaoNum, dataDevolucao, quantiDevolvida});
             }
 
             st.close();
@@ -7673,7 +8572,7 @@ public class Login extends javax.swing.JFrame {
                     st2.close();
                     con2.close();            
                 
-                JOptionPane.showMessageDialog(jDialogConsultaDevolucoes, "INFORMAÇÃO!\n "
+                JOptionPane.showMessageDialog(jDialogConsultaDevolucoes, "INFORMAÇÃO!\n\n "
                                                                        + "NOME FUNCIONARIO : " + nomeFuncionario+"\n\n"
                                                                        + "NOME FORNECEDOR : " + nomeFornecedor+"\n\n"
                                                                        + "LOTE : " + loteOriginal + "\n\n"
@@ -7890,6 +8789,44 @@ public class Login extends javax.swing.JFrame {
     
     }
     
+    private void ConsultaDadosMateriaPrimaAlterar(){
+        String nomeMp = "";
+        String descricao = "";
+        String unidade = "";
+                   
+        try{
+            Class.forName("org.apache.derby.jdbc.ClientDriver");  
+        }catch(ClassNotFoundException e){
+           System.err.print("ClassNotFoundException: ");
+           System.err.println(e.getMessage());
+           System.out.println("O driver expecificado nao foi encontrado."); 
+        }    
+        
+        try{
+                     
+            con = DriverManager.getConnection(url);
+            String nomeTabela = "MATERIA_PRIMA";
+            String sql = "SELECT * FROM "+nomeTabela + " WHERE IDMATERIAPRIMA="+idMateriaPrimaPesquisar;
+            PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+           
+            while(rs.next()){
+                nomeMp =  rs.getString("NOME");
+                descricao =  rs.getString("DESCRICAO");
+                unidade = rs.getString("UNIDADE");
+                
+                jTextFieldNomeMateriaPrima.setText(nomeMp);
+                jTextAreaDescricaoMateriaPrima.setText(descricao);
+                jTextFieldUnidadeMateriaPrima.setText(unidade);
+            }
+            
+            st.close();
+            con.close();
+        }catch (SQLException ex){
+            System.err.println("SQLException: " + ex.getMessage());
+        }
+    }
+    
     
     
     /*  CONSULTA ENTRADAS   -  eidtar entrada*/
@@ -7943,6 +8880,50 @@ public class Login extends javax.swing.JFrame {
         }
     }
     
+    private void ConsultaMateriasPrimas(){
+    
+        String nome = "";
+        String descricao = "";
+        String unidade = "";
+        int NumerLinha = 0;
+        
+        LimpaTabelaMateriaPrimas();
+        
+        model = (DefaultTableModel) jTableConsultaMateriasPrimas.getModel();
+        
+        try{
+            Class.forName("org.apache.derby.jdbc.ClientDriver");  
+        }catch(ClassNotFoundException e){
+           System.err.print("ClassNotFoundException: ");
+           System.err.println(e.getMessage());
+           System.out.println("O driver expecificado nao foi encontrado."); 
+        }   
+        
+        
+        try{
+                     
+            con = DriverManager.getConnection(url);
+            String nomeTabela = "MATERIA_PRIMA";
+            String sql = "SELECT * FROM "+nomeTabela + " WHERE ESTADO=" + estadoMateriaPrima;
+            PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+           
+            while(rs.next()){
+                nome =  rs.getString("NOME");
+                descricao =  rs.getString("DESCRISAO");
+                unidade =  rs.getString("UNIDADE");
+                NumerLinha++;
+                
+                model.addRow(new Object[]{NumerLinha, nome, descricao, unidade });
+            }
+            
+            st.close();
+            con.close();
+        }catch (SQLException ex){
+            System.err.println("SQLException: " + ex.getMessage());
+        }
+    
+    }
     
    
     /*  PESQUISAR INSECTOCAÇADOR   */
@@ -7951,8 +8932,19 @@ public class Login extends javax.swing.JFrame {
         String referencia = "";
         String nome = "";
         String local = "";
-        
+        boolean estado = false ;
         String pesquisa = jTextFieldPesquisaInsectocacador.getText();
+        
+        //verificar o estado de pesquisa
+        String textoBotao = jButtonVerInsectocacadoresInativos.getText();
+        
+        if(textoBotao.equals("Ver Inativas"))
+            estado = true;
+        else
+            estado = false;
+            
+        System.out.println("estado : " + estado);
+        
         
         model = (DefaultTableModel) jTableConsultaInsecto.getModel();
         
@@ -7968,7 +8960,7 @@ public class Login extends javax.swing.JFrame {
         try{
             con = DriverManager.getConnection(url);
             String nomeTabela = "INSECTOCACADORES";
-            sql = "select * from "+ nomeTabela+" where REFERENCIA like '"+pesquisa+ "%'" + "or NOME like '" + pesquisa+"%'" + "or LOCAL like '" +pesquisa + "%'";
+            sql = "select * from "+ nomeTabela+" where REFERENCIA like '"+pesquisa+ "%' or NOME like '" + pesquisa+"%' or LOCAL like '" +pesquisa + "%' and ESTADO="+estado;
             PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()){
@@ -8110,6 +9102,44 @@ public class Login extends javax.swing.JFrame {
 
     }
     
+    private void PesquisaMateriaPrima(){
+        String nome = "";
+        String descricao = "";
+        int contaNumero = 0;
+        String pesquisa = jTextFieldPesquisarMateriaPrima.getText();
+        
+        model = (DefaultTableModel) jTableConsultaMateriasPrimas.getModel();
+        
+          try{
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+        }catch (ClassNotFoundException e) { //driver não encontrado
+            System.err.print("ClassNotFoundException: ");
+            System.err.println(e.getMessage());
+            System.out.println("O driver expecificado nao foi encontrado."); 
+        }
+          
+          
+        try{
+            con = DriverManager.getConnection(url);
+            String nomeTabela = "MATERIA_PRIMA";
+            sql = "select * from "+ nomeTabela+" where NOME like '%"+pesquisa+ "%'";
+            PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()){                
+                nome = rs.getString("NOME");
+                descricao = rs.getString("DESCRISAO");
+                contaNumero++;
+                //guardar dados num arraylist e adicionalos a tabela
+                model.addRow(new Object[]{contaNumero, nome, descricao});
+            }
+            st.close();
+            con.close();
+        }catch (SQLException ex) {
+            System.err.println("SQLException: " + ex.getMessage());
+        }
+    
+    
+    }
     
     
     
@@ -8119,7 +9149,9 @@ public class Login extends javax.swing.JFrame {
         String referencia = jTextFieldReferenciaInsecto.getText();
         String nome = jTextFieldNomeInsecto.getText();
         String local = jTextFieldLocalInsecto.getText();
-
+        boolean atualizar = false;
+        
+        
         if (referencia.equals("")) {
             JOptionPane.showMessageDialog(jDialogNovoInsectocacador, "Insira a REFERENCIA do Insecto.!");
         } else if (nome.equals("")) {
@@ -8136,22 +9168,57 @@ public class Login extends javax.swing.JFrame {
                 System.out.println("O driver expecificado nao foi encontrado.");
             }
 
+            //VERIFICAR SE O CONTROLO DE PRAGAS JA EXISTE   
             try {
                 con = DriverManager.getConnection(url);
                 String nomeTabela = "INSECTOCACADORES";
-                String sql = "UPDATE " + nomeTabela + " SET REFERENCIA='" + referencia + "'" + "," + " NOME='" + nome + "'" + "," + " LOCAL='" + local + "' WHERE IDINSECTOCACADORES=" + idInsectocacadorControloResultado;
+                String sql = "SELECT * FROM " + nomeTabela + " WHERE REFERENCIA='" + referencia + "'";
                 PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
-                st.executeUpdate();
+                ResultSet rs = st.executeQuery();
+
+                while (rs.next()) {
+//                    String tt1 = rs.getString("REFERENCIA");
+//                    String tt2 = rs.getString("NOME");
+//                    String tt3 = rs.getString("LOCAL");
+//
+//                    System.out.println("\ntt1 - " + tt1);
+//                    System.out.println("tt2 - " + tt2);
+//                    System.out.println("tt3 - " + tt3);
+
+                    atualizar = true;
+                }
 
                 st.close();
                 con.close();
-                
-                jDialogNovoInsectocacador.setVisible(false);
-                JOptionPane.showMessageDialog(jDialogConsultaInsectocacadores, "DADOS ALTERADOS COM SUCESSO !");
-            
+
             } catch (SQLException ex) {
-                System.err.println("SQLException: " + ex.getMessage());
+                System.out.println("erro sql: " + ex);
             }
+
+            if (atualizar == true) {
+                System.out.println("INSECTOCCAÇADOR JA EXISTE !!!");
+                JOptionPane.showMessageDialog(jDialogNovoInsectocacador, "REFERENCIA do Controlo de Pragas ja existe !");
+            } else {
+                System.out.println("INSECTOCCAÇADOR NÃO EXISTE !!!");
+
+                try {
+                    con = DriverManager.getConnection(url);
+                    String nomeTabela = "INSECTOCACADORES";
+                    String sql = "UPDATE " + nomeTabela + " SET REFERENCIA='" + referencia + "'" + "," + " NOME='" + nome + "'" + "," + " LOCAL='" + local + "' WHERE IDINSECTOCACADORES=" + idInsectocacadorControloResultado;
+                    PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+                    st.executeUpdate();
+
+                    st.close();
+                    con.close();
+
+                    jDialogNovoInsectocacador.setVisible(false);
+                    JOptionPane.showMessageDialog(jDialogConsultaInsectocacadores, "DADOS ALTERADOS COM SUCESSO !");
+
+                } catch (SQLException ex) {
+                    System.err.println("SQLException: " + ex.getMessage());
+                }
+            }
+
         }
         System.out.println("\n** ACTUALIZA INTECOÇADOR SELECIONADO");
         System.out.println("REFERENCIA: " + referencia);
@@ -8325,12 +9392,126 @@ public class Login extends javax.swing.JFrame {
         
     }
     
-   
     /*  ATUALIZAR FORNECEDOR  */
     private void UpdateDadosFornecedor(){
+         
+        String nome = jTextFieldNomeFornecedor.getText();
+        String morada = jTextFieldMoradaFornecedor.getText();
+        String codPostal = jTextFieldCodPostalFornecedor.getText();
+        String localidade = jTextFieldLocalidadeFornecedor.getText();
+        String contacto = jTextFieldContactoFornecedor.getText();
+        String email = jTextFieldEmailFornecedor.getText();
+        String nif = jTextFieldNIFFornecedor.getText();
+        String tipoProduto = jTextFieldTipoProdutoFornecedor.getText();
+        String estadoFornecedor = jComboBoxEstadoFornecedor.getSelectedItem().toString();
+        boolean estado ;
+        
+        if(estadoFornecedor.equals("Ativo")){
+            estado = true;
+        }else{
+            estado = false;
+        }
+        
+        
+        
+        try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+        } catch (ClassNotFoundException e) { //driver não encontrado
+            System.err.print("ClassNotFoundException: ");
+            System.err.println(e.getMessage());
+            System.out.println("O driver expecificado nao foi encontrado.");
+        }
+
+        try {
+            con = DriverManager.getConnection(url);
+            String nomeTabela = "FORNECEDOR";
+            String sql = "UPDATE " + nomeTabela + " SET NOME='" + nome + "', MORADA='" + morada + "', COD_POSTAL='"+codPostal+"',"+
+                                                        " LOCALIDADE='"+localidade+"', CONTATO="+contacto+", EMAIL='"+ email +"',"+
+                                                        " NIF="+nif+ ", TIPOPRODUTO='"+tipoProduto+"', ESTADO='"+ estado + "'"  + 
+                                                        " WHERE IDFORNECEDOR=" + idFornecedorPesquisar;
+
+            JOptionPane.showMessageDialog(jDialogNovoFornecedor, "Fornecedor Atualizado Com Sucesso !");
+            
+            PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+            st.executeUpdate();            
+            st.close();
+            con.close();
+        } catch (SQLException ex) {
+            System.err.println("SQLException: " + ex.getMessage());
+        }
+        
+        System.out.println("\n** UPDATE FORNECEDOR -> DEPOIS DE EDITAR DADOS");
+        System.out.println("FORNECEDOR UPDATE: " + idFornecedorPesquisar);
+        System.out.println("NOME: " + nome);
+        System.out.println("MORADA: " + morada);
+        System.out.println("COD_POSTAL: " + codPostal );
+        System.out.println("LOCALIDADE: " + localidade );
+        System.out.println("CONTATO: " + contacto);
+        System.out.println("EMAIL: " + email);
+        System.out.println("NIF: " + nif);
+        System.out.println("TIPOPRODUTO: " +tipoProduto );
+        System.out.println("ESTADO: " + estado);                
         
     }
     
+    private void ActualizaEstadoFornecedor(){
+    
+        try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+        } catch (ClassNotFoundException e) { //driver não encontrado
+            System.err.print("ClassNotFoundException: ");
+            System.err.println(e.getMessage());
+            System.out.println("O driver expecificado nao foi encontrado.");
+        }
+
+        try {
+            con = DriverManager.getConnection(url);
+            String nomeTabela = "FORNECEDOR";
+            String sql = "UPDATE " + nomeTabela + " SET ESTADO='" + estadoFornecedor  +"' WHERE IDFORNECEDOR=" + idFornecedorPesquisar;
+
+            System.out.println("ESTADO FORNECEDOR ALTERADO COM SUCESSO : " + EstadoFornecedor);
+            
+            PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+            st.executeUpdate();            
+            st.close();
+            con.close();
+        } catch (SQLException ex) {
+            System.err.println("SQLException: " + ex.getMessage());
+        }
+        
+        
+    }
+    
+    
+        /*  ATUAIZAR MATERIA PRIMA */
+    private void ActualizaEstadoMateriaPrima(){
+    
+        try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+        } catch (ClassNotFoundException e) { //driver não encontrado
+            System.err.print("ClassNotFoundException: ");
+            System.err.println(e.getMessage());
+            System.out.println("O driver expecificado nao foi encontrado.");
+        }
+
+        try {
+            con = DriverManager.getConnection(url);
+            String nomeTabela = "MATERIA_PRIMA";
+           
+            String sql = "UPDATE " + nomeTabela + " SET ESTADO='" + estadoMateriaPrima  +"' WHERE IDMATERIAPRIMA=" + idMateriaPrimaPesquisar;
+
+            System.out.println("ESTADO MATERIA-PRIMA ALTERADO COM SUCESSO : " + estadoMateriaPrima);
+            System.out.println("id materiaa -> " + idMateriaPrimaPesquisar);
+            
+            PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+            st.executeUpdate();            
+            st.close();
+            con.close();
+        } catch (SQLException ex) {
+            System.err.println("SQLException: " + ex.getMessage());
+        }
+    
+    }
     
     
        /*  CALCULOS ENTRADAS    */
@@ -8716,6 +9897,14 @@ public class Login extends javax.swing.JFrame {
         }
     }
     
+    private void LimpaTabelaMateriaPrimas(){
+        DefaultTableModel model = (DefaultTableModel) jTableConsultaMateriasPrimas.getModel();
+        int linhas = model.getRowCount();
+
+        for (int i = 0; i < linhas; i++) {
+            model.removeRow(0);
+        }
+    }
      
     /*   FUNÇAO PARA LER OS CAMPO DE UMA TABELAS */
     private int selectId(String tab, String col, String cam, String colId){
@@ -8829,7 +10018,10 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton jButtonAddNovaNaoConformidade;
     private javax.swing.JButton jButtonAddNovoEquipa;
     private javax.swing.JButton jButtonAddNovoInsecto;
+    private javax.swing.JButton jButtonAlterarEstadoEquipamento;
     private javax.swing.JButton jButtonAlterarEstadoFornecedor;
+    private javax.swing.JButton jButtonAlterarEstadoInsectocacadores;
+    private javax.swing.JButton jButtonAlterarEstadoMP;
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonCancelarMedidaCorrectiva;
     private javax.swing.JButton jButtonCancelarNaoConformidade;
@@ -8840,6 +10032,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton jButtonConsultaEquipamentos;
     private javax.swing.JButton jButtonConsultaInsecto;
     private javax.swing.JButton jButtonConsultaManutencao;
+    private javax.swing.JButton jButtonConsultaMateriasPrimas;
     private javax.swing.JButton jButtonConsultarFornecedores;
     private javax.swing.JButton jButtonConsultarLimpezas;
     private javax.swing.JButton jButtonControloResultados;
@@ -8851,6 +10044,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton jButtonEditarEquipamento;
     private javax.swing.JButton jButtonEditarFornecedor;
     private javax.swing.JButton jButtonEditarInsectoca;
+    private javax.swing.JButton jButtonEditarMP;
     private javax.swing.JButton jButtonFecharConsultaControlosResultados;
     private javax.swing.JButton jButtonFecharConsultaFornecedores;
     private javax.swing.JButton jButtonFornecedoresInativos;
@@ -8877,6 +10071,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton jButtonSairConsultaEquipamentos;
     private javax.swing.JButton jButtonSairConsultaInsecto;
     private javax.swing.JButton jButtonSairConsultaLimpezas;
+    private javax.swing.JButton jButtonSairConsultaMateriaPrima;
     private javax.swing.JButton jButtonSairDevolucao;
     private javax.swing.JButton jButtonSairInsecto;
     private javax.swing.JButton jButtonSairLimpeza;
@@ -8885,11 +10080,16 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton jButtonSairNovaEntrada;
     private javax.swing.JButton jButtonSairNovoEquipamento;
     private javax.swing.JButton jButtonSairNovoFornecedor;
+    private javax.swing.JButton jButtonUpdateFornecedor;
     private javax.swing.JButton jButtonVerControloResultados;
     private javax.swing.JButton jButtonVerDevolucoes;
     private javax.swing.JButton jButtonVerFichaDetalhadaConsultaDevolucoes;
+    private javax.swing.JButton jButtonVerInativasEquipamentos;
+    private javax.swing.JButton jButtonVerInativosMP;
+    private javax.swing.JButton jButtonVerInsectocacadoresInativos;
     private javax.swing.JButton jButtonVerLoteTotal;
     private javax.swing.JButton jButtonVerNaoConformidade;
+    private javax.swing.JButton jButtonVerNaoConformidadeEntrada;
     private javax.swing.JButton jButtonVerTodasAsDevolucoes;
     private javax.swing.JButton jButtonVoltar;
     private javax.swing.JButton jButtonVoltarMedidasCorrectivas;
@@ -8927,6 +10127,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JDialog jDialogConsultaInsectocacadores;
     private javax.swing.JDialog jDialogConsultaLimpezas;
     private javax.swing.JDialog jDialogConsultaManutencaoEquipamentos;
+    private javax.swing.JDialog jDialogConsultaMateriasPrimas;
     private javax.swing.JDialog jDialogConsultaNaoConformidades;
     private javax.swing.JDialog jDialogConsultarControlos;
     private javax.swing.JDialog jDialogConsultarMedidasCorrectivas;
@@ -8974,7 +10175,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
-    private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -8982,7 +10182,11 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelCodPostalFornecedor;
+    private javax.swing.JLabel jLabelConsultaControloPragas;
+    private javax.swing.JLabel jLabelConsultaFornecedores;
     private javax.swing.JLabel jLabelConsultaMedidasCorrectivas;
+    private javax.swing.JLabel jLabelConsultarEquipamentos;
+    private javax.swing.JLabel jLabelConsultarMateriasPrimas;
     private javax.swing.JLabel jLabelContactoForncedor;
     private javax.swing.JLabel jLabelData;
     private javax.swing.JLabel jLabelData1;
@@ -9023,6 +10227,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelPesquisar;
     private javax.swing.JLabel jLabelPesquisarEquipamento;
     private javax.swing.JLabel jLabelPesquisarInsectocacador;
+    private javax.swing.JLabel jLabelPesquisarMateriaPrima;
     private javax.swing.JLabel jLabelQuantidadeADevolver;
     private javax.swing.JLabel jLabelQuantidadeADevolverDevolucao;
     private javax.swing.JLabel jLabelQuantidadeDevolvida;
@@ -9058,6 +10263,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelConsultaLimpezas;
     private javax.swing.JPanel jPanelConsultaManutencaoEquipamentos;
     private javax.swing.JPanel jPanelConsultaNaoConformidades;
+    private javax.swing.JPanel jPanelConsutaMateriasPrimas;
     private javax.swing.JPanel jPanelDevolucoes;
     private javax.swing.JPanel jPanelManutencaoEquipamento;
     private javax.swing.JPanel jPanelMedidasCorrectivas;
@@ -9077,6 +10283,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPaneConsultInsecto;
     private javax.swing.JScrollPane jScrollPaneConsultaEquipamentos;
     private javax.swing.JScrollPane jScrollPaneConsultaLimpezas;
@@ -9098,6 +10305,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JTable jTableConsultaInsecto;
     private javax.swing.JTable jTableConsultaLimpezas;
     private javax.swing.JTable jTableConsultaManutencaoEquipamentos;
+    private javax.swing.JTable jTableConsultaMateriasPrimas;
     private javax.swing.JTable jTableConsultaMedidasCorrectivas;
     private javax.swing.JTable jTableConsultarControlos;
     private javax.swing.JTable jTableNaoConformidades;
@@ -9125,6 +10333,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldPesquisaEquipamento;
     private javax.swing.JTextField jTextFieldPesquisaInsectocacador;
     private javax.swing.JTextField jTextFieldPesquisarEntrada;
+    private javax.swing.JTextField jTextFieldPesquisarMateriaPrima;
     private javax.swing.JTextField jTextFieldQuantidadeADevolver;
     private javax.swing.JTextField jTextFieldQuantidadeADevolverDevolucao;
     private javax.swing.JTextField jTextFieldQuantidadeDevolucao;
