@@ -7,6 +7,7 @@
 package modulosfinal;
 
 import java.awt.Component;
+import java.awt.Window;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -22,6 +23,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.ComboPopup;
 import javax.swing.table.DefaultTableModel;
@@ -170,13 +172,21 @@ public class Login extends javax.swing.JFrame {
     boolean estadoEquipamento;
     int idEquipamentoPesquisar;
     
+    //DADOS DE LOGIN
+    String NomeFuncionarioLogin;
+    int idFuncionarioLogin;
+    
     
     /**
      * Creates new form Login
      */
     public Login() {
-        initComponents();
         
+        initComponents();
+        //jMenuBar1.setEnabled(false);
+        LerBDFuncionario(jComboBoxNomeLogin);
+        for (Component cp : jMenuBar1.getComponents())
+        cp.setEnabled(false);
     }
 
     /**
@@ -510,8 +520,16 @@ public class Login extends javax.swing.JFrame {
         jButtonVerInativosMP = new javax.swing.JButton();
         jButtonEditarMP = new javax.swing.JButton();
         jLabelConsultarMateriasPrimas = new javax.swing.JLabel();
+        jPanelRealizaLogin = new javax.swing.JPanel();
+        jLabelLogin = new javax.swing.JLabel();
+        jLabelNomeLogin = new javax.swing.JLabel();
+        jLabelPasswordLogin = new javax.swing.JLabel();
+        jPasswordFieldLogin = new javax.swing.JPasswordField();
+        jButtonEntrar = new javax.swing.JButton();
+        jComboBoxNomeLogin = new javax.swing.JComboBox();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        jMenuFile = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenuMenus = new javax.swing.JMenu();
         jMenuItemEquipamento = new javax.swing.JMenuItem();
         jMenuItemEntradas = new javax.swing.JMenuItem();
@@ -2596,7 +2614,6 @@ public class Login extends javax.swing.JFrame {
 
         jDialogConsultaEquipamentos.setTitle("CONSULTA EQUIPAMENTOS");
         jDialogConsultaEquipamentos.setMinimumSize(new java.awt.Dimension(880, 400));
-        jDialogConsultaEquipamentos.setPreferredSize(new java.awt.Dimension(900, 500));
 
         jTableConsultaEquipamentos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -3764,8 +3781,74 @@ public class Login extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Higiene e Segurança - Principio Base");
 
-        jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
+        jLabelLogin.setText("LOGIN");
+
+        jLabelNomeLogin.setText("Nome:");
+
+        jLabelPasswordLogin.setText("Password");
+
+        jButtonEntrar.setText("Entrar");
+        jButtonEntrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEntrarActionPerformed(evt);
+            }
+        });
+
+        jComboBoxNomeLogin.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        javax.swing.GroupLayout jPanelRealizaLoginLayout = new javax.swing.GroupLayout(jPanelRealizaLogin);
+        jPanelRealizaLogin.setLayout(jPanelRealizaLoginLayout);
+        jPanelRealizaLoginLayout.setHorizontalGroup(
+            jPanelRealizaLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelRealizaLoginLayout.createSequentialGroup()
+                .addGroup(jPanelRealizaLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelRealizaLoginLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanelRealizaLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelPasswordLogin)
+                            .addComponent(jLabelNomeLogin))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanelRealizaLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPasswordFieldLogin, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
+                            .addComponent(jComboBoxNomeLogin, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanelRealizaLoginLayout.createSequentialGroup()
+                        .addGap(93, 93, 93)
+                        .addComponent(jLabelLogin)))
+                .addContainerGap(45, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelRealizaLoginLayout.createSequentialGroup()
+                .addGap(0, 94, Short.MAX_VALUE)
+                .addComponent(jButtonEntrar)
+                .addGap(87, 87, 87))
+        );
+        jPanelRealizaLoginLayout.setVerticalGroup(
+            jPanelRealizaLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelRealizaLoginLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelLogin)
+                .addGap(28, 28, 28)
+                .addGroup(jPanelRealizaLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelNomeLogin)
+                    .addComponent(jComboBoxNomeLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(jPanelRealizaLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelPasswordLogin)
+                    .addComponent(jPasswordFieldLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jButtonEntrar)
+                .addContainerGap(48, Short.MAX_VALUE))
+        );
+
+        jMenuFile.setText("File");
+
+        jMenuItem1.setText("Logout");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenuFile.add(jMenuItem1);
+
+        jMenuBar1.add(jMenuFile);
 
         jMenuMenus.setText("Menus");
 
@@ -3845,11 +3928,17 @@ public class Login extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 372, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addComponent(jPanelRealizaLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(88, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 273, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(38, Short.MAX_VALUE)
+                .addComponent(jPanelRealizaLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33))
         );
 
         pack();
@@ -5525,7 +5614,101 @@ public class Login extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButtonAlterarEstadoEquipamentoActionPerformed
 
+    private void jButtonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEntrarActionPerformed
+        // BOTAO LOGIN
+        NomeFuncionarioLogin = jComboBoxNomeLogin.getSelectedItem().toString();
+        String pwdInserida = jPasswordFieldLogin.getText();
+        idFuncionarioLogin = selectId("FUNCIONARIO", "NOME", NomeFuncionarioLogin, "IDFUNCIONARIO");
+        
+        VerificaLogin(pwdInserida);
+        
+        
+        
+        System.out.println("nomeFuncionario -> " + NomeFuncionarioLogin);
+        System.out.println("idfuncionario -> " + idFuncionarioLogin);
+        
+        
+    }//GEN-LAST:event_jButtonEntrarActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        //LOGOUT
+        
+        //FUNÇÃO PARA FECHAR TODAS AS JANELAS
+        for (Window window : Login.getWindows()) {
+            if (window instanceof JDialog) // or Dialog
+            {
+                window.dispose();
+            }
+        }
+      
+        
+        //LIMPAR CAMPOS DE LOGIN
+        for (Component cp : jMenuBar1.getComponents())
+        cp.setEnabled(false);
+        
+        //COLOCAR JANELA DE LOGIN ESCONDIDA
+        for (Component cp : jPanelRealizaLogin.getComponents())
+        cp.setEnabled(true);
+        
+        jComboBoxNomeLogin.setSelectedIndex(0);
+        jPasswordFieldLogin.setText("");
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
 /*  ******************************    FUNCÇOES ************************************************************************************   */
+    
+    
+    
+    
+    private void VerificaLogin(String pwdInserida){
+      
+        boolean login = false;
+        
+        try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+
+        } catch (ClassNotFoundException e) {
+            System.err.print("ClassNotFoundException: ");
+            System.err.println(e.getMessage());
+            System.out.println("O driver expecificado nao foi encontrado.");
+        }
+
+        try {
+            con = DriverManager.getConnection(url);
+            String nomeTabela = "FUNCIONARIO";
+            String sql = "SELECT * FROM " + nomeTabela + " WHERE IDFUNCIONARIO="+idFuncionarioLogin+ " AND PASSWORD='"+pwdInserida+"'";
+            PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                login = true;
+            }
+            st.close();
+            con.close();
+
+        } catch (SQLException ex) {
+            System.err.println("SQLException: " + ex.getMessage());
+        }
+        
+        
+        if (login == true){
+            System.out.println("LOGIN ACEITE");
+            //COLOCAR MENU VISIBEL
+            for (Component cp : jMenuBar1.getComponents())
+            cp.setEnabled(true);
+            //COLOCAR JANELA DE LOGIN ESCONDIDA
+            for (Component cp : jPanelRealizaLogin.getComponents())
+            cp.setEnabled(false);
+            
+            
+            
+        }else{
+            System.out.println("LOGIN ERRADO");
+            JOptionPane.showMessageDialog(this, "Password Errada ! ");
+            jPasswordFieldLogin.setText("");
+        }
+
+    }
+    
     
     
     /*  COMUM   */
@@ -10045,6 +10228,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton jButtonEditarFornecedor;
     private javax.swing.JButton jButtonEditarInsectoca;
     private javax.swing.JButton jButtonEditarMP;
+    private javax.swing.JButton jButtonEntrar;
     private javax.swing.JButton jButtonFecharConsultaControlosResultados;
     private javax.swing.JButton jButtonFecharConsultaFornecedores;
     private javax.swing.JButton jButtonFornecedoresInativos;
@@ -10108,6 +10292,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JComboBox jComboBoxMateriaPrimaDevolucoes;
     private javax.swing.JComboBox jComboBoxMateriaPrimaEntrada;
     private javax.swing.JComboBox jComboBoxNaoConformidadeFuncionarioResponsav;
+    private javax.swing.JComboBox jComboBoxNomeLogin;
     private javax.swing.JComboBox jComboBoxOpcao;
     private javax.swing.JComboBox jComboBoxResultado;
     private javax.swing.JComboBox jComboBoxSeccao;
@@ -10206,6 +10391,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelFuncionarioResponsavel2;
     private javax.swing.JLabel jLabelLocal;
     private javax.swing.JLabel jLabelLocalidadeForncedor;
+    private javax.swing.JLabel jLabelLogin;
     private javax.swing.JLabel jLabelManutencaoEquipametno;
     private javax.swing.JLabel jLabelMateriaPrimaDevolucoes;
     private javax.swing.JLabel jLabelMedidaCorrectivaNaoConformidade;
@@ -10216,6 +10402,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelNome;
     private javax.swing.JLabel jLabelNome1;
     private javax.swing.JLabel jLabelNomeFornecedor;
+    private javax.swing.JLabel jLabelNomeLogin;
     private javax.swing.JLabel jLabelNomeMateriaPrima;
     private javax.swing.JLabel jLabelNomeOutraOpcao;
     private javax.swing.JLabel jLabelNovoEquipametno;
@@ -10224,6 +10411,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelObservação;
     private javax.swing.JLabel jLabelOcorrecniaNaoConformidade;
     private javax.swing.JLabel jLabelOpcao;
+    private javax.swing.JLabel jLabelPasswordLogin;
     private javax.swing.JLabel jLabelPesquisar;
     private javax.swing.JLabel jLabelPesquisarEquipamento;
     private javax.swing.JLabel jLabelPesquisarInsectocacador;
@@ -10237,8 +10425,9 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelTipoProduto;
     private javax.swing.JLabel jLabelTituloConsultaEntradas;
     private javax.swing.JLabel jLabelUnidadeMateriaPrima;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jMenuFile;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItemControloResultados;
     private javax.swing.JMenuItem jMenuItemEntradas;
     private javax.swing.JMenuItem jMenuItemEquipamento;
@@ -10279,6 +10468,8 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelNovoFornecedor;
     private javax.swing.JPanel jPanelNovoInsectocacador;
     private javax.swing.JPanel jPanelOutraOpcao;
+    private javax.swing.JPanel jPanelRealizaLogin;
+    private javax.swing.JPasswordField jPasswordFieldLogin;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
