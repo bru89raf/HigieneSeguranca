@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="ModulosFinal">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/ModulosFinal.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

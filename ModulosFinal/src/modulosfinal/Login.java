@@ -8,12 +8,21 @@ package modulosfinal;
 
 import java.awt.Component;
 import java.awt.Window;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
@@ -27,6 +36,8 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.ComboPopup;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 
 /**
  *
@@ -112,6 +123,9 @@ public class Login extends javax.swing.JFrame {
    
     int idContResultadosUltimo = 0; //CHAVE ESTRANGUEIRA(CONTROLO RESULTADOS) QUE ESTA NA TABELA NAO CONFORMIDADES
     
+    String observacaoDoControloResultadoParaANC = "";
+    
+    
     /****************************************************************************************************/
     
     
@@ -134,6 +148,7 @@ public class Login extends javax.swing.JFrame {
     boolean MateriaPrimaADevolver =  false;
     
     float quantidadeADevolverSelecionada = 0.0f;
+    float quantidadeADevolverSelecionadaFixa = 0.0f;
     
     float mostraQuantidadeDevolvidaAteAoMomento = 0.0f;
     
@@ -159,6 +174,12 @@ public class Login extends javax.swing.JFrame {
      /****************************************************************************************************/
     
     
+    
+    /*  VARIAVEIS PARA OS DADOS QUE VAMOS PASSAR ENTRE AS JANELAS -> CR -> NC -> MC */
+    String seccaoCRparaNC = "";
+    String problemaCRparaNC = "";
+    
+    
     String EstadoFornecedor = "";
     int idFornecedorPesquisar ;
     boolean estadoFornecedor ;
@@ -176,17 +197,51 @@ public class Login extends javax.swing.JFrame {
     String NomeFuncionarioLogin;
     int idFuncionarioLogin;
     
+    boolean mediaCorrectivaUltima = false;
+    
+    /*  VARIAVEIS PARA O HISTORICO */
+    int idFuncionarioHistorico;
+    int idControloResultadoHistorico;
+    
+    boolean gravarNaBDNovoControloResultado = false;
+    
+    /*  VARIAVEL PARA VERIFICAR SE JA EXISTE NA BASE DE DADOS, GUARDARMOS O NOME DO OBJECTO */
+    String nomeAVerficar = "";
+    
+    
+    //VARIAVEIS PARA CARREGAR OS FICHEIROS
+    public File input = null;
+    private String out = "D:\\";
+    JFileChooser jfc = new JFileChooser(".");
+    private String nomeFile = "";
+    
+    //ficheiro
     
     /**
      * Creates new form Login
      */
     public Login() {
-        
+         
+        this.setLocationRelativeTo(this);
+         
         initComponents();
         //jMenuBar1.setEnabled(false);
         LerBDFuncionario(jComboBoxNomeLogin);
+       
         for (Component cp : jMenuBar1.getComponents())
         cp.setEnabled(false);
+        
+//         for (Component cp : jPanelPrincipal.getComponents())
+//        cp.setVisible(false);
+        
+        //ESCONDER PANEL PRINCIPAL DA JANELA PRINCIPAL
+        jPanelPrincipal.setVisible(true);
+        //ESCONDER OS PANEL DOS BOTOES
+        
+        jPanelInserirNovo.setVisible(false);
+        jPanelConsultar.setVisible(false);
+        
+        
     }
 
     /**
@@ -198,22 +253,54 @@ public class Login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialogJanelaPrincipal = new javax.swing.JDialog();
+        jPanelPrincipal = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
+        jButtonInserirNovo = new javax.swing.JButton();
+        jButtonConsultar = new javax.swing.JButton();
+        jPanelMenus = new javax.swing.JPanel();
+        jPanelInserirNovo = new javax.swing.JPanel();
+        jButtonNvEquipamento = new javax.swing.JButton();
+        jButtonNvEntrada = new javax.swing.JButton();
+        jButtonNvMateriaPrima = new javax.swing.JButton();
+        jButtonNvFornecedor = new javax.swing.JButton();
+        jButtonNvContrPragas = new javax.swing.JButton();
+        jButtonNvContrResultados = new javax.swing.JButton();
+        jPanelConsultar = new javax.swing.JPanel();
+        jButtonConsEquipamento = new javax.swing.JButton();
+        jButtonConsEntrada = new javax.swing.JButton();
+        jButtonConsDevoluções = new javax.swing.JButton();
+        jButtonConsuMateriaPrima = new javax.swing.JButton();
+        jButtonNvFornecedor1 = new javax.swing.JButton();
+        jButtonNvContrPragas1 = new javax.swing.JButton();
+        jButtonNvContrResultados1 = new javax.swing.JButton();
+        jLabelBoasVindas = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenuFile = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuMenus = new javax.swing.JMenu();
+        jMenuItemEquipamento = new javax.swing.JMenuItem();
+        jMenuItemEntradas = new javax.swing.JMenuItem();
+        jMenuItemInsectocacadores = new javax.swing.JMenuItem();
+        jMenuItemControloResultados = new javax.swing.JMenuItem();
         jDialogMenuControloResultados = new javax.swing.JDialog();
         jPanel2 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jButtonNovoControlo1 = new javax.swing.JButton();
         jButtonControlos1 = new javax.swing.JButton();
+        jLabelUserLogin = new javax.swing.JLabel();
         jDialogMenuInsectocacadores = new javax.swing.JDialog();
         jPanelMenuInsectocadores = new javax.swing.JPanel();
         jButtonNovoInsecto = new javax.swing.JButton();
         jButtonConsultaInsecto = new javax.swing.JButton();
+        jLabelUserLogin2 = new javax.swing.JLabel();
         jDialogMenuEquipamentos = new javax.swing.JDialog();
         jPanelMenuEquipamentos = new javax.swing.JPanel();
         jButtonAddNovoEquipa = new javax.swing.JButton();
         jButtonConsultaEquipamentos = new javax.swing.JButton();
+        jLabelUserLogin3 = new javax.swing.JLabel();
         jDialogMenuEntradas = new javax.swing.JDialog();
         jPanelMenuEntradas = new javax.swing.JPanel();
-        jLabel12 = new javax.swing.JLabel();
         jButtonNovaEntrada = new javax.swing.JButton();
         jButtonConsultaEntradas = new javax.swing.JButton();
         jButtonNovaMateriaPrima = new javax.swing.JButton();
@@ -221,20 +308,20 @@ public class Login extends javax.swing.JFrame {
         jButtonConsultaDevolucoes = new javax.swing.JButton();
         jButtonConsultarFornecedores = new javax.swing.JButton();
         jButtonConsultaMateriasPrimas = new javax.swing.JButton();
+        jLabelUserLogin4 = new javax.swing.JLabel();
         jDialogNovaEntrada = new javax.swing.JDialog();
         jPanelNovaEntrada = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jComboBoxFornecedorEntrada = new javax.swing.JComboBox();
-        jDateChooserEntrada = new com.toedter.calendar.JDateChooser();
         jTextFieldLoteEntrada = new javax.swing.JTextField();
         jTextFieldQuantidadeEntrada = new javax.swing.JTextField();
-        jComboBoxFuncionarioResponsavelEntrada = new javax.swing.JComboBox();
         jLabel18 = new javax.swing.JLabel();
         jComboBoxMateriaPrimaEntrada = new javax.swing.JComboBox();
+        jLabelFuncionarioLogin = new javax.swing.JLabel();
+        jTextFieldNovaEntradaUnidadeQuantidade = new javax.swing.JTextField();
         jPanelBotoesNovaEntrada = new javax.swing.JPanel();
         jButtonGuardarNovaEntrada = new javax.swing.JButton();
         jButtonSairNovaEntrada = new javax.swing.JButton();
@@ -242,6 +329,7 @@ public class Login extends javax.swing.JFrame {
         jPanelADevolverNovaEntrada = new javax.swing.JPanel();
         jTextFieldQuantidadeADevolver = new javax.swing.JTextField();
         jLabelQuantidadeADevolver = new javax.swing.JLabel();
+        jTextFieldUnidadeQuantidadeADevolver = new javax.swing.JTextField();
         jPanelConformidadesNovaEntrada = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
@@ -312,13 +400,13 @@ public class Login extends javax.swing.JFrame {
         jButtonGuardarInsecto = new javax.swing.JButton();
         jButtonSairInsecto = new javax.swing.JButton();
         jButtonActualizarInsecto = new javax.swing.JButton();
+        jButtonAlterarReferencia = new javax.swing.JButton();
         jDialogNovoControloResultados = new javax.swing.JDialog();
         jPanelNovoControloResultdos = new javax.swing.JPanel();
         jComboBoxTipo = new javax.swing.JComboBox();
         jComboBoxOpcao = new javax.swing.JComboBox();
         jLabelTipo = new javax.swing.JLabel();
         jLabelOpcao = new javax.swing.JLabel();
-        jLabelData2 = new javax.swing.JLabel();
         jLabelResultado = new javax.swing.JLabel();
         jLabelFichaTecnica = new javax.swing.JLabel();
         jLabelDescricao = new javax.swing.JLabel();
@@ -332,25 +420,10 @@ public class Login extends javax.swing.JFrame {
         jPanelOutraOpcao = new javax.swing.JPanel();
         jLabelNomeOutraOpcao = new javax.swing.JLabel();
         jTextFieldOutraOpcao = new javax.swing.JTextField();
-        jDateChooserControloResultados = new com.toedter.calendar.JDateChooser();
         jLabelFuncionario = new javax.swing.JLabel();
-        jComboBoxFuncionario = new javax.swing.JComboBox();
-        jDialogNovaManutencaoEquipamento = new javax.swing.JDialog();
-        jPanelManutencaoEquipamento = new javax.swing.JPanel();
-        jLabelManutencaoEquipametno = new javax.swing.JLabel();
-        jLabelData1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jDateChooserDataManutencaoEquipamento = new com.toedter.calendar.JDateChooser();
-        jScrollPaneObservacaManuetencaoEquipametno = new javax.swing.JScrollPane();
-        jTextAreaObservacaoManutencaoEquipameto = new javax.swing.JTextArea();
-        jButtonGravarManutencaoEquipametno = new javax.swing.JButton();
-        jButtonSairManutencaoEquipamento = new javax.swing.JButton();
-        jLabelFuncionarioResponsavel1 = new javax.swing.JLabel();
-        jComboBoxFuncionarioResponsavel = new javax.swing.JComboBox();
+        jLabelFuncionarioLogin2 = new javax.swing.JLabel();
         jDialogNaoConformidades = new javax.swing.JDialog();
         jPanelNaoConformidades = new javax.swing.JPanel();
-        jLabelDataNaoConformidade = new javax.swing.JLabel();
         jLabelOcorrecniaNaoConformidade = new javax.swing.JLabel();
         jLabelMedidaCorrectivaNaoConformidade = new javax.swing.JLabel();
         jScrollPaneOcorrencia = new javax.swing.JScrollPane();
@@ -359,20 +432,58 @@ public class Login extends javax.swing.JFrame {
         jTextAreaMedidaCorrctivaNaoConformidade = new javax.swing.JTextArea();
         jButtonGravarNaoConformidade = new javax.swing.JButton();
         jButtonCancelarNaoConformidade = new javax.swing.JButton();
-        jDateChooserNaoConformidade = new com.toedter.calendar.JDateChooser();
         jLabel7 = new javax.swing.JLabel();
         jComboBoxNaoConformidadeFuncionarioResponsav = new javax.swing.JComboBox();
-        jLabel34 = new javax.swing.JLabel();
-        jComboBoxFuncionarioNaoConformidade = new javax.swing.JComboBox();
+        jLabel = new javax.swing.JLabel();
+        jLabelFuncionarioLogin4 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        jPanelVerMensagemProblema = new javax.swing.JPanel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        jTextAreaProblemadoControlo = new javax.swing.JTextArea();
+        jPanel1 = new javax.swing.JPanel();
+        jTextFieldVerSeccaoDoCR = new javax.swing.JTextField();
+        jDialogMedidasCorrectiva = new javax.swing.JDialog();
+        jLabelMedidasCorrectivas = new javax.swing.JLabel();
+        jPanelMedidasCorrectivas = new javax.swing.JPanel();
+        jLabelObservacaoMedidasCorrectivas = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextAreaObservacaoMedidaCorrectiva = new javax.swing.JTextArea();
+        jButtonGravarMedidaCorrectiva = new javax.swing.JButton();
+        jButtonCancelarMedidaCorrectiva = new javax.swing.JButton();
+        jPanelInformacaoAdicional = new javax.swing.JPanel();
+        jPanelInformacaoNaoConformidade = new javax.swing.JPanel();
+        jLabel40 = new javax.swing.JLabel();
+        jLabel41 = new javax.swing.JLabel();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        jTextAreaDetalhesMC = new javax.swing.JTextArea();
+        jScrollPane11 = new javax.swing.JScrollPane();
+        jTextAreaMedidasCorrectivasMC = new javax.swing.JTextArea();
+        jPanelInformacaoControloResultado = new javax.swing.JPanel();
+        jLabel38 = new javax.swing.JLabel();
+        jLabel39 = new javax.swing.JLabel();
+        jTextFieldSeccaoMC = new javax.swing.JTextField();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        jTextAreaProblemaMC = new javax.swing.JTextArea();
+        jDialogNovaManutencaoEquipamento = new javax.swing.JDialog();
+        jPanelManutencaoEquipamento = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPaneObservacaManuetencaoEquipametno = new javax.swing.JScrollPane();
+        jTextAreaObservacaoManutencaoEquipameto = new javax.swing.JTextArea();
+        jButtonGravarManutencaoEquipametno = new javax.swing.JButton();
+        jButtonSairManutencaoEquipamento = new javax.swing.JButton();
+        jLabelFuncionarioResponsavel1 = new javax.swing.JLabel();
+        jLabelFuncionariologin3 = new javax.swing.JLabel();
+        jPanelEquipamentoSeleccionado = new javax.swing.JPanel();
+        jTextFieldNomeEquipamentoSeleccionado = new javax.swing.JTextField();
         jDialogNovaLimpeza = new javax.swing.JDialog();
         jPanelNovaLimpeza = new javax.swing.JPanel();
         jLabelFuncionarioResponsavel = new javax.swing.JLabel();
         jLabelData = new javax.swing.JLabel();
-        jComboBoxFuncionarioResponsvelLimpeza = new javax.swing.JComboBox();
-        jDateChooserLimpeza = new com.toedter.calendar.JDateChooser();
         jButtonGuardarLimpeza = new javax.swing.JButton();
         jButtonSairLimpeza = new javax.swing.JButton();
+        jLabelFuncionarioLogin5 = new javax.swing.JLabel();
+        jLabelDataNovaLimpeza = new javax.swing.JLabel();
         jDialogNovoEquipamento = new javax.swing.JDialog();
         jPanelNovoEquipamento = new javax.swing.JPanel();
         jLabelNovoEquipametno = new javax.swing.JLabel();
@@ -390,7 +501,6 @@ public class Login extends javax.swing.JFrame {
         jLabelDataDevolucao = new javax.swing.JLabel();
         jLabelQuantidadeDevolvida = new javax.swing.JLabel();
         jLabelObservação = new javax.swing.JLabel();
-        jComboBoxFuncionarioResponsavelDevolucao = new javax.swing.JComboBox();
         jDateChooserDataDevolucao = new com.toedter.calendar.JDateChooser();
         jTextFieldQuantidadeDevolucao = new javax.swing.JTextField();
         jScrollPaneObservacoesDevolucao = new javax.swing.JScrollPane();
@@ -400,6 +510,7 @@ public class Login extends javax.swing.JFrame {
         jLabelQuantidadeADevolverDevolucao = new javax.swing.JLabel();
         jTextFieldQuantidadeADevolverDevolucao = new javax.swing.JTextField();
         jLabel33 = new javax.swing.JLabel();
+        jLabelFuncionarioLogin6 = new javax.swing.JLabel();
         jDialogConsultaInsectocacadores = new javax.swing.JDialog();
         jPanelConsultaInsecto = new javax.swing.JPanel();
         jScrollPaneConsultInsecto = new javax.swing.JScrollPane();
@@ -453,6 +564,9 @@ public class Login extends javax.swing.JFrame {
         jComboBoxSeccao = new javax.swing.JComboBox();
         jLabel10 = new javax.swing.JLabel();
         jButtonVerNaoConformidadeEntrada = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel36 = new javax.swing.JLabel();
+        jButtonVerHistoricoControlo = new javax.swing.JButton();
         jDialogConsultaNaoConformidades = new javax.swing.JDialog();
         jPanelConsultaNaoConformidades = new javax.swing.JPanel();
         jLabelNaoConformidades = new javax.swing.JLabel();
@@ -461,16 +575,12 @@ public class Login extends javax.swing.JFrame {
         jButtonVoltar = new javax.swing.JButton();
         jButtonAddNovaNaoConformidade = new javax.swing.JButton();
         jButtonAddMedidaCorrectiva = new javax.swing.JButton();
-        jDialogMedidasCorrectiva = new javax.swing.JDialog();
-        jLabelMedidasCorrectivas = new javax.swing.JLabel();
-        jPanelMedidasCorrectivas = new javax.swing.JPanel();
-        jLabelDataMedidasCorrectivas = new javax.swing.JLabel();
-        jLabelObservacaoMedidasCorrectivas = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextAreaObservacaoMedidaCorrectiva = new javax.swing.JTextArea();
-        jDateChooserMedidaCorrectiva = new com.toedter.calendar.JDateChooser();
-        jButtonGravarMedidaCorrectiva = new javax.swing.JButton();
-        jButtonCancelarMedidaCorrectiva = new javax.swing.JButton();
+        jPanelMostraDadosControloResultado = new javax.swing.JPanel();
+        jLabelSeccaoNC = new javax.swing.JLabel();
+        jLabelProblemaNC = new javax.swing.JLabel();
+        jTextFieldVerSeccaoNC = new javax.swing.JTextField();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        jTextAreaVerProblemaNC = new javax.swing.JTextArea();
         jDialogConsultarMedidasCorrectivas = new javax.swing.JDialog();
         jPanel6 = new javax.swing.JPanel();
         jLabelConsultaMedidasCorrectivas = new javax.swing.JLabel();
@@ -486,6 +596,8 @@ public class Login extends javax.swing.JFrame {
         jButtonFornecedoresInativos = new javax.swing.JButton();
         jButtonEditarFornecedor = new javax.swing.JButton();
         jButtonAlterarEstadoFornecedor = new javax.swing.JButton();
+        jLabel34 = new javax.swing.JLabel();
+        jTextFieldPesquisarFornecedor = new javax.swing.JTextField();
         jDialogConsultaEntradas = new javax.swing.JDialog();
         jPanelConsultaEntradas = new javax.swing.JPanel();
         jButtonConsultaEntradasSair = new javax.swing.JButton();
@@ -520,28 +632,308 @@ public class Login extends javax.swing.JFrame {
         jButtonVerInativosMP = new javax.swing.JButton();
         jButtonEditarMP = new javax.swing.JButton();
         jLabelConsultarMateriasPrimas = new javax.swing.JLabel();
+        jDialogVerHistoricoControlo = new javax.swing.JDialog();
+        jPanelConsultaHistorico = new javax.swing.JPanel();
+        jLabel37 = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTableVerHistorico = new javax.swing.JTable();
+        jButtonVerDatas = new javax.swing.JButton();
+        jButtonSairHistorico = new javax.swing.JButton();
+        jDialogAlterarReferencia = new javax.swing.JDialog();
+        jPanel3 = new javax.swing.JPanel();
+        jButtonGuardarNovaRef = new javax.swing.JButton();
+        jTextFieldNovaReferencia = new javax.swing.JTextField();
+        jLabelAntigaReferencia = new javax.swing.JLabel();
+        jLabelNovaReferencia = new javax.swing.JLabel();
+        jDialog1 = new javax.swing.JDialog();
+        jButtonSeleccionarNPF = new javax.swing.JButton();
+        jTextFieldUploudNUC = new javax.swing.JTextField();
+        JT01 = new javax.swing.JTextField();
+        JT02 = new javax.swing.JTextField();
+        JTRES = new javax.swing.JTextField();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jPanelJanela = new javax.swing.JPanel();
         jPanelRealizaLogin = new javax.swing.JPanel();
-        jLabelLogin = new javax.swing.JLabel();
         jLabelNomeLogin = new javax.swing.JLabel();
         jLabelPasswordLogin = new javax.swing.JLabel();
         jPasswordFieldLogin = new javax.swing.JPasswordField();
         jButtonEntrar = new javax.swing.JButton();
         jComboBoxNomeLogin = new javax.swing.JComboBox();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenuFile = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuMenus = new javax.swing.JMenu();
-        jMenuItemEquipamento = new javax.swing.JMenuItem();
-        jMenuItemEntradas = new javax.swing.JMenuItem();
-        jMenuItemInsectocacadores = new javax.swing.JMenuItem();
-        jMenuItemControloResultados = new javax.swing.JMenuItem();
-        jMenuNovo = new javax.swing.JMenu();
-        jMenuItemNvEquipamento = new javax.swing.JMenuItem();
-        jMenuItemNvEntrada = new javax.swing.JMenuItem();
-        jMenuItemNvInsectocaçador = new javax.swing.JMenuItem();
-        jMenuItemNvControloRsultados = new javax.swing.JMenuItem();
+        jButton1 = new javax.swing.JButton();
 
-        jDialogMenuControloResultados.setMinimumSize(new java.awt.Dimension(420, 140));
+        jDialogJanelaPrincipal.setTitle("Janela Principal");
+        jDialogJanelaPrincipal.setMinimumSize(new java.awt.Dimension(700, 500));
+
+        jPanelPrincipal.setBorder(javax.swing.BorderFactory.createTitledBorder("Menus Rapidos"));
+
+        jLabel15.setText("Atalhos Rapidos");
+
+        jButtonInserirNovo.setText("Inserir Novo");
+        jButtonInserirNovo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonInserirNovoActionPerformed(evt);
+            }
+        });
+
+        jButtonConsultar.setText("Consultar");
+        jButtonConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonConsultarActionPerformed(evt);
+            }
+        });
+
+        jPanelInserirNovo.setBorder(javax.swing.BorderFactory.createTitledBorder("Inserir Novo"));
+
+        jButtonNvEquipamento.setText("Equipamento");
+
+        jButtonNvEntrada.setText("Entrada");
+
+        jButtonNvMateriaPrima.setText("Materia-Prima");
+
+        jButtonNvFornecedor.setText("Fornecedor");
+
+        jButtonNvContrPragas.setText("Contr. Pragas");
+
+        jButtonNvContrResultados.setText("Contr.Resultados");
+
+        javax.swing.GroupLayout jPanelInserirNovoLayout = new javax.swing.GroupLayout(jPanelInserirNovo);
+        jPanelInserirNovo.setLayout(jPanelInserirNovoLayout);
+        jPanelInserirNovoLayout.setHorizontalGroup(
+            jPanelInserirNovoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelInserirNovoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelInserirNovoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonNvFornecedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonNvEquipamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelInserirNovoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonNvEntrada, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonNvContrPragas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(14, 14, 14)
+                .addGroup(jPanelInserirNovoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonNvContrResultados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonNvMateriaPrima, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18))
+        );
+        jPanelInserirNovoLayout.setVerticalGroup(
+            jPanelInserirNovoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelInserirNovoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelInserirNovoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonNvEquipamento)
+                    .addComponent(jButtonNvEntrada)
+                    .addComponent(jButtonNvMateriaPrima))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelInserirNovoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonNvFornecedor)
+                    .addComponent(jButtonNvContrPragas)
+                    .addComponent(jButtonNvContrResultados))
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+
+        jPanelConsultar.setBorder(javax.swing.BorderFactory.createTitledBorder("Consultar"));
+
+        jButtonConsEquipamento.setText("Equipamento");
+        jButtonConsEquipamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonConsEquipamentoActionPerformed(evt);
+            }
+        });
+
+        jButtonConsEntrada.setText("Entrada");
+
+        jButtonConsDevoluções.setText("Devoluções");
+        jButtonConsDevoluções.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonConsDevoluçõesActionPerformed(evt);
+            }
+        });
+
+        jButtonConsuMateriaPrima.setText("Materia-Prima");
+
+        jButtonNvFornecedor1.setText("Fornecedor");
+
+        jButtonNvContrPragas1.setText("Contr. Pragas");
+
+        jButtonNvContrResultados1.setText("Contr.Resultados");
+
+        javax.swing.GroupLayout jPanelConsultarLayout = new javax.swing.GroupLayout(jPanelConsultar);
+        jPanelConsultar.setLayout(jPanelConsultarLayout);
+        jPanelConsultarLayout.setHorizontalGroup(
+            jPanelConsultarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelConsultarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelConsultarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelConsultarLayout.createSequentialGroup()
+                        .addComponent(jButtonNvContrResultados1)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanelConsultarLayout.createSequentialGroup()
+                        .addGroup(jPanelConsultarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonConsuMateriaPrima, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+                            .addComponent(jButtonConsEquipamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(15, 15, 15)
+                        .addGroup(jPanelConsultarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonConsEntrada, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonNvFornecedor1, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelConsultarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButtonConsDevoluções, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonNvContrPragas1, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE))
+                        .addGap(51, 51, 51))))
+        );
+        jPanelConsultarLayout.setVerticalGroup(
+            jPanelConsultarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelConsultarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelConsultarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonConsEquipamento)
+                    .addComponent(jButtonConsEntrada)
+                    .addComponent(jButtonConsDevoluções))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelConsultarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonConsuMateriaPrima)
+                    .addComponent(jButtonNvFornecedor1)
+                    .addComponent(jButtonNvContrPragas1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonNvContrResultados1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanelMenusLayout = new javax.swing.GroupLayout(jPanelMenus);
+        jPanelMenus.setLayout(jPanelMenusLayout);
+        jPanelMenusLayout.setHorizontalGroup(
+            jPanelMenusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelMenusLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelMenusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanelInserirNovo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelConsultar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanelMenusLayout.setVerticalGroup(
+            jPanelMenusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelMenusLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanelInserirNovo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanelConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanelPrincipalLayout = new javax.swing.GroupLayout(jPanelPrincipal);
+        jPanelPrincipal.setLayout(jPanelPrincipalLayout);
+        jPanelPrincipalLayout.setHorizontalGroup(
+            jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel15))
+                    .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButtonInserirNovo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonConsultar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanelMenus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(97, Short.MAX_VALUE))
+        );
+        jPanelPrincipalLayout.setVerticalGroup(
+            jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel15)
+                .addGap(18, 18, 18)
+                .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                        .addComponent(jButtonInserirNovo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonConsultar))
+                    .addComponent(jPanelMenus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jLabelBoasVindas.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabelBoasVindas.setText("Olá, ");
+
+        jMenuFile.setText("Programa");
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem1.setText("Logout");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenuFile.add(jMenuItem1);
+
+        jMenuBar1.add(jMenuFile);
+
+        jMenuMenus.setText("Menus");
+
+        jMenuItemEquipamento.setText("Equipamentos");
+        jMenuItemEquipamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemEquipamentoActionPerformed(evt);
+            }
+        });
+        jMenuMenus.add(jMenuItemEquipamento);
+
+        jMenuItemEntradas.setText("Entradas");
+        jMenuItemEntradas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemEntradasActionPerformed(evt);
+            }
+        });
+        jMenuMenus.add(jMenuItemEntradas);
+
+        jMenuItemInsectocacadores.setText("Contr. Pragas");
+        jMenuItemInsectocacadores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemInsectocacadoresActionPerformed(evt);
+            }
+        });
+        jMenuMenus.add(jMenuItemInsectocacadores);
+
+        jMenuItemControloResultados.setText("Controlo Resultados");
+        jMenuItemControloResultados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemControloResultadosActionPerformed(evt);
+            }
+        });
+        jMenuMenus.add(jMenuItemControloResultados);
+
+        jMenuBar1.add(jMenuMenus);
+
+        jDialogJanelaPrincipal.setJMenuBar(jMenuBar1);
+
+        javax.swing.GroupLayout jDialogJanelaPrincipalLayout = new javax.swing.GroupLayout(jDialogJanelaPrincipal.getContentPane());
+        jDialogJanelaPrincipal.getContentPane().setLayout(jDialogJanelaPrincipalLayout);
+        jDialogJanelaPrincipalLayout.setHorizontalGroup(
+            jDialogJanelaPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogJanelaPrincipalLayout.createSequentialGroup()
+                .addGroup(jDialogJanelaPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jDialogJanelaPrincipalLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jDialogJanelaPrincipalLayout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jLabelBoasVindas)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jDialogJanelaPrincipalLayout.setVerticalGroup(
+            jDialogJanelaPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogJanelaPrincipalLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(jLabelBoasVindas)
+                .addGap(18, 18, 18)
+                .addComponent(jPanelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(31, Short.MAX_VALUE))
+        );
+
+        jDialogMenuControloResultados.setTitle("MENU CONTROLO DE RESULTADOS");
+        jDialogMenuControloResultados.setMinimumSize(new java.awt.Dimension(410, 150));
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel11.setText("Controlo de Resultados");
@@ -562,27 +954,32 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jLabelUserLogin.setText("jLabel36");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(20, 20, 20)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabelUserLogin))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jButtonNovoControlo1)
                         .addGap(40, 40, 40)
-                        .addComponent(jButtonControlos1))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(108, 108, 108)
-                        .addComponent(jLabel11)))
+                        .addComponent(jButtonControlos1)))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel11)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel11)
+                    .addComponent(jLabelUserLogin))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonNovoControlo1)
@@ -607,11 +1004,11 @@ public class Login extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jDialogMenuInsectocacadores.setTitle("MENU INSECTOCAÇADORES");
-        jDialogMenuInsectocacadores.setMinimumSize(new java.awt.Dimension(436, 115));
+        jDialogMenuInsectocacadores.setTitle("MENU CONTROLO DE PRAGAS");
+        jDialogMenuInsectocacadores.setMinimumSize(new java.awt.Dimension(480, 150));
 
         jButtonNovoInsecto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
-        jButtonNovoInsecto.setText("Novo Insectocaçador");
+        jButtonNovoInsecto.setText("Novo Controlo de Praga");
         jButtonNovoInsecto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonNovoInsectoActionPerformed(evt);
@@ -619,12 +1016,14 @@ public class Login extends javax.swing.JFrame {
         });
 
         jButtonConsultaInsecto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Consltas_Menu.png"))); // NOI18N
-        jButtonConsultaInsecto.setText("Consulta Insectocaçadores");
+        jButtonConsultaInsecto.setText("Consulta Controlos de Praga");
         jButtonConsultaInsecto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonConsultaInsectoActionPerformed(evt);
             }
         });
+
+        jLabelUserLogin2.setText("jLabel36");
 
         javax.swing.GroupLayout jPanelMenuInsectocadoresLayout = new javax.swing.GroupLayout(jPanelMenuInsectocadores);
         jPanelMenuInsectocadores.setLayout(jPanelMenuInsectocadoresLayout);
@@ -632,19 +1031,24 @@ public class Login extends javax.swing.JFrame {
             jPanelMenuInsectocadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelMenuInsectocadoresLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButtonNovoInsecto)
-                .addGap(18, 18, 18)
-                .addComponent(jButtonConsultaInsecto)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addGroup(jPanelMenuInsectocadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabelUserLogin2)
+                    .addGroup(jPanelMenuInsectocadoresLayout.createSequentialGroup()
+                        .addComponent(jButtonNovoInsecto)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonConsultaInsecto)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelMenuInsectocadoresLayout.setVerticalGroup(
             jPanelMenuInsectocadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelMenuInsectocadoresLayout.createSequentialGroup()
-                .addGap(23, 23, 23)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelMenuInsectocadoresLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelUserLogin2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addGroup(jPanelMenuInsectocadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonNovoInsecto)
                     .addComponent(jButtonConsultaInsecto))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addGap(20, 20, 20))
         );
 
         javax.swing.GroupLayout jDialogMenuInsectocacadoresLayout = new javax.swing.GroupLayout(jDialogMenuInsectocacadores.getContentPane());
@@ -653,15 +1057,15 @@ public class Login extends javax.swing.JFrame {
             jDialogMenuInsectocacadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogMenuInsectocacadoresLayout.createSequentialGroup()
                 .addComponent(jPanelMenuInsectocadores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 18, Short.MAX_VALUE))
+                .addGap(0, 62, Short.MAX_VALUE))
         );
         jDialogMenuInsectocacadoresLayout.setVerticalGroup(
             jDialogMenuInsectocacadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanelMenuInsectocadores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        jDialogMenuEquipamentos.setTitle("EQUIPAMENTOS");
-        jDialogMenuEquipamentos.setMinimumSize(new java.awt.Dimension(390, 110));
+        jDialogMenuEquipamentos.setTitle("MENU EQUIPAMENTOS");
+        jDialogMenuEquipamentos.setMinimumSize(new java.awt.Dimension(410, 150));
 
         jButtonAddNovoEquipa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
         jButtonAddNovoEquipa.setText("Novo Equipamento");
@@ -679,25 +1083,32 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jLabelUserLogin3.setText("jLabel36");
+
         javax.swing.GroupLayout jPanelMenuEquipamentosLayout = new javax.swing.GroupLayout(jPanelMenuEquipamentos);
         jPanelMenuEquipamentos.setLayout(jPanelMenuEquipamentosLayout);
         jPanelMenuEquipamentosLayout.setHorizontalGroup(
             jPanelMenuEquipamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelMenuEquipamentosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButtonAddNovoEquipa)
-                .addGap(18, 18, 18)
-                .addComponent(jButtonConsultaEquipamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addGroup(jPanelMenuEquipamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabelUserLogin3)
+                    .addGroup(jPanelMenuEquipamentosLayout.createSequentialGroup()
+                        .addComponent(jButtonAddNovoEquipa)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonConsultaEquipamentos)))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         jPanelMenuEquipamentosLayout.setVerticalGroup(
             jPanelMenuEquipamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelMenuEquipamentosLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelMenuEquipamentosLayout.createSequentialGroup()
+                .addContainerGap(14, Short.MAX_VALUE)
+                .addComponent(jLabelUserLogin3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelMenuEquipamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonAddNovoEquipa)
                     .addComponent(jButtonConsultaEquipamentos))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jDialogMenuEquipamentosLayout = new javax.swing.GroupLayout(jDialogMenuEquipamentos.getContentPane());
@@ -706,7 +1117,7 @@ public class Login extends javax.swing.JFrame {
             jDialogMenuEquipamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogMenuEquipamentosLayout.createSequentialGroup()
                 .addComponent(jPanelMenuEquipamentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 20, Short.MAX_VALUE))
+                .addGap(0, 5, Short.MAX_VALUE))
         );
         jDialogMenuEquipamentosLayout.setVerticalGroup(
             jDialogMenuEquipamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -718,9 +1129,6 @@ public class Login extends javax.swing.JFrame {
         jDialogMenuEntradas.setTitle("MENU ENTRADAS");
         jDialogMenuEntradas.setFocusCycleRoot(false);
         jDialogMenuEntradas.setMinimumSize(new java.awt.Dimension(450, 370));
-
-        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel12.setText("MENU ENTRADAS");
 
         jButtonNovaEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
         jButtonNovaEntrada.setText("Nova Entrada");
@@ -785,17 +1193,17 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jLabelUserLogin4.setText("jLabel36");
+
         javax.swing.GroupLayout jPanelMenuEntradasLayout = new javax.swing.GroupLayout(jPanelMenuEntradas);
         jPanelMenuEntradas.setLayout(jPanelMenuEntradasLayout);
         jPanelMenuEntradasLayout.setHorizontalGroup(
             jPanelMenuEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelMenuEntradasLayout.createSequentialGroup()
-                .addGroup(jPanelMenuEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap()
+                .addGroup(jPanelMenuEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabelUserLogin4)
                     .addGroup(jPanelMenuEntradasLayout.createSequentialGroup()
-                        .addGap(113, 113, 113)
-                        .addComponent(jLabel12))
-                    .addGroup(jPanelMenuEntradasLayout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(jPanelMenuEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jButtonNovoForncedor, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButtonNovaMateriaPrima, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -811,16 +1219,16 @@ public class Login extends javax.swing.JFrame {
         jPanelMenuEntradasLayout.setVerticalGroup(
             jPanelMenuEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelMenuEntradasLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel12)
                 .addGroup(jPanelMenuEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelMenuEntradasLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(7, 7, 7)
+                        .addComponent(jLabelUserLogin4)
+                        .addGap(18, 18, 18)
                         .addComponent(jButtonConsultaEntradas)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButtonConsultaDevolucoes))
                     .addGroup(jPanelMenuEntradasLayout.createSequentialGroup()
-                        .addGap(40, 40, 40)
+                        .addGap(68, 68, 68)
                         .addComponent(jButtonNovaEntrada)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelMenuEntradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -857,64 +1265,73 @@ public class Login extends javax.swing.JFrame {
 
         jLabel14.setText("Funcionario Responsavel");
 
-        jLabel15.setText("Data Entrega");
-
         jLabel16.setText("Lote Origem");
 
         jLabel17.setText("Quantidade");
 
         jComboBoxFornecedorEntrada.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jDateChooserEntrada.setDateFormatString("yyyy-MM-dd");
-
         jTextFieldLoteEntrada.setEditable(false);
-
-        jComboBoxFuncionarioResponsavelEntrada.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel18.setText("Materia Prima");
 
         jComboBoxMateriaPrimaEntrada.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxMateriaPrimaEntrada.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+                jComboBoxMateriaPrimaEntradaPopupMenuWillBecomeInvisible(evt);
+            }
+        });
+
+        jLabelFuncionarioLogin.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabelFuncionarioLogin.setText("jLabel37");
 
         javax.swing.GroupLayout jPanelNovaEntradaLayout = new javax.swing.GroupLayout(jPanelNovaEntrada);
         jPanelNovaEntrada.setLayout(jPanelNovaEntradaLayout);
         jPanelNovaEntradaLayout.setHorizontalGroup(
             jPanelNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelNovaEntradaLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanelNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel14)
-                    .addGroup(jPanelNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(jPanelNovaEntradaLayout.createSequentialGroup()
-                            .addComponent(jLabel15)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jDateChooserEntrada, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
-                        .addGroup(jPanelNovaEntradaLayout.createSequentialGroup()
-                            .addGroup(jPanelNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel16)
-                                .addComponent(jLabel17))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(jPanelNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTextFieldLoteEntrada)
-                                .addComponent(jTextFieldQuantidadeEntrada)))
-                        .addGroup(jPanelNovaEntradaLayout.createSequentialGroup()
-                            .addGroup(jPanelNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel13)
-                                .addComponent(jLabel18))
-                            .addGap(18, 18, 18)
+                    .addGroup(jPanelNovaEntradaLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanelNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel14)
                             .addGroup(jPanelNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jComboBoxFuncionarioResponsavelEntrada, 0, 161, Short.MAX_VALUE)
-                                .addComponent(jComboBoxFornecedorEntrada, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jComboBoxMateriaPrimaEntrada, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                .addContainerGap(24, Short.MAX_VALUE))
+                                .addGroup(jPanelNovaEntradaLayout.createSequentialGroup()
+                                    .addGroup(jPanelNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel16)
+                                        .addComponent(jLabel17))
+                                    .addGap(25, 25, 25)
+                                    .addGroup(jPanelNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanelNovaEntradaLayout.createSequentialGroup()
+                                            .addComponent(jTextFieldQuantidadeEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jTextFieldNovaEntradaUnidadeQuantidade, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE))
+                                        .addComponent(jTextFieldLoteEntrada)))
+                                .addGroup(jPanelNovaEntradaLayout.createSequentialGroup()
+                                    .addGroup(jPanelNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel13)
+                                        .addComponent(jLabel18))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(jPanelNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jComboBoxFornecedorEntrada, 0, 161, Short.MAX_VALUE)
+                                        .addComponent(jComboBoxMateriaPrimaEntrada, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                    .addGroup(jPanelNovaEntradaLayout.createSequentialGroup()
+                        .addGap(58, 58, 58)
+                        .addComponent(jLabelFuncionarioLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelNovaEntradaLayout.setVerticalGroup(
             jPanelNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelNovaEntradaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel14)
-                .addGap(4, 4, 4)
-                .addComponent(jComboBoxFuncionarioResponsavelEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabelFuncionarioLogin)
+                .addGap(27, 27, 27)
                 .addGroup(jPanelNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
                     .addComponent(jComboBoxFornecedorEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -922,19 +1339,16 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(jPanelNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
                     .addComponent(jComboBoxMateriaPrimaEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                .addGroup(jPanelNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel15)
-                    .addComponent(jDateChooserEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
+                .addGap(18, 18, 18)
                 .addGroup(jPanelNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
                     .addComponent(jTextFieldLoteEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
+                .addGap(18, 18, 18)
                 .addGroup(jPanelNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
-                    .addComponent(jTextFieldQuantidadeEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(52, 52, 52))
+                    .addComponent(jTextFieldQuantidadeEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldNovaEntradaUnidadeQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(108, Short.MAX_VALUE))
         );
 
         jButtonGuardarNovaEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
@@ -994,12 +1408,15 @@ public class Login extends javax.swing.JFrame {
         jPanelADevolverNovaEntradaLayout.setHorizontalGroup(
             jPanelADevolverNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelADevolverNovaEntradaLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jLabelQuantidadeADevolver)
-                .addContainerGap(88, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelADevolverNovaEntradaLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jTextFieldQuantidadeADevolver, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanelADevolverNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelADevolverNovaEntradaLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextFieldQuantidadeADevolver, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldUnidadeQuantidadeADevolver, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelADevolverNovaEntradaLayout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jLabelQuantidadeADevolver)))
                 .addContainerGap())
         );
         jPanelADevolverNovaEntradaLayout.setVerticalGroup(
@@ -1008,8 +1425,10 @@ public class Login extends javax.swing.JFrame {
                 .addGap(13, 13, 13)
                 .addComponent(jLabelQuantidadeADevolver)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextFieldQuantidadeADevolver, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addGroup(jPanelADevolverNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldQuantidadeADevolver, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldUnidadeQuantidadeADevolver, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         jPanelConformidadesNovaEntrada.setBorder(javax.swing.BorderFactory.createTitledBorder("Conformidades"));
@@ -1084,13 +1503,10 @@ public class Login extends javax.swing.JFrame {
                         .addGap(6, 6, 6)
                         .addComponent(jPanelNovaEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jDialogNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jDialogNovaEntradaLayout.createSequentialGroup()
-                                .addComponent(jPanelConformidadesNovaEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogNovaEntradaLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jPanelADevolverNovaEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(jDialogNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanelConformidadesNovaEntrada, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanelADevolverNovaEntrada, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE))
                     .addGroup(jDialogNovaEntradaLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanelBotoesNovaEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -1103,7 +1519,7 @@ public class Login extends javax.swing.JFrame {
         jDialogNovaEntradaLayout.setVerticalGroup(
             jDialogNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogNovaEntradaLayout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
+                .addContainerGap(29, Short.MAX_VALUE)
                 .addComponent(jLabel35)
                 .addGap(18, 18, 18)
                 .addGroup(jDialogNovaEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1475,6 +1891,8 @@ public class Login extends javax.swing.JFrame {
 
         jLabelLocal.setText("Local");
 
+        jTextFieldReferenciaInsecto.setEditable(false);
+
         jTextFieldNomeInsecto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldNomeInsectoActionPerformed(evt);
@@ -1500,10 +1918,18 @@ public class Login extends javax.swing.JFrame {
         });
 
         jButtonActualizarInsecto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/atualizar.png"))); // NOI18N
-        jButtonActualizarInsecto.setText("Actualizar");
+        jButtonActualizarInsecto.setText("Actualizar (Campos)");
         jButtonActualizarInsecto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonActualizarInsectoActionPerformed(evt);
+            }
+        });
+
+        jButtonAlterarReferencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/atualizar.png"))); // NOI18N
+        jButtonAlterarReferencia.setText("Alterar Referência");
+        jButtonAlterarReferencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAlterarReferenciaActionPerformed(evt);
             }
         });
 
@@ -1536,11 +1962,14 @@ public class Login extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanelNovoInsectocacadorLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButtonGuardarInsecto)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonActualizarInsecto)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonSairInsecto)))
+                        .addGroup(jPanelNovoInsectocacadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelNovoInsectocacadorLayout.createSequentialGroup()
+                                .addComponent(jButtonGuardarInsecto)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonActualizarInsecto)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonSairInsecto))
+                            .addComponent(jButtonAlterarReferencia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanelNovoInsectocacadorLayout.setVerticalGroup(
@@ -1569,7 +1998,8 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(jButtonGuardarInsecto)
                     .addComponent(jButtonSairInsecto)
                     .addComponent(jButtonActualizarInsecto))
-                .addGap(39, 39, 39))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonAlterarReferencia))
         );
 
         javax.swing.GroupLayout jDialogNovoInsectocacadorLayout = new javax.swing.GroupLayout(jDialogNovoInsectocacador.getContentPane());
@@ -1579,7 +2009,7 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jDialogNovoInsectocacadorLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelNovoInsectocacador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jDialogNovoInsectocacadorLayout.setVerticalGroup(
             jDialogNovoInsectocacadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1590,11 +2020,11 @@ public class Login extends javax.swing.JFrame {
         );
 
         jDialogNovoControloResultados.setTitle("NOVO CONTROLO DE RESULTADOS");
-        jDialogNovoControloResultados.setMinimumSize(new java.awt.Dimension(548, 740));
+        jDialogNovoControloResultados.setMinimumSize(new java.awt.Dimension(490, 680));
 
         jPanelNovoControloResultdos.setBorder(javax.swing.BorderFactory.createTitledBorder("Controlo de Resultados"));
 
-        jComboBoxTipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- TIPO--", "INSECTOCACADORES", "EQUIPAMENTO", "ENTRADA", "Outro" }));
+        jComboBoxTipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- TIPO--", "CONT. PRAGAS", "EQUIPAMENTO", "ENTRADA", "Outro" }));
         jComboBoxTipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxTipoActionPerformed(evt);
@@ -1612,13 +2042,11 @@ public class Login extends javax.swing.JFrame {
 
         jLabelOpcao.setText("Opção");
 
-        jLabelData2.setText("Data");
-
         jLabelResultado.setText("Resultado");
 
         jLabelFichaTecnica.setText("Ficha Tecnica");
 
-        jLabelDescricao.setText("Descrição");
+        jLabelDescricao.setText("Problema");
 
         jComboBoxResultado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "C", "NC" }));
         jComboBoxResultado.addActionListener(new java.awt.event.ActionListener() {
@@ -1628,6 +2056,7 @@ public class Login extends javax.swing.JFrame {
         });
 
         jTextAreaDescricao.setColumns(20);
+        jTextAreaDescricao.setLineWrap(true);
         jTextAreaDescricao.setRows(5);
         jScrollPaneDescricao.setViewportView(jTextAreaDescricao);
 
@@ -1660,7 +2089,7 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jPanelOutraOpcaoLayout.createSequentialGroup()
                 .addComponent(jLabelNomeOutraOpcao)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldOutraOpcao))
+                .addComponent(jTextFieldOutraOpcao, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE))
         );
         jPanelOutraOpcaoLayout.setVerticalGroup(
             jPanelOutraOpcaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1672,68 +2101,69 @@ public class Login extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jDateChooserControloResultados.setDateFormatString("yyyy-MM-dd");
+        jLabelFuncionario.setText("Funcionario:");
 
-        jLabelFuncionario.setText("Funcionario");
-
-        jComboBoxFuncionario.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jLabelFuncionarioLogin2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabelFuncionarioLogin2.setText("jLabel37");
 
         javax.swing.GroupLayout jPanelNovoControloResultdosLayout = new javax.swing.GroupLayout(jPanelNovoControloResultdos);
         jPanelNovoControloResultdos.setLayout(jPanelNovoControloResultdosLayout);
         jPanelNovoControloResultdosLayout.setHorizontalGroup(
             jPanelNovoControloResultdosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelNovoControloResultdosLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanelNovoControloResultdosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelNovoControloResultdosLayout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGroup(jPanelNovoControloResultdosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelNovoControloResultdosLayout.createSequentialGroup()
+                                .addComponent(jLabelFuncionario)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabelFuncionarioLogin2))
+                            .addGroup(jPanelNovoControloResultdosLayout.createSequentialGroup()
+                                .addGap(79, 79, 79)
+                                .addComponent(jButtonInserir)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonCancelar)))
+                        .addContainerGap(71, Short.MAX_VALUE))
+                    .addGroup(jPanelNovoControloResultdosLayout.createSequentialGroup()
+                        .addGroup(jPanelNovoControloResultdosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelTipo)
+                            .addComponent(jComboBoxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelNovoControloResultdosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelOpcao)
+                            .addComponent(jPanelOutraOpcao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanelNovoControloResultdosLayout.createSequentialGroup()
+                                .addComponent(jComboBoxOpcao, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap())))
+                    .addGroup(jPanelNovoControloResultdosLayout.createSequentialGroup()
                         .addGroup(jPanelNovoControloResultdosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelNovoControloResultdosLayout.createSequentialGroup()
                                 .addComponent(jLabelFichaTecnica)
                                 .addGap(26, 26, 26)
                                 .addComponent(jLabel6))
-                            .addComponent(jLabelFuncionario)
-                            .addComponent(jComboBoxFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanelNovoControloResultdosLayout.createSequentialGroup()
-                                .addGroup(jPanelNovoControloResultdosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabelTipo)
-                                    .addComponent(jComboBoxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(15, 15, 15)
+                                .addComponent(jLabelResultado)
                                 .addGap(18, 18, 18)
-                                .addGroup(jPanelNovoControloResultdosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabelOpcao)
-                                    .addComponent(jComboBoxOpcao, 0, 167, Short.MAX_VALUE)
-                                    .addComponent(jPanelOutraOpcao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                    .addGroup(jPanelNovoControloResultdosLayout.createSequentialGroup()
-                        .addGap(48, 48, 48)
-                        .addComponent(jLabelData2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jDateChooserControloResultados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanelNovoControloResultdosLayout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(jLabelResultado)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanelNovoControloResultdosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBoxResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)))
-                    .addGroup(jPanelNovoControloResultdosLayout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(jLabelDescricao)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanelNovoControloResultdosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanelNovoControloResultdosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBoxResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2)))
                             .addGroup(jPanelNovoControloResultdosLayout.createSequentialGroup()
-                                .addComponent(jButtonInserir)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonCancelar))
-                            .addComponent(jScrollPaneDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(28, Short.MAX_VALUE))
+                                .addGap(17, 17, 17)
+                                .addComponent(jLabelDescricao)
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPaneDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanelNovoControloResultdosLayout.setVerticalGroup(
             jPanelNovoControloResultdosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelNovoControloResultdosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelFuncionario)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBoxFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGroup(jPanelNovoControloResultdosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelFuncionario)
+                    .addComponent(jLabelFuncionarioLogin2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelNovoControloResultdosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelTipo)
                     .addComponent(jLabelOpcao))
@@ -1743,10 +2173,6 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(jComboBoxOpcao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanelOutraOpcao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelNovoControloResultdosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabelData2)
-                    .addComponent(jDateChooserControloResultados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelNovoControloResultdosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelResultado)
@@ -1761,7 +2187,7 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(jPanelNovoControloResultdosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelDescricao)
                     .addComponent(jScrollPaneDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(44, 44, 44)
                 .addGroup(jPanelNovoControloResultdosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonInserir)
                     .addComponent(jButtonCancelar))
@@ -1775,143 +2201,34 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jDialogNovoControloResultadosLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelNovoControloResultdos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         jDialogNovoControloResultadosLayout.setVerticalGroup(
             jDialogNovoControloResultadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogNovoControloResultadosLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(jPanelNovoControloResultdos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(44, Short.MAX_VALUE))
-        );
-
-        jDialogNovaManutencaoEquipamento.setTitle("NOVA MANUTENCAO DE EQUIPAMENTO");
-        jDialogNovaManutencaoEquipamento.setMinimumSize(new java.awt.Dimension(355, 476));
-
-        jLabelManutencaoEquipametno.setText("Manutenção Equipamento");
-
-        jLabelData1.setText("Data");
-
-        jLabel3.setText("Observações");
-
-        jLabel4.setText("Ficha Tecnica");
-
-        jDateChooserDataManutencaoEquipamento.setDate(new java.util.Date(1383072388000L));
-        jDateChooserDataManutencaoEquipamento.setDateFormatString("yyyy-MM-dd");
-        jDateChooserDataManutencaoEquipamento.setEnabled(false);
-
-        jTextAreaObservacaoManutencaoEquipameto.setColumns(20);
-        jTextAreaObservacaoManutencaoEquipameto.setRows(5);
-        jScrollPaneObservacaManuetencaoEquipametno.setViewportView(jTextAreaObservacaoManutencaoEquipameto);
-
-        jButtonGravarManutencaoEquipametno.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
-        jButtonGravarManutencaoEquipametno.setText("Guardar");
-        jButtonGravarManutencaoEquipametno.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonGravarManutencaoEquipametnoActionPerformed(evt);
-            }
-        });
-
-        jButtonSairManutencaoEquipamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
-        jButtonSairManutencaoEquipamento.setText("Fechar");
-        jButtonSairManutencaoEquipamento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSairManutencaoEquipamentoActionPerformed(evt);
-            }
-        });
-
-        jLabelFuncionarioResponsavel1.setText("Funcionario Responsavel");
-
-        javax.swing.GroupLayout jPanelManutencaoEquipamentoLayout = new javax.swing.GroupLayout(jPanelManutencaoEquipamento);
-        jPanelManutencaoEquipamento.setLayout(jPanelManutencaoEquipamentoLayout);
-        jPanelManutencaoEquipamentoLayout.setHorizontalGroup(
-            jPanelManutencaoEquipamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelManutencaoEquipamentoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanelManutencaoEquipamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelManutencaoEquipametno)
-                    .addComponent(jLabel4)
-                    .addGroup(jPanelManutencaoEquipamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelManutencaoEquipamentoLayout.createSequentialGroup()
-                            .addGap(14, 14, 14)
-                            .addComponent(jButtonGravarManutencaoEquipametno)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonSairManutencaoEquipamento))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelManutencaoEquipamentoLayout.createSequentialGroup()
-                            .addGroup(jPanelManutencaoEquipamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabelData1))
-                            .addGap(10, 10, 10)
-                            .addGroup(jPanelManutencaoEquipamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jDateChooserDataManutencaoEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jScrollPaneObservacaManuetencaoEquipametno, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jComboBoxFuncionarioResponsavel, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jLabelFuncionarioResponsavel1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanelManutencaoEquipamentoLayout.setVerticalGroup(
-            jPanelManutencaoEquipamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelManutencaoEquipamentoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabelManutencaoEquipametno)
-                .addGap(28, 28, 28)
-                .addComponent(jLabelFuncionarioResponsavel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBoxFuncionarioResponsavel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanelManutencaoEquipamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabelData1)
-                    .addComponent(jDateChooserDataManutencaoEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanelManutencaoEquipamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelManutencaoEquipamentoLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel3))
-                    .addGroup(jPanelManutencaoEquipamentoLayout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addComponent(jScrollPaneObservacaManuetencaoEquipametno, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel4)
-                .addGap(50, 50, 50)
-                .addGroup(jPanelManutencaoEquipamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonGravarManutencaoEquipametno)
-                    .addComponent(jButtonSairManutencaoEquipamento))
-                .addContainerGap(35, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout jDialogNovaManutencaoEquipamentoLayout = new javax.swing.GroupLayout(jDialogNovaManutencaoEquipamento.getContentPane());
-        jDialogNovaManutencaoEquipamento.getContentPane().setLayout(jDialogNovaManutencaoEquipamentoLayout);
-        jDialogNovaManutencaoEquipamentoLayout.setHorizontalGroup(
-            jDialogNovaManutencaoEquipamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialogNovaManutencaoEquipamentoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanelManutencaoEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
-        );
-        jDialogNovaManutencaoEquipamentoLayout.setVerticalGroup(
-            jDialogNovaManutencaoEquipamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialogNovaManutencaoEquipamentoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanelManutencaoEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         jDialogNaoConformidades.setTitle("NOVA NÃO CONFORMIDADE");
-        jDialogNaoConformidades.setMinimumSize(new java.awt.Dimension(435, 670));
+        jDialogNaoConformidades.setMinimumSize(new java.awt.Dimension(730, 710));
 
+        jPanelNaoConformidades.setBorder(javax.swing.BorderFactory.createTitledBorder("Não Conformidade - a preencher"));
         jPanelNaoConformidades.setMinimumSize(new java.awt.Dimension(200, 150));
 
-        jLabelDataNaoConformidade.setText("Data");
-
-        jLabelOcorrecniaNaoConformidade.setText("Ocorrencia");
+        jLabelOcorrecniaNaoConformidade.setText("Detalhes");
 
         jLabelMedidaCorrectivaNaoConformidade.setText("Medida Correctiva");
 
         jTextAreaOcorrenciaNaoConformidade.setColumns(20);
+        jTextAreaOcorrenciaNaoConformidade.setLineWrap(true);
         jTextAreaOcorrenciaNaoConformidade.setRows(5);
         jTextAreaOcorrenciaNaoConformidade.setPreferredSize(new java.awt.Dimension(164, 100));
         jScrollPaneOcorrencia.setViewportView(jTextAreaOcorrenciaNaoConformidade);
 
         jTextAreaMedidaCorrctivaNaoConformidade.setColumns(20);
+        jTextAreaMedidaCorrctivaNaoConformidade.setLineWrap(true);
         jTextAreaMedidaCorrctivaNaoConformidade.setRows(5);
         jScrollPanemedidaCorrectiva.setViewportView(jTextAreaMedidaCorrctivaNaoConformidade);
 
@@ -1931,15 +2248,14 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jDateChooserNaoConformidade.setDateFormatString("yyyy-MM-dd");
-
         jLabel7.setText("Funcionario Responsavel");
 
-        jComboBoxNaoConformidadeFuncionarioResponsav.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxNaoConformidadeFuncionarioResponsav.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--Funcionario--" }));
 
-        jLabel34.setText("Funcionario");
+        jLabel.setText("Funcionario");
 
-        jComboBoxFuncionarioNaoConformidade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--Funcionario--" }));
+        jLabelFuncionarioLogin4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabelFuncionarioLogin4.setText("jLabel37");
 
         javax.swing.GroupLayout jPanelNaoConformidadesLayout = new javax.swing.GroupLayout(jPanelNaoConformidades);
         jPanelNaoConformidades.setLayout(jPanelNaoConformidadesLayout);
@@ -1961,13 +2277,9 @@ public class Login extends javax.swing.JFrame {
                                 .addComponent(jLabelOcorrecniaNaoConformidade))
                             .addGroup(jPanelNaoConformidadesLayout.createSequentialGroup()
                                 .addGap(19, 19, 19)
-                                .addGroup(jPanelNaoConformidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabelDataNaoConformidade)
-                                    .addComponent(jLabel34))
+                                .addComponent(jLabel)
                                 .addGap(29, 29, 29)
-                                .addGroup(jPanelNaoConformidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jComboBoxFuncionarioNaoConformidade, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jDateChooserNaoConformidade, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)))))
+                                .addComponent(jLabelFuncionarioLogin4, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanelNaoConformidadesLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel7))
@@ -1979,20 +2291,16 @@ public class Login extends javax.swing.JFrame {
                         .addComponent(jButtonGravarNaoConformidade)
                         .addGap(82, 82, 82)
                         .addComponent(jButtonCancelarNaoConformidade)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         jPanelNaoConformidadesLayout.setVerticalGroup(
             jPanelNaoConformidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelNaoConformidadesLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addGap(21, 21, 21)
                 .addGroup(jPanelNaoConformidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel34)
-                    .addComponent(jComboBoxFuncionarioNaoConformidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22)
-                .addGroup(jPanelNaoConformidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabelDataNaoConformidade)
-                    .addComponent(jDateChooserNaoConformidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLabel)
+                    .addComponent(jLabelFuncionarioLogin4))
+                .addGap(56, 56, 56)
                 .addComponent(jLabelOcorrecniaNaoConformidade)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPaneOcorrencia, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2014,6 +2322,52 @@ public class Login extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel8.setText("NÃO CONFORMIDADE");
 
+        jPanelVerMensagemProblema.setBorder(javax.swing.BorderFactory.createTitledBorder("Problema do Controlo de Resultado"));
+
+        jTextAreaProblemadoControlo.setEditable(false);
+        jTextAreaProblemadoControlo.setColumns(20);
+        jTextAreaProblemadoControlo.setLineWrap(true);
+        jTextAreaProblemadoControlo.setRows(5);
+        jScrollPane7.setViewportView(jTextAreaProblemadoControlo);
+
+        javax.swing.GroupLayout jPanelVerMensagemProblemaLayout = new javax.swing.GroupLayout(jPanelVerMensagemProblema);
+        jPanelVerMensagemProblema.setLayout(jPanelVerMensagemProblemaLayout);
+        jPanelVerMensagemProblemaLayout.setHorizontalGroup(
+            jPanelVerMensagemProblemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelVerMensagemProblemaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanelVerMensagemProblemaLayout.setVerticalGroup(
+            jPanelVerMensagemProblemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelVerMensagemProblemaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Secção"));
+
+        jTextFieldVerSeccaoDoCR.setEditable(false);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTextFieldVerSeccaoDoCR)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTextFieldVerSeccaoDoCR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jDialogNaoConformidadesLayout = new javax.swing.GroupLayout(jDialogNaoConformidades.getContentPane());
         jDialogNaoConformidades.getContentPane().setLayout(jDialogNaoConformidadesLayout);
         jDialogNaoConformidadesLayout.setHorizontalGroup(
@@ -2024,18 +2378,364 @@ public class Login extends javax.swing.JFrame {
                         .addGap(111, 111, 111)
                         .addComponent(jLabel8))
                     .addGroup(jDialogNaoConformidadesLayout.createSequentialGroup()
-                        .addGap(33, 33, 33)
+                        .addContainerGap()
+                        .addGroup(jDialogNaoConformidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanelVerMensagemProblema, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(20, 20, 20)
                         .addComponent(jPanelNaoConformidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
         jDialogNaoConformidadesLayout.setVerticalGroup(
             jDialogNaoConformidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogNaoConformidadesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanelNaoConformidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jDialogNaoConformidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jDialogNaoConformidadesLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanelNaoConformidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jDialogNaoConformidadesLayout.createSequentialGroup()
+                        .addGap(73, 73, 73)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanelVerMensagemProblema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jDialogMedidasCorrectiva.setTitle("NOVA MEDIDA CORRECTIVA");
+        jDialogMedidasCorrectiva.setMinimumSize(new java.awt.Dimension(900, 550));
+
+        jLabelMedidasCorrectivas.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabelMedidasCorrectivas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/medida_correctiva.png"))); // NOI18N
+        jLabelMedidasCorrectivas.setText("Medida Correctiva");
+
+        jPanelMedidasCorrectivas.setBorder(javax.swing.BorderFactory.createTitledBorder("Media Correctica da Não Conformidade"));
+
+        jLabelObservacaoMedidasCorrectivas.setText("Observação");
+
+        jScrollPane2.setMinimumSize(new java.awt.Dimension(200, 150));
+
+        jTextAreaObservacaoMedidaCorrectiva.setColumns(20);
+        jTextAreaObservacaoMedidaCorrectiva.setLineWrap(true);
+        jTextAreaObservacaoMedidaCorrectiva.setRows(5);
+        jScrollPane2.setViewportView(jTextAreaObservacaoMedidaCorrectiva);
+
+        jButtonGravarMedidaCorrectiva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
+        jButtonGravarMedidaCorrectiva.setText("Resolvida");
+        jButtonGravarMedidaCorrectiva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGravarMedidaCorrectivaActionPerformed(evt);
+            }
+        });
+
+        jButtonCancelarMedidaCorrectiva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
+        jButtonCancelarMedidaCorrectiva.setText("Voltar");
+        jButtonCancelarMedidaCorrectiva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarMedidaCorrectivaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelMedidasCorrectivasLayout = new javax.swing.GroupLayout(jPanelMedidasCorrectivas);
+        jPanelMedidasCorrectivas.setLayout(jPanelMedidasCorrectivasLayout);
+        jPanelMedidasCorrectivasLayout.setHorizontalGroup(
+            jPanelMedidasCorrectivasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelMedidasCorrectivasLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanelMedidasCorrectivasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelObservacaoMedidasCorrectivas)
+                    .addGroup(jPanelMedidasCorrectivasLayout.createSequentialGroup()
+                        .addGap(76, 76, 76)
+                        .addGroup(jPanelMedidasCorrectivasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanelMedidasCorrectivasLayout.createSequentialGroup()
+                                .addComponent(jButtonGravarMedidaCorrectiva)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonCancelarMedidaCorrectiva))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(43, 43, 43))
+        );
+        jPanelMedidasCorrectivasLayout.setVerticalGroup(
+            jPanelMedidasCorrectivasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelMedidasCorrectivasLayout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(jLabelObservacaoMedidasCorrectivas)
+                .addGap(8, 8, 8)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(63, 63, 63)
+                .addGroup(jPanelMedidasCorrectivasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonGravarMedidaCorrectiva, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonCancelarMedidaCorrectiva))
+                .addContainerGap(87, Short.MAX_VALUE))
+        );
+
+        jPanelInformacaoAdicional.setBorder(javax.swing.BorderFactory.createTitledBorder("Infor. Adicional"));
+
+        jPanelInformacaoNaoConformidade.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados da Não Conformidade"));
+
+        jLabel40.setText("Detalhes :");
+
+        jLabel41.setText("Medida Correctiva :");
+
+        jTextAreaDetalhesMC.setEditable(false);
+        jTextAreaDetalhesMC.setColumns(20);
+        jTextAreaDetalhesMC.setLineWrap(true);
+        jTextAreaDetalhesMC.setRows(5);
+        jScrollPane10.setViewportView(jTextAreaDetalhesMC);
+
+        jTextAreaMedidasCorrectivasMC.setEditable(false);
+        jTextAreaMedidasCorrectivasMC.setColumns(20);
+        jTextAreaMedidasCorrectivasMC.setLineWrap(true);
+        jTextAreaMedidasCorrectivasMC.setRows(5);
+        jScrollPane11.setViewportView(jTextAreaMedidasCorrectivasMC);
+
+        javax.swing.GroupLayout jPanelInformacaoNaoConformidadeLayout = new javax.swing.GroupLayout(jPanelInformacaoNaoConformidade);
+        jPanelInformacaoNaoConformidade.setLayout(jPanelInformacaoNaoConformidadeLayout);
+        jPanelInformacaoNaoConformidadeLayout.setHorizontalGroup(
+            jPanelInformacaoNaoConformidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelInformacaoNaoConformidadeLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelInformacaoNaoConformidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel40)
+                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addGroup(jPanelInformacaoNaoConformidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel41))
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+        jPanelInformacaoNaoConformidadeLayout.setVerticalGroup(
+            jPanelInformacaoNaoConformidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelInformacaoNaoConformidadeLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelInformacaoNaoConformidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel40)
+                    .addComponent(jLabel41))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelInformacaoNaoConformidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanelInformacaoControloResultado.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados Do Controlo de Resultado"));
+
+        jLabel38.setText("Secção :");
+
+        jLabel39.setText("Problema :");
+
+        jTextFieldSeccaoMC.setEditable(false);
+
+        jTextAreaProblemaMC.setEditable(false);
+        jTextAreaProblemaMC.setColumns(20);
+        jTextAreaProblemaMC.setLineWrap(true);
+        jTextAreaProblemaMC.setRows(5);
+        jScrollPane9.setViewportView(jTextAreaProblemaMC);
+
+        javax.swing.GroupLayout jPanelInformacaoControloResultadoLayout = new javax.swing.GroupLayout(jPanelInformacaoControloResultado);
+        jPanelInformacaoControloResultado.setLayout(jPanelInformacaoControloResultadoLayout);
+        jPanelInformacaoControloResultadoLayout.setHorizontalGroup(
+            jPanelInformacaoControloResultadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelInformacaoControloResultadoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelInformacaoControloResultadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextFieldSeccaoMC, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel38))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelInformacaoControloResultadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel39))
+                .addContainerGap(26, Short.MAX_VALUE))
+        );
+        jPanelInformacaoControloResultadoLayout.setVerticalGroup(
+            jPanelInformacaoControloResultadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInformacaoControloResultadoLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanelInformacaoControloResultadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelInformacaoControloResultadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanelInformacaoControloResultadoLayout.createSequentialGroup()
+                            .addGap(25, 25, 25)
+                            .addComponent(jTextFieldSeccaoMC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInformacaoControloResultadoLayout.createSequentialGroup()
+                            .addComponent(jLabel38)
+                            .addGap(31, 31, 31)))
+                    .addGroup(jPanelInformacaoControloResultadoLayout.createSequentialGroup()
+                        .addComponent(jLabel39)
+                        .addGap(11, 11, 11)
+                        .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanelInformacaoAdicionalLayout = new javax.swing.GroupLayout(jPanelInformacaoAdicional);
+        jPanelInformacaoAdicional.setLayout(jPanelInformacaoAdicionalLayout);
+        jPanelInformacaoAdicionalLayout.setHorizontalGroup(
+            jPanelInformacaoAdicionalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelInformacaoAdicionalLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelInformacaoAdicionalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanelInformacaoControloResultado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanelInformacaoNaoConformidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(30, Short.MAX_VALUE))
+        );
+        jPanelInformacaoAdicionalLayout.setVerticalGroup(
+            jPanelInformacaoAdicionalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInformacaoAdicionalLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanelInformacaoControloResultado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanelInformacaoNaoConformidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(21, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jDialogMedidasCorrectivaLayout = new javax.swing.GroupLayout(jDialogMedidasCorrectiva.getContentPane());
+        jDialogMedidasCorrectiva.getContentPane().setLayout(jDialogMedidasCorrectivaLayout);
+        jDialogMedidasCorrectivaLayout.setHorizontalGroup(
+            jDialogMedidasCorrectivaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogMedidasCorrectivaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanelInformacaoAdicional, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanelMedidasCorrectivas, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(19, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogMedidasCorrectivaLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabelMedidasCorrectivas)
+                .addGap(321, 321, 321))
+        );
+        jDialogMedidasCorrectivaLayout.setVerticalGroup(
+            jDialogMedidasCorrectivaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogMedidasCorrectivaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelMedidasCorrectivas)
+                .addGap(18, 18, 18)
+                .addGroup(jDialogMedidasCorrectivaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanelInformacaoAdicional, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanelMedidasCorrectivas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(31, Short.MAX_VALUE))
+        );
+
+        jDialogNovaManutencaoEquipamento.setTitle("NOVA MANUTENCAO DE EQUIPAMENTO");
+        jDialogNovaManutencaoEquipamento.setMinimumSize(new java.awt.Dimension(360, 510));
+
+        jPanelManutencaoEquipamento.setBorder(javax.swing.BorderFactory.createTitledBorder("Nova Mnutenção de Equipamento"));
+
+        jLabel3.setText("Observações");
+
+        jLabel4.setText("Ficha Tecnica");
+
+        jTextAreaObservacaoManutencaoEquipameto.setColumns(20);
+        jTextAreaObservacaoManutencaoEquipameto.setLineWrap(true);
+        jTextAreaObservacaoManutencaoEquipameto.setRows(5);
+        jScrollPaneObservacaManuetencaoEquipametno.setViewportView(jTextAreaObservacaoManutencaoEquipameto);
+
+        jButtonGravarManutencaoEquipametno.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
+        jButtonGravarManutencaoEquipametno.setText("Guardar");
+        jButtonGravarManutencaoEquipametno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGravarManutencaoEquipametnoActionPerformed(evt);
+            }
+        });
+
+        jButtonSairManutencaoEquipamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
+        jButtonSairManutencaoEquipamento.setText("Fechar");
+        jButtonSairManutencaoEquipamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSairManutencaoEquipamentoActionPerformed(evt);
+            }
+        });
+
+        jLabelFuncionarioResponsavel1.setText("Funcionario:");
+
+        jLabelFuncionariologin3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabelFuncionariologin3.setText("jLabel37");
+
+        jPanelEquipamentoSeleccionado.setBorder(javax.swing.BorderFactory.createTitledBorder("Equipamento Seleccionado"));
+
+        jTextFieldNomeEquipamentoSeleccionado.setEditable(false);
+        jTextFieldNomeEquipamentoSeleccionado.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+
+        javax.swing.GroupLayout jPanelEquipamentoSeleccionadoLayout = new javax.swing.GroupLayout(jPanelEquipamentoSeleccionado);
+        jPanelEquipamentoSeleccionado.setLayout(jPanelEquipamentoSeleccionadoLayout);
+        jPanelEquipamentoSeleccionadoLayout.setHorizontalGroup(
+            jPanelEquipamentoSeleccionadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelEquipamentoSeleccionadoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTextFieldNomeEquipamentoSeleccionado, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanelEquipamentoSeleccionadoLayout.setVerticalGroup(
+            jPanelEquipamentoSeleccionadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelEquipamentoSeleccionadoLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jTextFieldNomeEquipamentoSeleccionado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanelManutencaoEquipamentoLayout = new javax.swing.GroupLayout(jPanelManutencaoEquipamento);
+        jPanelManutencaoEquipamento.setLayout(jPanelManutencaoEquipamentoLayout);
+        jPanelManutencaoEquipamentoLayout.setHorizontalGroup(
+            jPanelManutencaoEquipamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelManutencaoEquipamentoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelManutencaoEquipamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanelEquipamentoSeleccionado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanelManutencaoEquipamentoLayout.createSequentialGroup()
+                        .addComponent(jButtonGravarManutencaoEquipametno)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonSairManutencaoEquipamento))
+                    .addGroup(jPanelManutencaoEquipamentoLayout.createSequentialGroup()
+                        .addGroup(jPanelManutencaoEquipamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addGroup(jPanelManutencaoEquipamentoLayout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(10, 10, 10)
+                                .addComponent(jScrollPaneObservacaManuetencaoEquipametno, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanelManutencaoEquipamentoLayout.createSequentialGroup()
+                                .addComponent(jLabelFuncionarioResponsavel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabelFuncionariologin3)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanelManutencaoEquipamentoLayout.setVerticalGroup(
+            jPanelManutencaoEquipamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelManutencaoEquipamentoLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanelEquipamentoSeleccionado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelManutencaoEquipamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelFuncionarioResponsavel1)
+                    .addComponent(jLabelFuncionariologin3))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelManutencaoEquipamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addGroup(jPanelManutencaoEquipamentoLayout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addComponent(jScrollPaneObservacaManuetencaoEquipametno, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(16, 16, 16)
+                .addComponent(jLabel4)
+                .addGap(40, 40, 40)
+                .addGroup(jPanelManutencaoEquipamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonGravarManutencaoEquipametno)
+                    .addComponent(jButtonSairManutencaoEquipamento))
+                .addGap(351, 351, 351))
+        );
+
+        javax.swing.GroupLayout jDialogNovaManutencaoEquipamentoLayout = new javax.swing.GroupLayout(jDialogNovaManutencaoEquipamento.getContentPane());
+        jDialogNovaManutencaoEquipamento.getContentPane().setLayout(jDialogNovaManutencaoEquipamentoLayout);
+        jDialogNovaManutencaoEquipamentoLayout.setHorizontalGroup(
+            jDialogNovaManutencaoEquipamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogNovaManutencaoEquipamentoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanelManutencaoEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+        jDialogNovaManutencaoEquipamentoLayout.setVerticalGroup(
+            jDialogNovaManutencaoEquipamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogNovaManutencaoEquipamentoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanelManutencaoEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(130, Short.MAX_VALUE))
         );
 
         jDialogNovaLimpeza.setTitle("NOVA LIMPEZA");
@@ -2044,8 +2744,6 @@ public class Login extends javax.swing.JFrame {
         jLabelFuncionarioResponsavel.setText("Funcionario Responsavel");
 
         jLabelData.setText("Data");
-
-        jComboBoxFuncionarioResponsvelLimpeza.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jButtonGuardarLimpeza.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
         jButtonGuardarLimpeza.setText("Guardar");
@@ -2063,26 +2761,33 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jLabelFuncionarioLogin5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabelFuncionarioLogin5.setText("jLabel34");
+
+        jLabelDataNovaLimpeza.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabelDataNovaLimpeza.setText("jLabel15");
+
         javax.swing.GroupLayout jPanelNovaLimpezaLayout = new javax.swing.GroupLayout(jPanelNovaLimpeza);
         jPanelNovaLimpeza.setLayout(jPanelNovaLimpezaLayout);
         jPanelNovaLimpezaLayout.setHorizontalGroup(
             jPanelNovaLimpezaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelNovaLimpezaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelNovaLimpezaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanelNovaLimpezaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelNovaLimpezaLayout.createSequentialGroup()
                         .addGroup(jPanelNovaLimpezaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelFuncionarioResponsavel)
                             .addComponent(jLabelData, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanelNovaLimpezaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBoxFuncionarioResponsvelLimpeza, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jDateChooserLimpeza, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelNovaLimpezaLayout.createSequentialGroup()
+                        .addGroup(jPanelNovaLimpezaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelFuncionarioLogin5, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelDataNovaLimpeza))
+                        .addContainerGap(95, Short.MAX_VALUE))
+                    .addGroup(jPanelNovaLimpezaLayout.createSequentialGroup()
                         .addComponent(jButtonGuardarLimpeza)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonSairLimpeza)))
-                .addContainerGap(52, Short.MAX_VALUE))
+                        .addComponent(jButtonSairLimpeza)
+                        .addGap(36, 36, 36))))
         );
         jPanelNovaLimpezaLayout.setVerticalGroup(
             jPanelNovaLimpezaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2090,16 +2795,16 @@ public class Login extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanelNovaLimpezaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelFuncionarioResponsavel)
-                    .addComponent(jComboBoxFuncionarioResponsvelLimpeza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(jPanelNovaLimpezaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabelFuncionarioLogin5))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelNovaLimpezaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelData)
-                    .addComponent(jDateChooserLimpeza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
+                    .addComponent(jLabelDataNovaLimpeza))
+                .addGap(18, 18, 18)
                 .addGroup(jPanelNovaLimpezaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonGuardarLimpeza)
                     .addComponent(jButtonSairLimpeza))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jDialogNovaLimpezaLayout = new javax.swing.GroupLayout(jDialogNovaLimpeza.getContentPane());
@@ -2109,14 +2814,14 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jDialogNovaLimpezaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelNovaLimpeza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         jDialogNovaLimpezaLayout.setVerticalGroup(
             jDialogNovaLimpezaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogNovaLimpezaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelNovaLimpeza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         jDialogNovoEquipamento.setTitle("Novo Equipamento");
@@ -2129,6 +2834,7 @@ public class Login extends javax.swing.JFrame {
         jLabelDescrição.setText("Descrição");
 
         jTextAreaObservacaoNovoEquipamento.setColumns(20);
+        jTextAreaObservacaoNovoEquipamento.setLineWrap(true);
         jTextAreaObservacaoNovoEquipamento.setRows(5);
         jScrollPaneNovoEquipmanentoObservacao.setViewportView(jTextAreaObservacaoNovoEquipamento);
 
@@ -2176,8 +2882,8 @@ public class Login extends javax.swing.JFrame {
                                 .addComponent(jButtonActualizar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButtonSairNovoEquipamento))
-                            .addComponent(jScrollPaneNovoEquipmanentoObservacao)
-                            .addComponent(jTextFieldNomeEquipamento))))
+                            .addComponent(jTextFieldNomeEquipamento)
+                            .addComponent(jScrollPaneNovoEquipmanentoObservacao))))
                 .addContainerGap())
         );
         jPanelNovoEquipamentoLayout.setVerticalGroup(
@@ -2224,7 +2930,7 @@ public class Login extends javax.swing.JFrame {
 
         jPanelDevolucoes.setToolTipText("DEVOLUÇÃO");
 
-        jLabelFuncionarioResponsavel2.setText("Funcionario Responsavel");
+        jLabelFuncionarioResponsavel2.setText("Funcionario ");
 
         jLabelDataDevolucao.setText("Data de Devolução");
 
@@ -2232,11 +2938,10 @@ public class Login extends javax.swing.JFrame {
 
         jLabelObservação.setText("Observação");
 
-        jComboBoxFuncionarioResponsavelDevolucao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jDateChooserDataDevolucao.setDateFormatString("yyyy-MM-dd");
 
         jTextAreaObservacoesDevolucao.setColumns(20);
+        jTextAreaObservacoesDevolucao.setLineWrap(true);
         jTextAreaObservacoesDevolucao.setRows(5);
         jScrollPaneObservacoesDevolucao.setViewportView(jTextAreaObservacoesDevolucao);
 
@@ -2264,6 +2969,9 @@ public class Login extends javax.swing.JFrame {
 
         jLabel33.setText("Devolver");
 
+        jLabelFuncionarioLogin6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabelFuncionarioLogin6.setText("jLabel37");
+
         javax.swing.GroupLayout jPanelDevolucoesLayout = new javax.swing.GroupLayout(jPanelDevolucoes);
         jPanelDevolucoes.setLayout(jPanelDevolucoesLayout);
         jPanelDevolucoesLayout.setHorizontalGroup(
@@ -2274,25 +2982,21 @@ public class Login extends javax.swing.JFrame {
                     .addGroup(jPanelDevolucoesLayout.createSequentialGroup()
                         .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabelObservação)
-                            .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabelFuncionarioResponsavel2)
-                                .addComponent(jLabelDataDevolucao, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addComponent(jLabelDataDevolucao)
                             .addComponent(jLabelQuantidadeADevolverDevolucao)
                             .addComponent(jLabel33)
-                            .addComponent(jLabelQuantidadeDevolvida))
+                            .addComponent(jLabelQuantidadeDevolvida)
+                            .addComponent(jLabelFuncionarioResponsavel2))
                         .addGap(18, 18, 18)
                         .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelDevolucoesLayout.createSequentialGroup()
-                                .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jDateChooserDataDevolucao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(jPanelDevolucoesLayout.createSequentialGroup()
-                                        .addComponent(jComboBoxFuncionarioResponsavelDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(jDateChooserDataDevolucao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(233, 233, 233))
                             .addGroup(jPanelDevolucoesLayout.createSequentialGroup()
                                 .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jTextFieldQuantidadeDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextFieldQuantidadeADevolverDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jTextFieldQuantidadeADevolverDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabelFuncionarioLogin6))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(jPanelDevolucoesLayout.createSequentialGroup()
                         .addGap(61, 61, 61)
@@ -2307,10 +3011,10 @@ public class Login extends javax.swing.JFrame {
         jPanelDevolucoesLayout.setVerticalGroup(
             jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelDevolucoesLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addGap(33, 33, 33)
                 .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelFuncionarioResponsavel2)
-                    .addComponent(jComboBoxFuncionarioResponsavelDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabelFuncionarioLogin6))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelDevolucoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabelDataDevolucao)
@@ -2353,7 +3057,7 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jDialogDevolucoesLayout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(jPanelDevolucoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         jDialogConsultaInsectocacadores.setTitle("CONSULTA INSECTOCADORES");
@@ -2540,7 +3244,7 @@ public class Login extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Insectocaçador", "Funcionario", "Data"
+                "Controlo de Praga", "Funcionario", "Data"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -2641,7 +3345,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jButtonSairConsultaEquipamentos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/sair.png"))); // NOI18N
+        jButtonSairConsultaEquipamentos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
         jButtonSairConsultaEquipamentos.setText("Sair");
         jButtonSairConsultaEquipamentos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2863,11 +3567,11 @@ public class Login extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Funcionario", "Secção", "Data", "Resultado", "Ficha Tecnica", "Descrição"
+                "Funcionario", "Secção", "Data", "Estado", "Problema"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -2880,6 +3584,10 @@ public class Login extends javax.swing.JFrame {
             }
         });
         jScrollPaneConsultarControlos.setViewportView(jTableConsultarControlos);
+        if (jTableConsultarControlos.getColumnModel().getColumnCount() > 0) {
+            jTableConsultarControlos.getColumnModel().getColumn(3).setMinWidth(60);
+            jTableConsultarControlos.getColumnModel().getColumn(3).setMaxWidth(80);
+        }
 
         jButtonFecharConsultaControlosResultados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
         jButtonFecharConsultaControlosResultados.setText("Fechar");
@@ -2905,7 +3613,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jComboBoxSeccao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--Secção--", "ENTRADA", "EQUIPAMENTO", "INSECTOCACADORES", "OUTROS" }));
+        jComboBoxSeccao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--Secção--", "ENTRADA", "EQUIPAMENTO", "CONT. PRAGAS", "OUTROS" }));
         jComboBoxSeccao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxSeccaoActionPerformed(evt);
@@ -2923,6 +3631,18 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jLabel12.setText("C - Conforme");
+
+        jLabel36.setText("NC - Não Conforme");
+
+        jButtonVerHistoricoControlo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/historico.png"))); // NOI18N
+        jButtonVerHistoricoControlo.setText("Ver Historico");
+        jButtonVerHistoricoControlo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonVerHistoricoControloActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelConsultaControlosLayout = new javax.swing.GroupLayout(jPanelConsultaControlos);
         jPanelConsultaControlos.setLayout(jPanelConsultaControlosLayout);
         jPanelConsultaControlosLayout.setHorizontalGroup(
@@ -2933,19 +3653,25 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(jScrollPaneConsultarControlos)
                     .addGroup(jPanelConsultaControlosLayout.createSequentialGroup()
                         .addComponent(jButtonCriaNovoControloResultados)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonVerHistoricoControlo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonFecharConsultaControlosResultados))
                     .addGroup(jPanelConsultaControlosLayout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBoxSeccao, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jComboBoxSeccao, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(39, 39, 39)
+                        .addGroup(jPanelConsultaControlosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel36))
+                        .addGap(4, 4, Short.MAX_VALUE)
                         .addComponent(jButtonVerNaoConformidadeEntrada)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonVerNaoConformidade)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConsultaControlosLayout.createSequentialGroup()
-                .addContainerGap(415, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel9)
                 .addGap(397, 397, 397))
         );
@@ -2954,20 +3680,27 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jPanelConsultaControlosLayout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addComponent(jLabel9)
-                .addGap(18, 18, 18)
                 .addGroup(jPanelConsultaControlosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonVerNaoConformidade, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanelConsultaControlosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jComboBoxSeccao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel10)
-                        .addComponent(jButtonVerNaoConformidadeEntrada)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPaneConsultarControlos, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelConsultaControlosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonFecharConsultaControlosResultados)
-                    .addComponent(jButtonCriaNovoControloResultados))
-                .addContainerGap(23, Short.MAX_VALUE))
+                    .addGroup(jPanelConsultaControlosLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanelConsultaControlosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonVerNaoConformidade, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanelConsultaControlosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jComboBoxSeccao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel10)
+                                .addComponent(jButtonVerNaoConformidadeEntrada)
+                                .addComponent(jLabel36)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPaneConsultarControlos, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanelConsultaControlosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButtonFecharConsultaControlosResultados)
+                            .addComponent(jButtonCriaNovoControloResultados)
+                            .addComponent(jButtonVerHistoricoControlo)))
+                    .addGroup(jPanelConsultaControlosLayout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addComponent(jLabel12)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jDialogConsultarControlosLayout = new javax.swing.GroupLayout(jDialogConsultarControlos.getContentPane());
@@ -2984,20 +3717,25 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jDialogConsultarControlosLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelConsultaControlos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         jDialogConsultaNaoConformidades.setTitle("CONSULTAR NÃO CONFORMIDADES");
-        jDialogConsultaNaoConformidades.setMinimumSize(new java.awt.Dimension(806, 361));
+        jDialogConsultaNaoConformidades.setMinimumSize(new java.awt.Dimension(800, 500));
 
+        jPanelConsultaNaoConformidades.setLayout(null);
+
+        jLabelNaoConformidades.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Nao Conformidades.png"))); // NOI18N
         jLabelNaoConformidades.setText("CONSULTA NAO CONFORMIDADES");
+        jPanelConsultaNaoConformidades.add(jLabelNaoConformidades);
+        jLabelNaoConformidades.setBounds(10, 11, 205, 32);
 
         jTableNaoConformidades.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Funcionario", "Data(Ñ Confor)", "Ocorrencia", "Medida Correct.", "Func. Responsav."
+                "Funcionario", "Data(Ñ Confor)", "Detalhes", "Medida Correct.", "Func. Responsav."
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -3010,6 +3748,9 @@ public class Login extends javax.swing.JFrame {
         });
         jScrollPaneNaoConformidades.setViewportView(jTableNaoConformidades);
 
+        jPanelConsultaNaoConformidades.add(jScrollPaneNaoConformidades);
+        jScrollPaneNaoConformidades.setBounds(10, 220, 735, 178);
+
         jButtonVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
         jButtonVoltar.setText("Fechar");
         jButtonVoltar.addActionListener(new java.awt.event.ActionListener() {
@@ -3017,6 +3758,8 @@ public class Login extends javax.swing.JFrame {
                 jButtonVoltarActionPerformed(evt);
             }
         });
+        jPanelConsultaNaoConformidades.add(jButtonVoltar);
+        jButtonVoltar.setBounds(610, 410, 131, 41);
 
         jButtonAddNovaNaoConformidade.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Nao Conformidades.png"))); // NOI18N
         jButtonAddNovaNaoConformidade.setText("Nova Não Conformidade");
@@ -3025,51 +3768,66 @@ public class Login extends javax.swing.JFrame {
                 jButtonAddNovaNaoConformidadeActionPerformed(evt);
             }
         });
+        jPanelConsultaNaoConformidades.add(jButtonAddNovaNaoConformidade);
+        jButtonAddNovaNaoConformidade.setBounds(10, 410, 200, 41);
 
         jButtonAddMedidaCorrectiva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/medida_correctiva.png"))); // NOI18N
-        jButtonAddMedidaCorrectiva.setText("Medida Correctiva");
+        jButtonAddMedidaCorrectiva.setText("Aplicar Medida Correctiva");
         jButtonAddMedidaCorrectiva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonAddMedidaCorrectivaActionPerformed(evt);
             }
         });
+        jPanelConsultaNaoConformidades.add(jButtonAddMedidaCorrectiva);
+        jButtonAddMedidaCorrectiva.setBounds(560, 170, 191, 41);
 
-        javax.swing.GroupLayout jPanelConsultaNaoConformidadesLayout = new javax.swing.GroupLayout(jPanelConsultaNaoConformidades);
-        jPanelConsultaNaoConformidades.setLayout(jPanelConsultaNaoConformidadesLayout);
-        jPanelConsultaNaoConformidadesLayout.setHorizontalGroup(
-            jPanelConsultaNaoConformidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelConsultaNaoConformidadesLayout.createSequentialGroup()
-                .addGroup(jPanelConsultaNaoConformidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButtonAddMedidaCorrectiva, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanelConsultaNaoConformidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanelConsultaNaoConformidadesLayout.createSequentialGroup()
-                            .addGap(184, 184, 184)
-                            .addComponent(jLabelNaoConformidades))
-                        .addGroup(jPanelConsultaNaoConformidadesLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jScrollPaneNaoConformidades, javax.swing.GroupLayout.PREFERRED_SIZE, 735, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelConsultaNaoConformidadesLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButtonAddNovaNaoConformidade)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(24, Short.MAX_VALUE))
-        );
-        jPanelConsultaNaoConformidadesLayout.setVerticalGroup(
-            jPanelConsultaNaoConformidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelConsultaNaoConformidadesLayout.createSequentialGroup()
+        jPanelMostraDadosControloResultado.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados do Controlo Resultado"));
+
+        jLabelSeccaoNC.setText("Secção : ");
+
+        jLabelProblemaNC.setText("Problema :");
+
+        jTextFieldVerSeccaoNC.setEditable(false);
+
+        jTextAreaVerProblemaNC.setEditable(false);
+        jTextAreaVerProblemaNC.setColumns(10);
+        jTextAreaVerProblemaNC.setLineWrap(true);
+        jTextAreaVerProblemaNC.setRows(3);
+        jTextAreaVerProblemaNC.setTabSize(4);
+        jScrollPane8.setViewportView(jTextAreaVerProblemaNC);
+
+        javax.swing.GroupLayout jPanelMostraDadosControloResultadoLayout = new javax.swing.GroupLayout(jPanelMostraDadosControloResultado);
+        jPanelMostraDadosControloResultado.setLayout(jPanelMostraDadosControloResultadoLayout);
+        jPanelMostraDadosControloResultadoLayout.setHorizontalGroup(
+            jPanelMostraDadosControloResultadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelMostraDadosControloResultadoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelNaoConformidades)
-                .addGap(5, 5, 5)
-                .addComponent(jButtonAddMedidaCorrectiva)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPaneNaoConformidades, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelConsultaNaoConformidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonVoltar)
-                    .addComponent(jButtonAddNovaNaoConformidade))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanelMostraDadosControloResultadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelSeccaoNC)
+                    .addComponent(jTextFieldVerSeccaoNC, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelMostraDadosControloResultadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelProblemaNC))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
+        jPanelMostraDadosControloResultadoLayout.setVerticalGroup(
+            jPanelMostraDadosControloResultadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelMostraDadosControloResultadoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelSeccaoNC)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldVerSeccaoNC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanelMostraDadosControloResultadoLayout.createSequentialGroup()
+                .addComponent(jLabelProblemaNC)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 22, Short.MAX_VALUE))
+        );
+
+        jPanelConsultaNaoConformidades.add(jPanelMostraDadosControloResultado);
+        jPanelMostraDadosControloResultado.setBounds(10, 61, 540, 140);
 
         javax.swing.GroupLayout jDialogConsultaNaoConformidadesLayout = new javax.swing.GroupLayout(jDialogConsultaNaoConformidades.getContentPane());
         jDialogConsultaNaoConformidades.getContentPane().setLayout(jDialogConsultaNaoConformidadesLayout);
@@ -3077,112 +3835,15 @@ public class Login extends javax.swing.JFrame {
             jDialogConsultaNaoConformidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogConsultaNaoConformidadesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanelConsultaNaoConformidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addComponent(jPanelConsultaNaoConformidades, javax.swing.GroupLayout.PREFERRED_SIZE, 772, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         jDialogConsultaNaoConformidadesLayout.setVerticalGroup(
             jDialogConsultaNaoConformidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogConsultaNaoConformidadesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanelConsultaNaoConformidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
-        );
-
-        jDialogMedidasCorrectiva.setTitle("NOVA MEDIDA CORRECTIVA");
-        jDialogMedidasCorrectiva.setMinimumSize(new java.awt.Dimension(375, 367));
-
-        jLabelMedidasCorrectivas.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabelMedidasCorrectivas.setText("Medidas Correctivas");
-
-        jLabelDataMedidasCorrectivas.setText("Data");
-
-        jLabelObservacaoMedidasCorrectivas.setText("Observação");
-
-        jScrollPane2.setMinimumSize(new java.awt.Dimension(200, 150));
-
-        jTextAreaObservacaoMedidaCorrectiva.setColumns(20);
-        jTextAreaObservacaoMedidaCorrectiva.setRows(5);
-        jScrollPane2.setViewportView(jTextAreaObservacaoMedidaCorrectiva);
-
-        jButtonGravarMedidaCorrectiva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/novo.png"))); // NOI18N
-        jButtonGravarMedidaCorrectiva.setText("Gravar");
-        jButtonGravarMedidaCorrectiva.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonGravarMedidaCorrectivaActionPerformed(evt);
-            }
-        });
-
-        jButtonCancelarMedidaCorrectiva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
-        jButtonCancelarMedidaCorrectiva.setText("Fechar");
-        jButtonCancelarMedidaCorrectiva.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCancelarMedidaCorrectivaActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanelMedidasCorrectivasLayout = new javax.swing.GroupLayout(jPanelMedidasCorrectivas);
-        jPanelMedidasCorrectivas.setLayout(jPanelMedidasCorrectivasLayout);
-        jPanelMedidasCorrectivasLayout.setHorizontalGroup(
-            jPanelMedidasCorrectivasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelMedidasCorrectivasLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanelMedidasCorrectivasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelMedidasCorrectivasLayout.createSequentialGroup()
-                        .addGroup(jPanelMedidasCorrectivasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabelDataMedidasCorrectivas)
-                            .addComponent(jLabelObservacaoMedidasCorrectivas))
-                        .addGap(18, 18, 18)
-                        .addComponent(jDateChooserMedidaCorrectiva, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanelMedidasCorrectivasLayout.createSequentialGroup()
-                        .addGap(76, 76, 76)
-                        .addGroup(jPanelMedidasCorrectivasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanelMedidasCorrectivasLayout.createSequentialGroup()
-                                .addComponent(jButtonGravarMedidaCorrectiva)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonCancelarMedidaCorrectiva))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(43, 43, 43))
-        );
-        jPanelMedidasCorrectivasLayout.setVerticalGroup(
-            jPanelMedidasCorrectivasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelMedidasCorrectivasLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(jPanelMedidasCorrectivasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabelDataMedidasCorrectivas)
-                    .addComponent(jDateChooserMedidaCorrectiva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jLabelObservacaoMedidasCorrectivas)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanelMedidasCorrectivasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonCancelarMedidaCorrectiva)
-                    .addComponent(jButtonGravarMedidaCorrectiva, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanelConsultaNaoConformidades, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(20, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout jDialogMedidasCorrectivaLayout = new javax.swing.GroupLayout(jDialogMedidasCorrectiva.getContentPane());
-        jDialogMedidasCorrectiva.getContentPane().setLayout(jDialogMedidasCorrectivaLayout);
-        jDialogMedidasCorrectivaLayout.setHorizontalGroup(
-            jDialogMedidasCorrectivaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialogMedidasCorrectivaLayout.createSequentialGroup()
-                .addGroup(jDialogMedidasCorrectivaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jDialogMedidasCorrectivaLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanelMedidasCorrectivas, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jDialogMedidasCorrectivaLayout.createSequentialGroup()
-                        .addGap(86, 86, 86)
-                        .addComponent(jLabelMedidasCorrectivas)))
-                .addContainerGap(12, Short.MAX_VALUE))
-        );
-        jDialogMedidasCorrectivaLayout.setVerticalGroup(
-            jDialogMedidasCorrectivaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialogMedidasCorrectivaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabelMedidasCorrectivas)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanelMedidasCorrectivas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         jDialogConsultarMedidasCorrectivas.setTitle("CONSULTAR MEDIDAS CORRECCTIVAS");
@@ -3243,14 +3904,14 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jDialogConsultarMedidasCorrectivasLayout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(204, Short.MAX_VALUE))
         );
         jDialogConsultarMedidasCorrectivasLayout.setVerticalGroup(
             jDialogConsultarMedidasCorrectivasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogConsultarMedidasCorrectivasLayout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(228, Short.MAX_VALUE))
         );
 
         jDialogConsultaFornecedores.setMinimumSize(new java.awt.Dimension(800, 450));
@@ -3263,11 +3924,11 @@ public class Login extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nome", "NIF", "Tipo Produto"
+                "#", "Nome", "NIF", "Tipo Produto"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -3275,6 +3936,10 @@ public class Login extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(jTableConsultaFornecedor);
+        if (jTableConsultaFornecedor.getColumnModel().getColumnCount() > 0) {
+            jTableConsultaFornecedor.getColumnModel().getColumn(0).setMinWidth(20);
+            jTableConsultaFornecedor.getColumnModel().getColumn(0).setMaxWidth(30);
+        }
 
         jButtonFecharConsultaFornecedores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
         jButtonFecharConsultaFornecedores.setText("Fechar");
@@ -3308,6 +3973,15 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jLabel34.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pesquisar.png"))); // NOI18N
+        jLabel34.setText("Pesquisar");
+
+        jTextFieldPesquisarFornecedor.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                jTextFieldPesquisarFornecedorCaretUpdate(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelConsultaFornecedoresLayout = new javax.swing.GroupLayout(jPanelConsultaFornecedores);
         jPanelConsultaFornecedores.setLayout(jPanelConsultaFornecedoresLayout);
         jPanelConsultaFornecedoresLayout.setHorizontalGroup(
@@ -3323,7 +3997,10 @@ public class Login extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButtonFecharConsultaFornecedores))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConsultaFornecedoresLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel34)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldPesquisarFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonAlterarEstadoFornecedor)))
                 .addContainerGap())
             .addGroup(jPanelConsultaFornecedoresLayout.createSequentialGroup()
@@ -3337,7 +4014,10 @@ public class Login extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabelConsultaFornecedores)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonAlterarEstadoFornecedor)
+                .addGroup(jPanelConsultaFornecedoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonAlterarEstadoFornecedor)
+                    .addComponent(jLabel34)
+                    .addComponent(jTextFieldPesquisarFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -3382,11 +4062,11 @@ public class Login extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Funcionário", "Forncedor", "Matéria Prima", "Data Entrega", "Lote Origem", "Quant. Disponível", "Quant. a Devolver"
+                "#", "Funcionário", "Forncedor", "Matéria Prima", "Data Entrega", "Lote Origem", "Quant. Disponível", "Quant. a Devolver"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -3394,6 +4074,10 @@ public class Login extends javax.swing.JFrame {
             }
         });
         jScrollPane3.setViewportView(jTableConsultaEntradas);
+        if (jTableConsultaEntradas.getColumnModel().getColumnCount() > 0) {
+            jTableConsultaEntradas.getColumnModel().getColumn(0).setMinWidth(20);
+            jTableConsultaEntradas.getColumnModel().getColumn(0).setMaxWidth(30);
+        }
 
         jButtonVerDevolucoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/trocar.png"))); // NOI18N
         jButtonVerDevolucoes.setText("Fazer Devolução");
@@ -3549,23 +4233,23 @@ public class Login extends javax.swing.JFrame {
 
         jComboBoxFornecedorDevolucoes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxFornecedorDevolucoes.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+            }
             public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
             }
             public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
                 jComboBoxFornecedorDevolucoesPopupMenuWillBecomeInvisible(evt);
             }
-            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
-            }
         });
 
         jComboBoxMateriaPrimaDevolucoes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxMateriaPrimaDevolucoes.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+            }
             public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
             }
             public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
                 jComboBoxMateriaPrimaDevolucoesPopupMenuWillBecomeInvisible(evt);
-            }
-            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
             }
         });
 
@@ -3646,6 +4330,7 @@ public class Login extends javax.swing.JFrame {
                 .addContainerGap(37, Short.MAX_VALUE))
         );
 
+        jDialogConsultaMateriasPrimas.setTitle("CONSULTAR MÁTERIAS-PRIMAS");
         jDialogConsultaMateriasPrimas.setMinimumSize(new java.awt.Dimension(680, 400));
 
         jTableConsultaMateriasPrimas.setModel(new javax.swing.table.DefaultTableModel(
@@ -3778,10 +4463,235 @@ public class Login extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jDialogVerHistoricoControlo.setTitle("Historico do Controlo de Resultado");
+        jDialogVerHistoricoControlo.setMinimumSize(new java.awt.Dimension(890, 520));
+
+        jLabel37.setText("Consulta Historico de um Controlo de Resultado");
+
+        jTableVerHistorico.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "#", "Funcionario (Registou)", "Data Ocorrencia", "Ocorrencia", "Medida Correctica (MC)", "Observação"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane6.setViewportView(jTableVerHistorico);
+        if (jTableVerHistorico.getColumnModel().getColumnCount() > 0) {
+            jTableVerHistorico.getColumnModel().getColumn(0).setMinWidth(20);
+            jTableVerHistorico.getColumnModel().getColumn(0).setMaxWidth(30);
+        }
+
+        jButtonVerDatas.setText("Ver Medida Correctiva");
+        jButtonVerDatas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonVerDatasActionPerformed(evt);
+            }
+        });
+
+        jButtonSairHistorico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechar.png"))); // NOI18N
+        jButtonSairHistorico.setText("Fechar");
+        jButtonSairHistorico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSairHistoricoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelConsultaHistoricoLayout = new javax.swing.GroupLayout(jPanelConsultaHistorico);
+        jPanelConsultaHistorico.setLayout(jPanelConsultaHistoricoLayout);
+        jPanelConsultaHistoricoLayout.setHorizontalGroup(
+            jPanelConsultaHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelConsultaHistoricoLayout.createSequentialGroup()
+                .addGroup(jPanelConsultaHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelConsultaHistoricoLayout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel37))
+                    .addGroup(jPanelConsultaHistoricoLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanelConsultaHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButtonSairHistorico)
+                            .addComponent(jButtonVerDatas)
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 792, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(38, Short.MAX_VALUE))
+        );
+        jPanelConsultaHistoricoLayout.setVerticalGroup(
+            jPanelConsultaHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelConsultaHistoricoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel37)
+                .addGap(41, 41, 41)
+                .addComponent(jButtonVerDatas)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonSairHistorico)
+                .addContainerGap(24, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jDialogVerHistoricoControloLayout = new javax.swing.GroupLayout(jDialogVerHistoricoControlo.getContentPane());
+        jDialogVerHistoricoControlo.getContentPane().setLayout(jDialogVerHistoricoControloLayout);
+        jDialogVerHistoricoControloLayout.setHorizontalGroup(
+            jDialogVerHistoricoControloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogVerHistoricoControloLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanelConsultaHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jDialogVerHistoricoControloLayout.setVerticalGroup(
+            jDialogVerHistoricoControloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogVerHistoricoControloLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanelConsultaHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(21, Short.MAX_VALUE))
+        );
+
+        jDialogAlterarReferencia.setTitle("ALTERAÇÃO CÓDIGO REFERÊNCIA");
+        jDialogAlterarReferencia.setMinimumSize(new java.awt.Dimension(300, 200));
+
+        jButtonGuardarNovaRef.setText("Atualizar Referência");
+        jButtonGuardarNovaRef.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGuardarNovaRefActionPerformed(evt);
+            }
+        });
+
+        jLabelAntigaReferencia.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabelAntigaReferencia.setText("[referencia antiga]");
+
+        jLabelNovaReferencia.setText("Nova Referência:");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 253, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jButtonGuardarNovaRef)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabelNovaReferencia)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldNovaReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabelAntigaReferencia)))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 152, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGap(34, 34, 34)
+                    .addComponent(jLabelAntigaReferencia)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabelNovaReferencia)
+                        .addComponent(jTextFieldNovaReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(18, 18, 18)
+                    .addComponent(jButtonGuardarNovaRef)
+                    .addContainerGap(34, Short.MAX_VALUE)))
+        );
+
+        javax.swing.GroupLayout jDialogAlterarReferenciaLayout = new javax.swing.GroupLayout(jDialogAlterarReferencia.getContentPane());
+        jDialogAlterarReferencia.getContentPane().setLayout(jDialogAlterarReferenciaLayout);
+        jDialogAlterarReferenciaLayout.setHorizontalGroup(
+            jDialogAlterarReferenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogAlterarReferenciaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(45, Short.MAX_VALUE))
+        );
+        jDialogAlterarReferenciaLayout.setVerticalGroup(
+            jDialogAlterarReferenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogAlterarReferenciaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(32, Short.MAX_VALUE))
+        );
+
+        jButtonSeleccionarNPF.setText("Seleccione");
+        jButtonSeleccionarNPF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSeleccionarNPFActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Diferença");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("Gravar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog1Layout.createSequentialGroup()
+                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jDialog1Layout.createSequentialGroup()
+                        .addGap(75, 75, 75)
+                        .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldUploudNUC, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jDialog1Layout.createSequentialGroup()
+                                .addGap(166, 166, 166)
+                                .addComponent(jButtonSeleccionarNPF))))
+                    .addGroup(jDialog1Layout.createSequentialGroup()
+                        .addGap(141, 141, 141)
+                        .addComponent(jButton4))
+                    .addGroup(jDialog1Layout.createSequentialGroup()
+                        .addGap(67, 67, 67)
+                        .addComponent(JT01, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton3)
+                            .addGroup(jDialog1Layout.createSequentialGroup()
+                                .addComponent(JT02, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(30, 30, 30)
+                                .addComponent(JTRES, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(278, Short.MAX_VALUE))
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog1Layout.createSequentialGroup()
+                .addGap(73, 73, 73)
+                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonSeleccionarNPF)
+                    .addComponent(jTextFieldUploudNUC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(13, 13, 13)
+                .addComponent(jButton4)
+                .addGap(59, 59, 59)
+                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(JT01, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JT02, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JTRES, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton3)
+                .addContainerGap(518, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Higiene e Segurança - Principio Base");
+        setMinimumSize(new java.awt.Dimension(250, 200));
 
-        jLabelLogin.setText("LOGIN");
+        jPanelRealizaLogin.setBorder(javax.swing.BorderFactory.createTitledBorder("Login"));
 
         jLabelNomeLogin.setText("Nome:");
 
@@ -3801,31 +4711,22 @@ public class Login extends javax.swing.JFrame {
         jPanelRealizaLoginLayout.setHorizontalGroup(
             jPanelRealizaLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelRealizaLoginLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanelRealizaLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelRealizaLoginLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanelRealizaLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelPasswordLogin)
-                            .addComponent(jLabelNomeLogin))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanelRealizaLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPasswordFieldLogin, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                            .addComponent(jComboBoxNomeLogin, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanelRealizaLoginLayout.createSequentialGroup()
-                        .addGap(93, 93, 93)
-                        .addComponent(jLabelLogin)))
+                    .addComponent(jLabelPasswordLogin)
+                    .addComponent(jLabelNomeLogin))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelRealizaLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonEntrar)
+                    .addGroup(jPanelRealizaLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jPasswordFieldLogin)
+                        .addComponent(jComboBoxNomeLogin, 0, 125, Short.MAX_VALUE)))
                 .addContainerGap(45, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelRealizaLoginLayout.createSequentialGroup()
-                .addGap(0, 94, Short.MAX_VALUE)
-                .addComponent(jButtonEntrar)
-                .addGap(87, 87, 87))
         );
         jPanelRealizaLoginLayout.setVerticalGroup(
             jPanelRealizaLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelRealizaLoginLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelLogin)
-                .addGap(28, 28, 28)
                 .addGroup(jPanelRealizaLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelNomeLogin)
                     .addComponent(jComboBoxNomeLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -3835,113 +4736,54 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(jPasswordFieldLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButtonEntrar)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jMenuFile.setText("File");
-
-        jMenuItem1.setText("Logout");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
-        jMenuFile.add(jMenuItem1);
 
-        jMenuBar1.add(jMenuFile);
-
-        jMenuMenus.setText("Menus");
-
-        jMenuItemEquipamento.setText("Equipamentos");
-        jMenuItemEquipamento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemEquipamentoActionPerformed(evt);
-            }
-        });
-        jMenuMenus.add(jMenuItemEquipamento);
-
-        jMenuItemEntradas.setText("Entradas");
-        jMenuItemEntradas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemEntradasActionPerformed(evt);
-            }
-        });
-        jMenuMenus.add(jMenuItemEntradas);
-
-        jMenuItemInsectocacadores.setText("Contr. Pragas");
-        jMenuItemInsectocacadores.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemInsectocacadoresActionPerformed(evt);
-            }
-        });
-        jMenuMenus.add(jMenuItemInsectocacadores);
-
-        jMenuItemControloResultados.setText("Controlo Resultados");
-        jMenuItemControloResultados.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemControloResultadosActionPerformed(evt);
-            }
-        });
-        jMenuMenus.add(jMenuItemControloResultados);
-
-        jMenuBar1.add(jMenuMenus);
-
-        jMenuNovo.setText("Adic. Novo");
-
-        jMenuItemNvEquipamento.setText("Nv Equipamento");
-        jMenuItemNvEquipamento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemNvEquipamentoActionPerformed(evt);
-            }
-        });
-        jMenuNovo.add(jMenuItemNvEquipamento);
-
-        jMenuItemNvEntrada.setText("Nv Entrada");
-        jMenuItemNvEntrada.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemNvEntradaActionPerformed(evt);
-            }
-        });
-        jMenuNovo.add(jMenuItemNvEntrada);
-
-        jMenuItemNvInsectocaçador.setText("Nv Insectocaçador");
-        jMenuItemNvInsectocaçador.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemNvInsectocaçadorActionPerformed(evt);
-            }
-        });
-        jMenuNovo.add(jMenuItemNvInsectocaçador);
-
-        jMenuItemNvControloRsultados.setText("Nv Entrada");
-        jMenuItemNvControloRsultados.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemNvControloRsultadosActionPerformed(evt);
-            }
-        });
-        jMenuNovo.add(jMenuItemNvControloRsultados);
-
-        jMenuBar1.add(jMenuNovo);
-
-        setJMenuBar(jMenuBar1);
+        javax.swing.GroupLayout jPanelJanelaLayout = new javax.swing.GroupLayout(jPanelJanela);
+        jPanelJanela.setLayout(jPanelJanelaLayout);
+        jPanelJanelaLayout.setHorizontalGroup(
+            jPanelJanelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelJanelaLayout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addGroup(jPanelJanelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton1)
+                    .addComponent(jPanelRealizaLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(43, Short.MAX_VALUE))
+        );
+        jPanelJanelaLayout.setVerticalGroup(
+            jPanelJanelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelJanelaLayout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addComponent(jPanelRealizaLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(jPanelRealizaLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(88, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jPanelJanela, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(62, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(38, Short.MAX_VALUE)
-                .addComponent(jPanelRealizaLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanelJanela, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 67, Short.MAX_VALUE))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(416, 339));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonNovoInsectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoInsectoActionPerformed
@@ -3992,10 +4834,14 @@ public class Login extends javax.swing.JFrame {
     private void jButtonAddNovoInsectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddNovoInsectoActionPerformed
         // BOTAO NOVO INSECTOCAÇADOR -> JANELAS CONSULTA INSECTOCAÇADORES
         jDialogNovoInsectocacador.setLocationRelativeTo(this);
+        jDialogNovoInsectocacador.setTitle("Novo Contro. de Praga");
+        jDialogNovoInsectocacador.setBounds(300, 300, 380, 300);
+            jDialogNovoInsectocacador.repaint();  
         jDialogNovoInsectocacador.setVisible(true);
         //ESCOLHER O BOTAO QUE VAI APARECER
         jButtonActualizarInsecto.setVisible(false);
         jButtonGuardarInsecto.setVisible(true);
+        jButtonAlterarReferencia.setVisible(false);
     }//GEN-LAST:event_jButtonAddNovoInsectoActionPerformed
 
     private void jButtonSairConsultaInsectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSairConsultaInsectoActionPerformed
@@ -4015,11 +4861,17 @@ public class Login extends javax.swing.JFrame {
             String nomeEquipamento = (String) jTableConsultaInsecto.getValueAt(linha, 1);
 
             idInsectocacadorControloResultado = selectId("INSECTOCACADORES", "NOME", nomeEquipamento, "IDINSECTOCACADORES");
-
+            
+            //ESCREVER A DATA DIRECTAMENTE NA PROXIMA JANELA
+            Date dataAtual = new Date();    
+            DateFormat formato = new SimpleDateFormat("yyyy-MM-dd");  
+            String Data = formato.format(dataAtual);
+            jLabelDataNovaLimpeza.setText(Data);
+            
+            
             jDialogNovaLimpeza.setLocationRelativeTo(this);
             jDialogNovaLimpeza.setVisible(true);
-
-            ConsultaFuncionariosComboBox();
+            jLabelFuncionarioLogin5.setText("" + NomeFuncionarioLogin);
 
             System.out.println("\n***BOTAO NOVA LIMPEZA -> JANELA CONSULTA INSECTOCAÇADORES");
             System.out.println("NOME INSECTOC. SELEC.: " + nomeEquipamento );
@@ -4070,7 +4922,13 @@ public class Login extends javax.swing.JFrame {
 
             idInsectocacadorControloResultado = selectId("INSECTOCACADORES", "NOME", nomeInsecto, "IDINSECTOCACADORES");
 
+            
+            //PERGUNTAR O QUE QUEREMOS FAZER,, EDITAR NOME OU O RESTO           
+            
             jDialogNovoInsectocacador.setLocationRelativeTo(this);
+            jDialogNovoInsectocacador.setTitle("Editar Contro. de Praga");
+            jDialogNovoInsectocacador.setBounds(300, 300, 380, 370);
+            jDialogNovoInsectocacador.repaint();            
             jDialogNovoInsectocacador.setVisible(true);
             LimpaCamposNovoInsectocador();
             ConsulInsectocaAlterar();
@@ -4078,6 +4936,7 @@ public class Login extends javax.swing.JFrame {
             //ESCOLHER BOTAO
             jButtonActualizarInsecto.setVisible(true);
             jButtonGuardarInsecto.setVisible(false);
+             jButtonAlterarReferencia.setVisible(true);
 
             System.out.println("\n***BOTAO EDITAR INSECTOCAÇADOR -> JANELA CONSULTA INSECTOCAÇADOR");
             System.out.println("NOME EQUIPAMENTO SELEC.: " + nomeInsecto);
@@ -4129,15 +4988,15 @@ public class Login extends javax.swing.JFrame {
         // BOTAO GUARDAR -> JANELA NOVA LIMPEZA
 
         //VERIFICAR SE ESTA ALGUM FUNCIONARIO SELECCIONADO
-        String comboFuncio = jComboBoxFuncionarioResponsvelLimpeza.getSelectedItem().toString();
-        if (comboFuncio.equals("--Funcionario--")) {
-            JOptionPane.showMessageDialog(jDialogNovaLimpeza, "Seleccione um Funcionario !");
-        } else {
+//        String comboFuncio = jComboBoxFuncionarioResponsvelLimpeza.getSelectedItem().toString();
+//        if (comboFuncio.equals("--Funcionario--")) {
+//            JOptionPane.showMessageDialog(jDialogNovaLimpeza, "Seleccione um Funcionario !");
+//        } else {
 
             InserirNovaLimpeza();
             LimpaTabelaConsultaLimpezas();
             ConsultaLimpezas();
-        }
+       // }
     }//GEN-LAST:event_jButtonGuardarLimpezaActionPerformed
 
     private void jButtonSairLimpezaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSairLimpezaActionPerformed
@@ -4150,7 +5009,7 @@ public class Login extends javax.swing.JFrame {
         jDialogNovaLimpeza.setLocationRelativeTo(this);
         jDialogNovaLimpeza.setVisible(true);
         //CARREGAR COMBOBOX
-        ConsultaFuncionariosComboBox();
+        jLabelFuncionarioLogin5.setText("" + NomeFuncionarioLogin);
 
     }//GEN-LAST:event_jButtonNovaLimpezaConsultaLimpezasActionPerformed
 
@@ -4248,10 +5107,14 @@ public class Login extends javax.swing.JFrame {
             String nomeEquipamento = (String) jTableConsultaEquipamentos.getValueAt(linha, 0);
 
             idEquipamentoControloResultado = selectId("EQUIPAMENTO", "NOME", nomeEquipamento, "IDEQUIPAMENTO");
-            LerBDFuncionario(jComboBoxFuncionarioResponsavel);
+            jLabelFuncionariologin3.setText(NomeFuncionarioLogin);
             jDialogNovaManutencaoEquipamento.setLocationRelativeTo(this);
             jDialogNovaManutencaoEquipamento.setVisible(true);
 
+            //ESCREVER O NOME DO EQUIPAMENTO NA JANELA DA NOVA MANUENTENÇÃO
+            jTextFieldNomeEquipamentoSeleccionado.setText(nomeEquipamento);            
+            
+            
             System.out.println("\n***BOTAO DE MANUTENÇÃO -> JANELA CONSULTA DADOS");
             System.out.println("NOME EQUIPAMENTO SELEC.: " + nomeEquipamento );
             System.out.println("ID EQUIPAMENTO SELEC.: " + idEquipamentoControloResultado);
@@ -4304,10 +5167,23 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(jDialogConsultaEquipamentos, "Seleccione a Linha de um Equipamento!");
         } else {
             //DEVOLVE O NOME DO EQUIPAMENTO
-            String nomeEquipamento = (String) jTableConsultaEquipamentos.getValueAt(linha, 0);
+            nomeAVerficar = (String) jTableConsultaEquipamentos.getValueAt(linha, 0);
 
-            idEquipamentoControloResultado = selectId("EQUIPAMENTO", "NOME", nomeEquipamento, "IDEQUIPAMENTO");
+            idEquipamentoControloResultado = selectId("EQUIPAMENTO", "NOME", nomeAVerficar, "IDEQUIPAMENTO");
 
+            
+            //VAMOS PERGUNTAR O QUE QUERMOS FAZER, SE ALTERAR O NOME OU O RESTO DA INFORMAÇÃO
+//           
+//             int resultOQueVaiEditar = JOptionPane.showConfirmDialog(jDialogNaoConformidades, "O que Deseja Editar, Só o Nome ou os outros campos?\nYES -> Só o Nome\nNO -> Restantes campos", null, JOptionPane.YES_NO_OPTION);
+//
+//            if (resultOQueVaiEditar == JOptionPane.YES_OPTION){
+//                //VAMOS APENAS EDITAR O NOME
+//                
+//            }
+//            
+            
+            
+            
             jDialogNovoEquipamento.setLocationRelativeTo(this);
             jDialogNovoEquipamento.setVisible(true);
             ConsultaDadosEquipamentoAlterar();
@@ -4317,7 +5193,7 @@ public class Login extends javax.swing.JFrame {
             jButtonActualizar.setVisible(true);
 
             System.out.println("\n***BOTAO DE CONTROLO RESULTADOS -> JANELA CONSULTA DADOS");
-            System.out.println("NOME EQUIPAMENTO SELEC.: " + nomeEquipamento);
+            System.out.println("NOME EQUIPAMENTO SELEC.: " + nomeAVerficar);
             System.out.println("ID EQUIPAMENTO SELEC.: " + idEquipamentoControloResultado);
         }
     }//GEN-LAST:event_jButtonEditarEquipamentoActionPerformed
@@ -4397,17 +5273,18 @@ public class Login extends javax.swing.JFrame {
             jComboBoxOpcao.setEnabled(false);
             //MOSTRAR TEXTFIEL
             jTextFieldOutraOpcao.setEnabled(true);
-        }else if (comboTipoOP.equals("INSECTOCACADORES")){
+        }else if (comboTipoOP.equals("CONT. PRAGAS")){
             //Select a tabela dos insectadores
             LerBDInsectadores();
-
+            jLabelOpcao.setText("Cont. Praga");
         }else if (comboTipoOP.equals("EQUIPAMENTO")){
             //SELECT A TABELA DE EQUIPAMENTOS
             LerBDEquipamento();
+            jLabelOpcao.setText("Equipamento");
         }else if (comboTipoOP.equals("ENTRADA")){
             //SELECT A TABELA DE ENTRADAS
             LerBDEntradas();
-
+            jLabelOpcao.setText("Lote de Entrada");
         }
 
     }//GEN-LAST:event_jComboBoxTipoActionPerformed
@@ -4449,12 +5326,13 @@ public class Login extends javax.swing.JFrame {
             jDialogNaoConformidades.setVisible(false);
             jDialogMedidasCorrectiva.setVisible(true);
         } else if (resultNaoConformidade == JOptionPane.NO_OPTION){
-            int resultNaoConformidadeGuardar = JOptionPane.showConfirmDialog(jDialogNaoConformidades, "Deseja Guardar os Dados e Voltar ao Menu Principal?", null, JOptionPane.YES_NO_OPTION);
+           // int resultNaoConformidadeGuardar = JOptionPane.showConfirmDialog(jDialogNaoConformidades, "Deseja Guardar os Dados e Voltar ao Menu Principal?", null, JOptionPane.YES_NO_OPTION);
 
-            if (resultNaoConformidadeGuardar == JOptionPane.YES_OPTION){
+            //if (resultNaoConformidadeGuardar == JOptionPane.YES_OPTION){
+                JOptionPane.showMessageDialog(jDialogNaoConformidades, "Não Conformidade Adicionada Com Sucesso !");
                 GravarNaoConformidade();
                 jDialogNaoConformidades.setVisible(false);
-            }
+            //}
 
         }
 
@@ -4505,7 +5383,6 @@ public class Login extends javax.swing.JFrame {
         // CRIAR NOVA CONTROLO DE RESULTADOS
 
         //COMBOBOX FUNCIONARIO CARREGAR DADOS
-        LerBDFuncionario(jComboBoxFuncionario);
         jDialogConsultarControlos.setVisible(false);
         jDialogNovoControloResultados.setLocationRelativeTo(this);
         jDialogNovoControloResultados.setVisible(true);
@@ -4531,11 +5408,21 @@ public class Login extends javax.swing.JFrame {
             
             //VERIFICAR SE A LINHA QUE ESTAMOS A SELECCINAR, O RESILTADO É
             // C OU NC
-            if (resultado.equals("NC")) {
-                LimpaTabelaNaoConformidades();
-                ConsultaBDNaoConformidadeSelect();
-
+            if (resultado.equals("NC")) {                                
+                //LER OS DADOS PARA JANELA SEGUINTE - QUANDO ESTA JA TEM NC INSERIDAS
+                seccaoCRparaNC = (String) jTableConsultarControlos.getValueAt(linha, 1);
+                problemaCRparaNC = (String) jTableConsultarControlos.getValueAt(linha, 4);                
+                System.out.println("SECÇÃO DO CR : " + seccaoCRparaNC);
+                System.out.println("PROBLEMA DO CR : " + problemaCRparaNC);
                 
+                LimpaTabelaNaoConformidades();
+                ConsultaBDNaoConformidadeSelect();                
+                
+                jTextFieldVerSeccaoNC.setText(seccaoCRparaNC);
+                jTextAreaVerProblemaNC.setText(problemaCRparaNC);
+                
+                
+                        
 
             } else {
                 JOptionPane.showMessageDialog(null, "Linha Selecciona esta CONFORME ! ");
@@ -4562,7 +5449,7 @@ public class Login extends javax.swing.JFrame {
             LerBDControloResultados(nomeColuna);
             jButtonVerNaoConformidadeEntrada.setVisible(false);
 
-        }else if (comboPesquisa.equals("INSECTOCACADORES")){
+        }else if (comboPesquisa.equals("CONT. PRAGAS")){
             LimpaTabelaControloResultados();
             nomeColuna = "IDINSECTOCACADORES";
             LerBDControloResultados(nomeColuna);
@@ -4578,9 +5465,9 @@ public class Login extends javax.swing.JFrame {
 
         System.out.println("--OPÇÃO MOSTRAR NA TABELA CONSULTA CONTROLO DE RESULADOS");
         System.out.println("OP : " + comboPesquisa);
+        System.out.println("NOME COLUNA : " + nomeColuna);
 
-        //        LimpaTabelaConsultarControlos();
-        //        LerBDControloResultados();
+
 
     }//GEN-LAST:event_jComboBoxSeccaoActionPerformed
 
@@ -4592,23 +5479,11 @@ public class Login extends javax.swing.JFrame {
 
     private void jButtonNovoControlo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoControlo1ActionPerformed
         // TODO add your handling code here:
-         //ABRIR JANELA ESCOLHE
+        //ABRIR JANELA ESCOLHE
         jDialogNovoControloResultados.setLocationRelativeTo(this);
         jDialogNovoControloResultados.setVisible(true);
-        
-        //ESCONDER PANEL "OUTRA OPÇAO NOME"
-        jTextFieldOutraOpcao.setEnabled(false);
-        
-        //COMBOBOX FUNCIONARIO CARREGAR DADOS
-        LerBDFuncionario(jComboBoxFuncionario);
-        
-        jComboBoxOpcao.setVisible(true);
-        jComboBoxOpcao.setSelectedIndex(0);
-        
-        jComboBoxTipo.setSelectedIndex(0);
-        
-        jComboBoxResultado.setSelectedIndex(0);
-        
+
+        LimpaCamposNovoControloResultado();
         
         
 
@@ -4637,9 +5512,9 @@ public class Login extends javax.swing.JFrame {
         //BOTAO NOVA ENTRADA -> JANELA MENU ENTRADA
         jDialogNovaEntrada.setLocationRelativeTo(this);
         jDialogNovaEntrada.setVisible(true);
-        LerBDFuncionario(jComboBoxFuncionarioResponsavelEntrada);
+       jLabelFuncionarioLogin.setText("" + NomeFuncionarioLogin);
         LerBDFornecedorComboBox(jComboBoxFornecedorEntrada);
-        LerBDMateriaPrimaComboBox(jComboBoxMateriaPrimaEntrada);
+        LerBDMateriaPrimaComboBox(jComboBoxMateriaPrimaEntrada, "true");
 
         //PAINEIS VISIBEIS
         //panel entradas
@@ -4714,14 +5589,14 @@ public class Login extends javax.swing.JFrame {
         ConsultaDevolucoesTabela();
 
         LerBDFornecedorComboBox(jComboBoxFornecedorDevolucoes);
-        LerBDMateriaPrimaComboBox(jComboBoxMateriaPrimaDevolucoes);
+        LerBDMateriaPrimaComboBox(jComboBoxMateriaPrimaDevolucoes,"devolucao");
     }//GEN-LAST:event_jButtonConsultaDevolucoesActionPerformed
 
     private void jButtonGuardarNovaEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarNovaEntradaActionPerformed
         // BOTAO GUARDAR -> JANELA ENTRADAS
 
         //FAZER AS VALIDAÇÕES, SE OS CAMPOS ESTAO TODOS PREENCHIDOS
-        String nomeFuncionarioResponsavelEntrada = jComboBoxFuncionarioResponsavelEntrada.getSelectedItem().toString();
+        
         String nomeFornecedorEntrada = jComboBoxFornecedorEntrada.getSelectedItem().toString();
         String nomeMateriaPrimaEntrada = jComboBoxMateriaPrimaEntrada.getSelectedItem().toString();
         float qantidadeMatPrimaEntrada = Float.parseFloat(jTextFieldQuantidadeEntrada.getText().toString());
@@ -4731,9 +5606,7 @@ public class Login extends javax.swing.JFrame {
         String conformidadeCaratOrgono = jComboBoxCaraOrgonolepticasEntradas.getSelectedItem().toString();
         String conformidadeEmbalagem = jComboBoxEmbalagemEntradas.getSelectedItem().toString();
 
-        if(nomeFuncionarioResponsavelEntrada.equals("--Funcionario--")){
-            JOptionPane.showMessageDialog(jDialogNovaEntrada, "Por Favor !\nSelecciona um Funcionario!");
-        }else if (nomeFornecedorEntrada.equals("--Fornecedor--")){
+        if (nomeFornecedorEntrada.equals("--Fornecedor--")){
             JOptionPane.showMessageDialog(jDialogNovaEntrada, "Por Favor !\nSelecciona um Fornecedor!");
         }else if (nomeMateriaPrimaEntrada.equals("--Materia Prima--")){
             JOptionPane.showMessageDialog(jDialogNovaEntrada, "Por Favor !\nSelecciona uma Matéria-Prima!");
@@ -4908,7 +5781,7 @@ public class Login extends javax.swing.JFrame {
             VerEntradaSeleccionadaConsultaDevolucao();
             jDialogDevolucoes.setLocationRelativeTo(this);
             jDialogDevolucoes.setVisible(true);
-            LerBDFuncionario(jComboBoxFuncionarioResponsavelDevolucao);
+            jLabelFuncionarioLogin6.setText("" + NomeFuncionarioLogin);
 
             CalculaQuantoFaltaDevolver();
 
@@ -4943,14 +5816,21 @@ public class Login extends javax.swing.JFrame {
         int linha = jTableConsultaEntradas.getSelectedRow();
 
         if (linha == -1) {
-            JOptionPane.showMessageDialog(null, "Seleccione a Linha de uma Entrada!");
+            JOptionPane.showMessageDialog(jDialogConsultaEntradas, "Seleccione a Linha de uma Entrada!");
         } else {
 
-            LoteOriginalSeleccionado = (String) jTableConsultaEntradas.getValueAt(linha, 4);
+            String valor = (String) jTableConsultaEntradas.getValueAt(linha, 7);
+            
+            if (valor.equals("0.0")) {
+                String valorEntrada = (String) jTableConsultaEntradas.getValueAt(linha, 6);
+                JOptionPane.showMessageDialog(jDialogConsultaEntradas, "Linha Seleccionada não contem devoluções !\n\n"
+                        + "Valor total: "+ valorEntrada);
+            } else {
 
-            System.out.println("LOTE ORIGINAL : " + LoteOriginalSeleccionado);
-            CalculaQuatidadeLoteTotalEntrada();
-
+                LoteOriginalSeleccionado = (String) jTableConsultaEntradas.getValueAt(linha, 4);
+                System.out.println("LOTE ORIGINAL : " + LoteOriginalSeleccionado);
+                CalculaQuatidadeLoteTotalEntrada();
+            }
         }
     }//GEN-LAST:event_jButtonVerLoteTotalActionPerformed
 
@@ -5041,6 +5921,8 @@ public class Login extends javax.swing.JFrame {
         LimpaTabelaConsultaDevolucoes();
         PesquisaDevolucoesComDadosDeEntrada();
 
+        
+        
         System.out.println("--- FORNECEDOR");
         System.out.println("FORNECEDOR PESQUISA : " + nomeFornecedorPesquisaDevolucao);
         System.out.println("ID FORNECEDOR : " + idForncedorPesquisaDevolucao);
@@ -5092,27 +5974,35 @@ public class Login extends javax.swing.JFrame {
         // ADICIONAR NOVA NAO CONFORMIDADE AKELE CONTROLO RESULTADOS
         int linha = jTableNaoConformidades.getSelectedRow();
 
-        if (linha == -1) {
-            JOptionPane.showMessageDialog(jDialogConsultaNaoConformidades, "Seleccione Uma Linha da Tabela de Não Conformidade");
-        } else {
+        //if (linha == -1) {
+         //   JOptionPane.showMessageDialog(jDialogConsultaNaoConformidades, "Seleccione Uma Linha da Tabela de Não Conformidade");
+        //} else {
             
-            jDialogNaoConformidades.setLocationRelativeTo(this);
-            jDialogNaoConformidades.setVisible(true);
+            
 
             //PARA ADICIONAR UMA NOVA NAO CONFORMIDADE NECESSITAMOS DE PASSAR OS CAMPOS "IDCONTRESULT" e "IDFUNCIONARIO"
             int funcionario = addNewNaoConformidadeIdFuncionario;
             int controResult = idControloResultadosID;
-
+            
+            //ESCREVER NA TEXT AREA O PROBLEMA LIDO ANTERIORMENTE
+            jTextAreaProblemadoControlo.setText(observacaoDoControloResultadoParaANC);
+            
+            
+            
             //CARREGAR COMBOBOX FUNCIONARIO
             LerBDFuncionario(jComboBoxNaoConformidadeFuncionarioResponsav);
-            LerBDFuncionario(jComboBoxFuncionarioNaoConformidade);
+            jLabelFuncionarioLogin4.setText("" + NomeFuncionarioLogin);
 
+            //MOSTRAR JANELA NAO CONFORMIDADES
+            jDialogNaoConformidades.setLocationRelativeTo(this);
+            jDialogNaoConformidades.setVisible(true);
+            
             //ESCREVER
             System.out.println("CONTROLO RESULTADOS");
             System.out.println("FUNCIONARIO: " + funcionario);
             System.out.println("CONTRO RESULT: " + controResult);
             System.out.println("\n\n");
-        }
+        //}
     }//GEN-LAST:event_jButtonAddNovaNaoConformidadeActionPerformed
 
     private void jButtonAddMedidaCorrectivaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddMedidaCorrectivaActionPerformed
@@ -5127,6 +6017,17 @@ public class Login extends javax.swing.JFrame {
             //VER O ID DA NAO CONFORMIDADE
                         
             ConsultaBDMedidasCorrectivas();
+            
+            //PREENCHER OS CAMPOS DE INFORMAÇÃO DA MEDIDA CORRECTIVA
+            jTextFieldSeccaoMC.setText(jTextFieldVerSeccaoNC.getText());
+            jTextAreaProblemaMC.setText(jTextAreaVerProblemaNC.getText());
+            
+            //LER DA TABELA
+            String detalhes = (String) jTableNaoConformidades.getValueAt(linha, 2);
+            String medidasCorrectivas = (String) jTableNaoConformidades.getValueAt(linha, 3);
+            jTextAreaDetalhesMC.setText(detalhes);
+            jTextAreaMedidasCorrectivasMC.setText(medidasCorrectivas);
+            
 
         }
     }//GEN-LAST:event_jButtonAddMedidaCorrectivaActionPerformed
@@ -5135,49 +6036,29 @@ public class Login extends javax.swing.JFrame {
         // MENU BAR - ENTRADAS
         jDialogMenuEntradas.setLocationRelativeTo(this);
         jDialogMenuEntradas.setVisible(true);
+        jLabelUserLogin4.setText("* " + NomeFuncionarioLogin);
     }//GEN-LAST:event_jMenuItemEntradasActionPerformed
 
     private void jMenuItemInsectocacadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemInsectocacadoresActionPerformed
         // MENU BAR INSECTOCAÇADORES
         jDialogMenuInsectocacadores.setLocationRelativeTo(this);
         jDialogMenuInsectocacadores.setVisible(true);
+        jLabelUserLogin2.setText("* " + NomeFuncionarioLogin);
     }//GEN-LAST:event_jMenuItemInsectocacadoresActionPerformed
 
     private void jMenuItemEquipamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEquipamentoActionPerformed
         // MENU BAR - EQUIPAMENTOS
         jDialogMenuEquipamentos.setLocationRelativeTo(this);
         jDialogMenuEquipamentos.setVisible(true);
+        jLabelUserLogin3.setText("* " + NomeFuncionarioLogin);
     }//GEN-LAST:event_jMenuItemEquipamentoActionPerformed
 
     private void jMenuItemControloResultadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemControloResultadosActionPerformed
         // MENU BAR - CONTROLO RESULTADOS
         jDialogMenuControloResultados.setLocationRelativeTo(this);
         jDialogMenuControloResultados.setVisible(true);
+        jLabelUserLogin.setText("* " + NomeFuncionarioLogin);
     }//GEN-LAST:event_jMenuItemControloResultadosActionPerformed
-
-    private void jMenuItemNvEquipamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNvEquipamentoActionPerformed
-        // MENU BAR - NOVO EQUIPAMENTO
-        jDialogNovoEquipamento.setLocationRelativeTo(this);
-        jDialogNovoEquipamento.setVisible(true);
-    }//GEN-LAST:event_jMenuItemNvEquipamentoActionPerformed
-
-    private void jMenuItemNvInsectocaçadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNvInsectocaçadorActionPerformed
-        // MENU BAR -> NOVO INSECTOCAÇADOR
-        jDialogNovoInsectocacador.setLocationRelativeTo(this);
-        jDialogNovoInsectocacador.setVisible(true);
-    }//GEN-LAST:event_jMenuItemNvInsectocaçadorActionPerformed
-
-    private void jMenuItemNvEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNvEntradaActionPerformed
-        // MENU BAR -> NOVA ENTREGA
-        jDialogNovaEntrada.setLocationRelativeTo(this);
-        jDialogNovaEntrada.setVisible(true);
-    }//GEN-LAST:event_jMenuItemNvEntradaActionPerformed
-
-    private void jMenuItemNvControloRsultadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNvControloRsultadosActionPerformed
-        // MENU BAR -> NOVO CONTROLO RESULTADO
-        jDialogNovoControloResultados.setLocationRelativeTo(this);
-        jDialogNovoControloResultados.setVisible(true);
-    }//GEN-LAST:event_jMenuItemNvControloRsultadosActionPerformed
 
     private void jButtonConsultarFornecedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarFornecedoresActionPerformed
         // BOTAO CONSULTA FORNECEDORES 
@@ -5454,7 +6335,7 @@ public class Login extends javax.swing.JFrame {
         int linha = jTableConsultarControlos.getSelectedRow();
 
         if (linha == -1) {
-            JOptionPane.showMessageDialog(this, "Seleccione a Linha de um Controlo!");
+            JOptionPane.showMessageDialog(jDialogConsultarControlos, "Seleccione a Linha de um Controlo!");
         } else {
             String loteConsultaControloNaoConformidades = (String) jTableConsultarControlos.getValueAt(linha, 1);
             
@@ -5620,10 +6501,14 @@ public class Login extends javax.swing.JFrame {
         String pwdInserida = jPasswordFieldLogin.getText();
         idFuncionarioLogin = selectId("FUNCIONARIO", "NOME", NomeFuncionarioLogin, "IDFUNCIONARIO");
         
+           //LIMPAR JLABEL DE BOAS VINDAS
+        jLabelBoasVindas.setText("Olá, " + NomeFuncionarioLogin);
+        //jDialogJanelaPrincipal.repaint();
+        
         VerificaLogin(pwdInserida);
+             
         
-        
-        
+                
         System.out.println("nomeFuncionario -> " + NomeFuncionarioLogin);
         System.out.println("idfuncionario -> " + idFuncionarioLogin);
         
@@ -5635,8 +6520,7 @@ public class Login extends javax.swing.JFrame {
         
         //FUNÇÃO PARA FECHAR TODAS AS JANELAS
         for (Window window : Login.getWindows()) {
-            if (window instanceof JDialog) // or Dialog
-            {
+            if (window instanceof JDialog){
                 window.dispose();
             }
         }
@@ -5654,9 +6538,267 @@ public class Login extends javax.swing.JFrame {
         jPasswordFieldLogin.setText("");
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void jTextFieldPesquisarFornecedorCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextFieldPesquisarFornecedorCaretUpdate
+        // PESUISAR FORNECEDOR
+        LimpaTabelaConsultaFornecedores();
+        PesquisarFornecedor();
+    }//GEN-LAST:event_jTextFieldPesquisarFornecedorCaretUpdate
+
+    private void jButtonVerHistoricoControloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVerHistoricoControloActionPerformed
+        // VER HISTORICO DE UM CONTROLO DE RESULTADO
+        
+        int linha = jTableConsultarControlos.getSelectedRow();
+
+        if (linha == -1) {
+            JOptionPane.showMessageDialog(null, "Seleccione a Linha de um Controlo de Resultado!");
+        } else {
+            //DADOS DE PESQUISA
+            String estado = (String) jTableConsultarControlos.getValueAt(linha, 3);
+            
+            //O HISTORICO SO ESTA PRESENTA PARA NC CONFORMES
+            if (estado.equals("NC")){
+                JOptionPane.showMessageDialog(jDialogConsultarControlos, "Linha Seleccionada não é CONFORME !");
+            }else{
+                //VAMOS VERIFICAR SE JA TEM HISTORICO
+                LimpaTabelaConsultaHistorico();
+                ConsultaHistoricoControlo();
+               
+                
+            }
+          
+            
+            
+        }
+        
+    }//GEN-LAST:event_jButtonVerHistoricoControloActionPerformed
+
+    private void jButtonSairHistoricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSairHistoricoActionPerformed
+        // BOTAO SAIR DA JANELA HISTORICO
+        jDialogVerHistoricoControlo.setVisible(false);
+        
+    }//GEN-LAST:event_jButtonSairHistoricoActionPerformed
+
+    private void jButtonVerDatasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVerDatasActionPerformed
+        // VER MEDIDAS CORRECTIVAS HISTORICO
+        
+        int linha = jTableVerHistorico.getSelectedRow();
+
+        if (linha == -1) {
+            JOptionPane.showMessageDialog(jDialogVerHistoricoControlo, "Seleccione Uma Linha !");
+        } else {
+        
+            ConsultaHistoricoMedidaCorrectiva();
+            
+        }
+        
+    }//GEN-LAST:event_jButtonVerDatasActionPerformed
+
+    private void jButtonSeleccionarNPFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSeleccionarNPFActionPerformed
+        selectFile();
+        jTextFieldUploudNUC.setText(jfc.getSelectedFile().getName());   
+        
+    }//GEN-LAST:event_jButtonSeleccionarNPFActionPerformed
+
+    private void jComboBoxMateriaPrimaEntradaPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_jComboBoxMateriaPrimaEntradaPopupMenuWillBecomeInvisible
+        //Dependendo da materia prima seleccionada vamos mostrar a sua Unidade
+        //MATERIA PRIMA SELECCIONADA
+        String materiaPrimaSeleccionada = jComboBoxMateriaPrimaEntrada.getSelectedItem().toString();
+        System.out.println("materiaPrimaSeleccionada : " + materiaPrimaSeleccionada);
+
+        String unidadeMateriaPrima = "";
+
+        //Ir a base de dados procurar o nome
+        try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+
+        } catch (ClassNotFoundException e) {
+            System.err.print("ClassNotFoundException: ");
+            System.err.println(e.getMessage());
+            System.out.println("O driver expecificado nao foi encontrado.");
+        }
+
+        try {
+            con = DriverManager.getConnection(url);
+            String nomeTabela = "MATERIA_PRIMA";
+            String sql = "SELECT * FROM " + nomeTabela + " WHERE NOME='" + materiaPrimaSeleccionada + "'";
+            PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                unidadeMateriaPrima = rs.getString("UNIDADE");
+            }
+            st.close();
+            con.close();
+
+        } catch (SQLException ex) {
+            System.err.println("SQLException: " + ex.getMessage());
+        }
+
+        if (!unidadeMateriaPrima.equals("")) {
+            jTextFieldNovaEntradaUnidadeQuantidade.setText(unidadeMateriaPrima);
+        } else {
+            jTextFieldNovaEntradaUnidadeQuantidade.setText("ERROR");
+        }
+
+    }//GEN-LAST:event_jComboBoxMateriaPrimaEntradaPopupMenuWillBecomeInvisible
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        float resultado ;
+        
+        float valor1 = Float.parseFloat(JT01.getText());
+        float valor2 = Float.parseFloat(JT02.getText());
+        
+        resultado = valor1 - valor2;
+        System.out.println("resultado "+resultado +" = valor1"+valor1+" - valor2" + valor2);
+//        DecimalFormat df = new DecimalFormat("0.0");
+//        String fin = df.format(resultado);
+//        System.out.println("FIN -> " + fin);
+        
+        //arredondar valor directamente
+        float round = Round(resultado,2);
+        
+        
+        JTRES.setText(""+round);
+        System.out.println("RESULTADO FINAL -> " + round);
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+ 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    private void jButtonConsEquipamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsEquipamentoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonConsEquipamentoActionPerformed
+
+    private void jButtonConsDevoluçõesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsDevoluçõesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonConsDevoluçõesActionPerformed
+
+    private void jButtonInserirNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInserirNovoActionPerformed
+        //BOTAO PARA VER OS ATALHOS RAPIDOS DO INSERIR NOVO
+        
+        jPanelInserirNovo.setVisible(true);
+        jPanelConsultar.setVisible(false);
+    }//GEN-LAST:event_jButtonInserirNovoActionPerformed
+
+    private void jButtonConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarActionPerformed
+        // BOTAO PARA VER OS ATALHOS RAPIDOS DE CONSULTAS
+        jPanelInserirNovo.setVisible(false);
+        jPanelConsultar.setVisible(true);
+    }//GEN-LAST:event_jButtonConsultarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        jDialog1.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        String cliente = "BrunoRafael";
+        String prod = "Queijo Duro";
+        gerarNomeFile(cliente, prod, 2);
+        copyFile();
+        
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButtonAlterarReferenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarReferenciaActionPerformed
+        jDialogAlterarReferencia.setVisible(true);
+        jDialogAlterarReferencia.setLocationRelativeTo(this);
+    }//GEN-LAST:event_jButtonAlterarReferenciaActionPerformed
+
+    private void jButtonGuardarNovaRefActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarNovaRefActionPerformed
+        //BOTAO PARA FAZER UPDATE A REFERENCIA QUANDO ESTA É EDITADA
+        UpdateReferenciaInsectocacador();
+        
+    }//GEN-LAST:event_jButtonGuardarNovaRefActionPerformed
+
 /*  ******************************    FUNCÇOES ************************************************************************************   */
     
     
+    
+    private void selectFile() {
+        jfc.setDialogTitle("Selecione o Ficheiro");
+        jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        jfc.setAcceptAllFileFilterUsed(false);
+        int returnVal = jfc.showOpenDialog(null);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            input = jfc.getSelectedFile();
+        }
+    }
+    
+    private void copyFile() {
+        if (input == null) {
+            JOptionPane.showMessageDialog(null, "Por Favor selecione um Ficheiro");
+            return;
+        }
+        try {
+            File file = new File(out, nomeFile);
+            System.out.println("file = " + file.getPath());
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+
+            BufferedReader br = new BufferedReader(
+                    new InputStreamReader(
+                            new FileInputStream(input)));
+            BufferedWriter bw = new BufferedWriter(
+                    new OutputStreamWriter(
+                            new FileOutputStream(file)));
+            String line;
+            while ((line = br.readLine()) != null) {
+                bw.write(line, 0, line.length());
+                bw.newLine();
+            }
+            br.close();
+            bw.close();
+
+        } catch (IOException e) {
+            System.err.println("Exception occured:" + e.getMessage());
+        }
+    }
+    
+    private void gerarNomeFile(String n, String n2, int i) {
+        /*
+         * Algoritmo para geral o nome
+         * nome_id_data.extinsao
+         * ex:queijoSerra_2_20-10-2013.pdf
+         */
+        String nome = n;
+        String nome2 = n2;
+        String nomeFinal = "";
+        String nomeFinal2 = "";
+        int id = i;
+        String data = "";
+
+        //Eliminar possiveis espaços no nome
+        String[] semEspacos = nome.split(" ");
+        for (int j = 0; j < semEspacos.length; j++) {
+            nomeFinal += semEspacos[j];
+        }
+        //Eliminar possiveis espaços no nome2
+        String[] semEspacos2 = nome2.split(" ");
+        for (int j = 0; j < semEspacos2.length; j++) {
+            nomeFinal2 += semEspacos2[j];
+        }
+        //ler a data do sistema
+        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        java.util.Date dat = new java.util.Date();
+        data = df.format(dat);
+        //Guardar extinção do ficheiro
+        String s = input.getName();
+        int ext = s.lastIndexOf(".");
+        String extincao = s.substring(ext);
+        //criar nome final
+        nomeFile = nomeFinal + "_" + "_" + id + "_" + data + extincao;
+    }
     
     
     private void VerificaLogin(String pwdInserida){
@@ -5695,9 +6837,23 @@ public class Login extends javax.swing.JFrame {
             //COLOCAR MENU VISIBEL
             for (Component cp : jMenuBar1.getComponents())
             cp.setEnabled(true);
+            
             //COLOCAR JANELA DE LOGIN ESCONDIDA
             for (Component cp : jPanelRealizaLogin.getComponents())
             cp.setEnabled(false);
+            
+            //MOSTRAR A JANELA PRINCIPALCOM OS MENUS
+            jDialogJanelaPrincipal.setLocationRelativeTo(this);
+            jDialogJanelaPrincipal.setVisible(true);
+            
+            //ESCREVER O NOME DO FUNCIONARIO
+            String nomeFuncionario = selectString("FUNCIONARIO", "IDFUNCIONARIO", idFuncionarioLogin, "NOME");
+            //jLabelBoasVindas.setText("Olá, " + nomeFuncionario);
+            
+            //MOSTRAR PANEL DA JANELA PRINCIPAL
+            jPanelPrincipal.setVisible(true);
+            
+          
             
             
             
@@ -5793,85 +6949,6 @@ public class Login extends javax.swing.JFrame {
 
     }
     
-    private void ConsultaNaoConformidades(int idFuncionarioSelecionado){
-        //DADOS DA TABELA
-        int funcionario = idFuncionarioSelecionado;
-        
-        int idFuncionario = 0;
-        String nomefuncionario = "";
-        String dataNaoConform = "";
-        String ocorrencia = "";
-        String medidaCorrecti ="";
-        String resultado = "NC";
-        String correctiva = "N";
-        int idFuncionarioResponsavel = 0;
-        String nomeFuncionarioResponsavel ="";
-        
-        model = (DefaultTableModel) jTableNaoConformidades.getModel();
-        
-        CONTA_LINHAS_NAOCONFORMIDADES = 0;
-        
-        try{
-            Class.forName("org.apache.derby.jdbc.ClientDriver");  
-        }catch(ClassNotFoundException e){
-           System.err.print("ClassNotFoundException: ");
-           System.err.println(e.getMessage());
-           System.out.println("O driver expecificado nao foi encontrado."); 
-        }     
-        
-         try{         
-            con = DriverManager.getConnection(url);
-            String nomeTabela = "CONTROLORESULTADOS";
-            String sql = "select * from "+nomeTabela+" where IDFUNCIONARIO="+funcionario +" and RESULTADO="+"'"+ resultado +"'";
-            PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
-            ResultSet rs = st.executeQuery();
-                   
-            while(rs.next()){
-                idControloResuladoSeleccionado = rs.getInt("IDCONTRESULTADOS");
-               
-                 //VARIVAEL GLOBAL
-            
-                //ESCREVER NA TABELA A PESQUISA
-                String nomeTabela2 = "NAOCONFORMIDADES";
-                String sql2 = "select * from "+nomeTabela2+" where IDCONTRESULTADOS="+idControloResuladoSeleccionado+" and CORRECTIVA='"  + correctiva + "'";
-                PreparedStatement st2 = (PreparedStatement) con.prepareStatement(sql2);
-                ResultSet rs2 = st2.executeQuery();
-                
-                while(rs2.next()){
-                    
-                    //idNaoConformidade = rs2.getInt("IDNAOCONF");
-                    //idContResultado = rs2.getInt("IDCONTRESULTADOS");
-                    
-                    idFuncionario = rs2.getInt("IDFUNCIONARIO");
-                    nomefuncionario = selectString("FUNCIONARIO","IDFUNCIONARIO",idFuncionario,"NOME"); 
-                    
-                    dataNaoConform = rs2.getString("DATANAOCONFORMIDADE");
-                    ocorrencia = rs2.getString("OCORRENCIA");
-                    medidaCorrecti = rs2.getString("MEDIDACORRECTIVA");
-                    
-                    idFuncionarioResponsavel = rs2.getInt("IDFUNCIONARIOMEDIDACORRECTIVA");
-                    nomeFuncionarioResponsavel = selectString("FUNCIONARIO","IDFUNCIONARIO",idFuncionarioResponsavel,"NOME"); 
-                    
-                    model.addRow(new Object[]{nomefuncionario, dataNaoConform, ocorrencia, nomeFuncionarioResponsavel, medidaCorrecti});
-                    
-                    //contaNaoConformidade_MedidasCorrectivas++;
-                    //idContResultadosUltimo = idContResultado;
-                    CONTA_LINHAS_NAOCONFORMIDADES++;
-                }
-                st2.close();               
-            }
-            
-            st.close();
-            con.close();
-        }catch (SQLException ex){
-            System.err.println("SQLException: " + ex.getMessage());
-        } 
-        
-        
-        
-        
-    }
-        
     
       /*   LER       */
      private void LerBDFuncionario(JComboBox nomeComboBox){
@@ -5920,97 +6997,93 @@ public class Login extends javax.swing.JFrame {
      /* LER CONTROLO DE RESULTADOS*/ 
        
      private void LerBDControloResultados(String nomeColuna){
-     
-        int idFuncionario = 0; 
-        String nomeFuncionario ="";
+         int idFuncionario = 0;
+         String nomeFuncionario = "";
 
-        String data = "";
-        String resultado = "";
-        String fichaTecnica = "";
-        String descricao = "";
-        String outro = "";
-        
-        String nomeSeccao = ""; // ir a tabela buscar o nome da tabela em questao!
-        int colunaID = 0;
-        String coluna =  nomeColuna;
-        
-        int numeroRegistos = 0;
-        
-        model = (DefaultTableModel) jTableConsultarControlos.getModel();
-        
-        //Ligação BD
-        try{
-            Class.forName("org.apache.derby.jdbc.ClientDriver");  
-        }catch(ClassNotFoundException e){
-           System.err.print("ClassNotFoundException: ");
-           System.err.println(e.getMessage());
-           System.out.println("O driver expecificado nao foi encontrado."); 
-        }      
-        
-        try{
-                     
-            con = DriverManager.getConnection(url);
-            String nomeTabela = "controloresultados";
-            String sql = "select * from "+nomeTabela;
-            PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
-            ResultSet rs = st.executeQuery();
-           
-            while(rs.next()){
-                idFuncionario = rs.getInt("IDFUNCIONARIO");
-                nomeFuncionario = selectString("FUNCIONARIO","IDFUNCIONARIO",idFuncionario,"NOME"); 
-                
-                if (!coluna.equals("OUTROS")){
-                    colunaID = rs.getInt(coluna);
-                }
-                
-                
-                //VERIFICAR QUAL A COLUNA  E IR A TABELA CERTA BUSCAR O NOME
-                if (coluna.equals("IDENTRADA")){
-                    nomeSeccao = selectString("ENTRADA","IDENTRADA",colunaID,"LOTEORIGEM");
-                
-                }else if (coluna.equals("IDEQUIPAMENTO")){
-                     nomeSeccao = selectString("EQUIPAMENTO","IDEQUIPAMENTO",colunaID,"NOME");
-                     
-                }else if (coluna.equals("IDINSECTOCACADORES")){
-                    nomeSeccao = selectString("INSECTOCACADORES","IDINSECTOCACADORES",colunaID,"NOME");
-                
-                }
-                
-                outro = rs.getString(coluna);
-                System.out.println("OUTRO: " + outro);
-                
-                data = rs.getString("DATA");
-                resultado = rs.getString("RESULTADO");
-                fichaTecnica = rs.getString("FICHATECNICA");
-                descricao = rs.getString("DESCRICAO");
-              
-                
-                if (!coluna.equals("OUTROS")){
-                    if (colunaID != 0){
-                        model.addRow(new Object[]{nomeFuncionario,nomeSeccao , data, resultado, fichaTecnica, descricao});
-                        numeroRegistos++;
-                    }
-                }else{
-                    if (outro != null ){
-                         model.addRow(new Object[]{nomeFuncionario,outro , data, resultado, fichaTecnica, descricao});
+         String data = "";
+         String resultado = "";
+         String fichaTecnica = "";
+         String descricao = "";
+         String outro = "";
+
+         String nomeSeccao = ""; // ir a tabela buscar o nome da tabela em questao!
+         int colunaID = 0;
+       
+
+         int numeroRegistos = 0;
+
+         model = (DefaultTableModel) jTableConsultarControlos.getModel();
+
+         //Ligação BD
+         try {
+             Class.forName("org.apache.derby.jdbc.ClientDriver");
+         } catch (ClassNotFoundException e) {
+             System.err.print("ClassNotFoundException: ");
+             System.err.println(e.getMessage());
+             System.out.println("O driver expecificado nao foi encontrado.");
+         }
+
+         try {
+
+             con = DriverManager.getConnection(url);
+             String nomeTabela = "controloresultados";
+             String sql = "select * from " + nomeTabela;
+             PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+             ResultSet rs = st.executeQuery();
+
+             while (rs.next()) {
+                 idFuncionario = rs.getInt("IDFUNCIONARIO");
+                 nomeFuncionario = selectString("FUNCIONARIO", "IDFUNCIONARIO", idFuncionario, "NOME");
+
+                 if (!nomeColuna.equals("OUTROS")) {
+                     colunaID = rs.getInt(nomeColuna);
+                 }
+
+                 //VERIFICAR QUAL A COLUNA  E IR A TABELA CERTA BUSCAR O NOME
+                 if (nomeColuna.equals("IDENTRADA")) {
+                     nomeSeccao = selectString("ENTRADA", "IDENTRADA", colunaID, "LOTEORIGEM");
+
+                 } else if (nomeColuna.equals("IDEQUIPAMENTO")) {
+                     nomeSeccao = selectString("EQUIPAMENTO", "IDEQUIPAMENTO", colunaID, "NOME");
+
+                 } else if (nomeColuna.equals("IDINSECTOCACADORES")) {
+                     nomeSeccao = selectString("INSECTOCACADORES", "IDINSECTOCACADORES", colunaID, "NOME");
+
+                 }
+
+                 outro = rs.getString(nomeColuna);
+                 System.out.println("OUTRO: " + outro);
+
+                 data = rs.getString("DATA");
+                 resultado = rs.getString("RESULTADO");
+                 fichaTecnica = rs.getString("FICHATECNICA");
+                 descricao = rs.getString("DESCRICAO");
+
+                 if (!nomeColuna.equals("OUTROS")) {
+                     if (colunaID != 0) {
+                         model.addRow(new Object[]{nomeFuncionario, nomeSeccao, data, resultado,  descricao});
                          numeroRegistos++;
-                    }
-                }
-                                  
-            }
-            
-            //QUANDO NAO EXISTE NENHUM REGISTO INSERIDO
-            if ( numeroRegistos == 0){
-                   JOptionPane.showMessageDialog(jDialogConsultarControlos, "Não Existe Nenhum Registo Nesta Secção ! ");
-               } 
-            
-            
-            st.close();
-            con.close();
-        }catch (SQLException ex){
-            System.err.println("SQLException: " + ex.getMessage());
-        }
-    
+                     }
+                 } else {
+                     if (!outro.equals("")) {
+                         model.addRow(new Object[]{nomeFuncionario, outro, data, resultado, descricao});
+                         numeroRegistos++;
+                     }
+                 }
+
+             }
+
+             //QUANDO NAO EXISTE NENHUM REGISTO INSERIDO
+             if (numeroRegistos == 0) {
+                 JOptionPane.showMessageDialog(jDialogConsultarControlos, "Não Existe Nenhum Registo Nesta Secção ! ");
+             }
+             System.out.println("NOME DA SECÇÃ -> " + nomeSeccao);
+             st.close();
+             con.close();
+         } catch (SQLException ex) {
+             System.err.println("SQLException: " + ex.getMessage());
+         }
+
     }
     
      private void LerBDNaoConformidades(){
@@ -6082,7 +7155,7 @@ public class Login extends javax.swing.JFrame {
             con = DriverManager.getConnection(url);
             //            stmt = con.createStatement();
             String nomeTabela = "EQUIPAMENTO";
-            String sql = "select * from " +nomeTabela; 
+            String sql = "select * from " +nomeTabela+ " WHERE ESTADO ='true'"; 
             PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             
@@ -6125,7 +7198,7 @@ public class Login extends javax.swing.JFrame {
             con = DriverManager.getConnection(url);
             //            stmt = con.createStatement();
             String nomeTabela = "INSECTOCACADORES";
-            String sql = "select * from " +nomeTabela; 
+            String sql = "select * from " +nomeTabela+" WHERE ESTADO ='true'"; 
             PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             
@@ -6280,12 +7353,35 @@ public class Login extends javax.swing.JFrame {
 
     }
 
-    private void LerBDMateriaPrimaComboBox(JComboBox ComboBoxMateriaPrima) {
+    private void LerBDMateriaPrimaComboBox(JComboBox ComboBoxMateriaPrima, String VerEstadoAMostrar) {
        
         ComboBoxMateriaPrima.removeAllItems();
         //CARREGAR DADOS
         Set<String> opcao = new HashSet<String>();
 
+        
+        //VERIFICAR QUAL O ESTADO QUE VAMOS MOSTRAR
+        boolean estado = false ;
+        boolean verDevolucao = false;
+        
+        int oQueFazer = 0;
+        
+        
+        if(VerEstadoAMostrar.equals("true")){
+            estado = true;
+            oQueFazer = 2;
+        }else if(VerEstadoAMostrar.equals("false")){
+            estado = false;
+            oQueFazer = 1;
+        }else if (VerEstadoAMostrar.equals("devolucao")){
+            //verDevolucao = true;
+            oQueFazer = 3;
+        }
+        
+        System.out.println("VER DEVOLUCAO: " + verDevolucao+ " || VER ESTADO : " + estado);
+        
+        String sql = "";
+        
         try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
 
@@ -6298,10 +7394,18 @@ public class Login extends javax.swing.JFrame {
         try {
             con = DriverManager.getConnection(url);
             String nomeTabela = "MATERIA_PRIMA";
-            String sql = "SELECT * FROM " + nomeTabela;
+                        
+            //TENTAR NOVA FORMA
+            if (oQueFazer == 1){
+                sql = "SELECT * FROM " + nomeTabela + " WHERE ESTADO=" + estado;
+            }else if (oQueFazer == 2){
+                sql = "SELECT * FROM " + nomeTabela + " WHERE ESTADO=" + estado;
+            }else{
+                sql = "SELECT * FROM " + nomeTabela;
+            }
+                      
             PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
-
             while (rs.next()) {
                 opcao.add(rs.getString("NOME"));
             }
@@ -6317,10 +7421,9 @@ public class Login extends javax.swing.JFrame {
         while (it.hasNext()) {
             ComboBoxMateriaPrima.addItem(it.next());
         }
-
+        
     }
-    
-    
+       
     
     
     
@@ -6334,21 +7437,21 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(jDialogConsultaEntradas, "Seleccione a Linha de uma Entrada!");
         } else {
             //DEVOLVE O NOME DO EQUIPAMENTO
-            String nomeFuncionario = (String) jTableConsultaEntradas.getValueAt(linha, 0);
+            String nomeFuncionario = (String) jTableConsultaEntradas.getValueAt(linha, 1);
             int idFuncionario = selectId("FUNCIONARIO", "NOME", nomeFuncionario, "IDFUNCIONARIO");
 
-            String nomeFornecedor = (String) jTableConsultaEntradas.getValueAt(linha, 1);
+            String nomeFornecedor = (String) jTableConsultaEntradas.getValueAt(linha, 2);
             idFornecedorDevolucao = selectId("FORNECEDOR", "NOME", nomeFornecedor, "IDFORNECEDOR");
 
-            String matPrima = (String) jTableConsultaEntradas.getValueAt(linha, 2);
+            String matPrima = (String) jTableConsultaEntradas.getValueAt(linha, 3);
             idMateriaPrimaDevolucao = selectId("MATERIA_PRIMA", "NOME", matPrima, "IDMATERIAPRIMA");
 
-            String dataEntrega = (String) jTableConsultaEntradas.getValueAt(linha, 3);
-            String lote = (String) jTableConsultaEntradas.getValueAt(linha, 4);
+            String dataEntrega = (String) jTableConsultaEntradas.getValueAt(linha, 4);
+            String lote = (String) jTableConsultaEntradas.getValueAt(linha, 5);
             int idEntrada = selectId("ENTRADA", "LOTEORIGEM", lote, "IDENTRADA");
             
-            String peso = (String) jTableConsultaEntradas.getValueAt(linha, 5);
-            String devolucao = (String) jTableConsultaEntradas.getValueAt(linha, 6);
+            String peso = (String) jTableConsultaEntradas.getValueAt(linha, 6);
+            String devolucao = (String) jTableConsultaEntradas.getValueAt(linha, 7);
             String devolucaoActualizar = "S";
             
             
@@ -6378,9 +7481,9 @@ public class Login extends javax.swing.JFrame {
                     while (rs.next()) {
 
                         idEntradaSeleccionada = rs.getInt("IDENTRADA");
-                        quantidadeEntradaTotalSelecionada = rs.getFloat("QUANTIDADE");
-                        quantidadeADevolverSelecionada = rs.getFloat("ADEVOLVER");
-                        //quantidadeADevolverSelecionada = rs.getFloat("QUANTIDADETOTALADEVOLVER");
+                        quantidadeEntradaTotalSelecionada = rs.getFloat("QUANTIDADE");//VALOR FIXO
+                        quantidadeADevolverSelecionada = rs.getFloat("ADEVOLVER");//VALOR VARIVEL
+                        quantidadeADevolverSelecionadaFixa = rs.getFloat("QUANTIDADETOTALADEVOLVER");//VALOR FIXO
                     }
 
                     st.close();
@@ -6408,7 +7511,8 @@ public class Login extends javax.swing.JFrame {
             System.out.println("QUANTIDADE: " + peso);
             System.out.println("ID ENTRADA SELECIONADO : " + idEntradaSeleccionada);
             System.out.println("QUANTIDADE ENTRADA : " + quantidadeEntradaTotalSelecionada);
-            System.out.println("QUANTIDADE A DEVOLVER : " + quantidadeADevolverSelecionada);
+            System.out.println("QUANTIDADE A DEVOLVER SELECCIONADA : " + quantidadeADevolverSelecionada);
+            System.out.println("QUNATIDADE A DEVOLVER FIXA : " + quantidadeADevolverSelecionadaFixa);
 
 
         }
@@ -6534,7 +7638,7 @@ public class Login extends javax.swing.JFrame {
     
             
             //MOSTRAR MENSAGEM COM AS NAO CONFORMIDADES
-            JOptionPane.showMessageDialog(this, "Não Conformidades Registadas na Entrada\n\n"
+            JOptionPane.showMessageDialog(jDialogConsultarControlos, "Não Conformidades Registadas na Entrada\n\n"
                                                 +"Data de Validade  :   " + dataValidade +"\n\n"
                                                 +"Temperatura       :   " + temperatura + "\n\n"
                                                 +"Caract. Orgonolep.:   " + caratOrgonolepticas+"\n\n"
@@ -6548,6 +7652,7 @@ public class Login extends javax.swing.JFrame {
         String referencia = jTextFieldReferenciaInsecto.getText();
         String nome = jTextFieldNomeInsecto.getText();
         String local = jTextFieldLocalInsecto.getText();
+        boolean estado = true;
 
         boolean existeInsectocacador = false;
         
@@ -6606,7 +7711,7 @@ public class Login extends javax.swing.JFrame {
                 try {
                     con = DriverManager.getConnection(url);
                     String nomeTabela = "INSECTOCACADORES";
-                    sql = "INSERT INTO " + nomeTabela + " (REFERENCIA,NOME,LOCAL)" + " VALUES(" + "'" + referencia + "'" + "," + "'" + nome + "'" + "," + "'" + local + "'" + ")";
+                    sql = "INSERT INTO " + nomeTabela + " (REFERENCIA,NOME,LOCAL, ESTADO)" + " VALUES(" + "'" + referencia + "'," + "'" + nome + "'," + "'" + local + "',"+ estado + ")";
 
                     PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
                     st.executeUpdate();
@@ -6628,42 +7733,21 @@ public class Login extends javax.swing.JFrame {
 
     }
     
+
+    
+    
     private void InserirNovaLimpeza(){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+//        String data = (String) sdf.format(jDateChooserLimpeza.getDate());
+       
+        //LER DATA DO SISTEMA
+        Date dataAtual = new Date();    
+        DateFormat formato = new SimpleDateFormat("yyyy-MM-dd");  
+        String data = formato.format(dataAtual);
+        
         
         int idInsectocacador = idInsectocacadorControloResultado;
-        int idFuncionarioResponsavel = 0;
-        String data = (String) sdf.format(jDateChooserLimpeza.getDate());
-        
-        
-        //VERIFICAR QUAL O FUNCIONARIO QUE ESTAMOS A SELECCIONAR
-        String comboFuncio = jComboBoxFuncionarioResponsvelLimpeza.getSelectedItem().toString();
-        if (!comboFuncio.equals("--Funcionario--")){
-           try {
-                Class.forName("org.apache.derby.jdbc.ClientDriver");
-            } catch (ClassNotFoundException e) { //driver não encontrado
-                System.err.print("ClassNotFoundException: ");
-                System.err.println(e.getMessage());
-                System.out.println("O driver expecificado nao foi encontrado.");
-            }        
-            
-            try{
-                con = DriverManager.getConnection(url);
-                String nomeTabela = "FUNCIONARIO";
-                String sql = "SELECT * FROM "+nomeTabela+" WHERE NOME='"+comboFuncio+"'";
-                PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
-                ResultSet rs = st.executeQuery();
-                
-                while(rs.next()){
-                    idFuncionarioResponsavel = rs.getInt("IDFUNCIONARIO");
-                }
-                st.close();
-                con.close();
-            }catch (SQLException ex){
-                 System.err.println("SQLException: " + ex.getMessage());
-            }
-        }
-        
+       // int idFuncionarioResponsavel = 0;
         //INSERIR OS DADOS NA TABELA
         try {
                 Class.forName("org.apache.derby.jdbc.ClientDriver");
@@ -6675,7 +7759,7 @@ public class Login extends javax.swing.JFrame {
             try {
                 con = DriverManager.getConnection(url);
                 String nomeTabela = "LIMPEZAINSECTOCACADORES";
-                sql = "INSERT INTO " + nomeTabela + "(IDINSECTOCACADORES,IDFUNCIONARIO,DATA)" + " values("+ idInsectocacador + "," +idFuncionarioResponsavel + "," + "'" + data + "'"  + ")";
+                sql = "INSERT INTO " + nomeTabela + "(IDINSECTOCACADORES,IDFUNCIONARIO,DATA)" + " values("+ idInsectocacador + "," +idFuncionarioLogin + "," + "'" + data + "'"  + ")";
 
                 PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
                 st.executeUpdate();
@@ -6690,7 +7774,7 @@ public class Login extends javax.swing.JFrame {
             
             System.out.println("\n*** INSERIR NOVA LIMPEZA -> JANELA NOVA LIMPEZA, VINDO DA CONSULTA DE INSECTOCAÇADORES");
             System.out.println("ID EQUIPAMENTO SELECIONADO: " + idInsectocacador);
-            System.out.println("FUNCIOANRIO RESPONSAVEL: " + idFuncionarioResponsavel);
+            System.out.println("FUNCIOANRIO RESPONSAVEL: " + idFuncionarioLogin);
             System.out.println("DATA: " + data);    
         
     }
@@ -6700,7 +7784,7 @@ public class Login extends javax.swing.JFrame {
         //DAODS A GRAVAR 
         String nomeEquipamento = jTextFieldNomeEquipamento.getText();
         String observacaoEquipamento = jTextAreaObservacaoNovoEquipamento.getText();
-
+        boolean estado = true;
         boolean existeEquipamento = false;
 
         // VERIFICAR SE NOME JA EXISTE
@@ -6748,7 +7832,7 @@ public class Login extends javax.swing.JFrame {
             try {
                 con = DriverManager.getConnection(url);
                 String nomeTabela = "EQUIPAMENTO";
-                sql = "INSERT INTO " + nomeTabela + "(NOME,DESCRICAO)" + " values(" + "'" + nomeEquipamento + "'" + "," + "'" + observacaoEquipamento + "'" + ")";
+                sql = "INSERT INTO " + nomeTabela + "(NOME,DESCRICAO,ESTADO)" + " values(" + "'" + nomeEquipamento + "','" + observacaoEquipamento + "'," + estado + ")";
 
                 JOptionPane.showMessageDialog(jDialogNovoEquipamento, "Equipamento Gravado Com Sucesso !");
 
@@ -6768,44 +7852,20 @@ public class Login extends javax.swing.JFrame {
     }
     
     private void InserirManuencaoEquipamento(){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        //String data = (String) sdf.format(jDateChooserDataManutencaoEquipamento.getDate());
+         
+        //LER DATA DO SISTEMA
+        Date dataAtual = new Date();    
+        DateFormat formato = new SimpleDateFormat("yyyy-MM-dd");  
+        String data = formato.format(dataAtual);
+
+
         //DADOS A INSERIR 
-        int idEquip = idEquipamentoControloResultado;
-        int idFuncionarioRresponsavel = 0;
-        String data = (String) sdf.format(jDateChooserDataManutencaoEquipamento.getDate());
+        int idEquip = idEquipamentoControloResultado;       
         String observacoes = jTextAreaObservacaoManutencaoEquipameto.getText();
         String fichaTecnica = "";
         
-        
-        //VERIFICAR QUAL O FUNCIONARIO QUE ESTA SELECIONADO NA COMBOBOX
-      
-        String comboFuncio = jComboBoxFuncionarioResponsavel.getSelectedItem().toString();
-        if (!comboFuncio.equals("--Funcionario--")){
-            try {
-                Class.forName("org.apache.derby.jdbc.ClientDriver");
-            } catch (ClassNotFoundException e) { //driver não encontrado
-                System.err.print("ClassNotFoundException: ");
-                System.err.println(e.getMessage());
-                System.out.println("O driver expecificado nao foi encontrado.");
-            }        
-            
-            try{
-                con = DriverManager.getConnection(url);
-                String nomeTabela = "FUNCIONARIO";
-                String sql = "SELECT * FROM "+nomeTabela+" WHERE NOME='"+comboFuncio+"'";
-                PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
-                ResultSet rs = st.executeQuery();
-                
-                while(rs.next()){
-                    idFuncionarioRresponsavel = rs.getInt("IDFUNCIONARIO");
-                }
-                st.close();
-                con.close();
-            }catch (SQLException ex){
-                 System.err.println("SQLException: " + ex.getMessage());
-            }
-        
-        }
         
         //INSERIR OS DADOS NA TABELA
         
@@ -6819,7 +7879,7 @@ public class Login extends javax.swing.JFrame {
             try {
                 con = DriverManager.getConnection(url);
                 String nomeTabela = "MANUTENCAOEQUIPAMENTOS";
-                sql = "INSERT INTO " + nomeTabela + "(IDEQUIPAMENTO,IDFUNCIONARIO,DATA,OBSERVACOES,FICHATECNICA)" + " values("+ idEquip + "," +idFuncionarioRresponsavel + "," + "'" + data + "'" + "," + "'" + observacoes + "'"+"," + "'" + fichaTecnica+ "'"  + ")";
+                sql = "INSERT INTO " + nomeTabela + "(IDEQUIPAMENTO,IDFUNCIONARIO,DATA,OBSERVACOES,FICHATECNICA)" + " values("+ idEquip + "," +idFuncionarioLogin + "," + "'" + data + "'" + "," + "'" + observacoes + "'"+"," + "'" + fichaTecnica+ "'"  + ")";
 
                 
               
@@ -6834,7 +7894,7 @@ public class Login extends javax.swing.JFrame {
         
             System.out.println("\n*** INSERIR NOVA MANUTENÇÃO -> VINDA DA CONSULTA DOS EQUIPAMETNO");
             System.out.println("ID EQUIPAMENTO SELECIONADO: " + idEquip);
-            System.out.println("FUNCIOANRIO RESPONSAVEL: " + idFuncionarioRresponsavel);
+            System.out.println("FUNCIOANRIO RESPONSAVEL: " + idFuncionarioLogin);
             System.out.println("DATA: " + data);
             System.out.println("OBSERVAÇÕES: " + observacoes);
         
@@ -6857,88 +7917,72 @@ public class Login extends javax.swing.JFrame {
                 jDialogNovoControloResultados.setVisible(false);
             }
         }else if (comboResultado.equals("NC")){
-            int resultNCNaoConformidades = JOptionPane.showConfirmDialog(jDialogNovoControloResultados, "Deseja Abrir a Janela de Não Conformidades ?", null, JOptionPane.YES_NO_OPTION);
-            
-            if (resultNCNaoConformidades == JOptionPane.YES_OPTION){
-                GravarControloResultados();
-                jDialogNaoConformidades.setLocationRelativeTo(this);
-                jDialogNaoConformidades.setVisible(true);
-                jDialogNovoControloResultados.setVisible(false);
-                LerBDFuncionarioResponsavel();
-            }else if (resultNCNaoConformidades == JOptionPane.NO_OPTION){
-                //perguntar se  quer gravar e voltar a pagi principal
-                 int resultNCGravarVoltar = JOptionPane.showConfirmDialog(jDialogNovoControloResultados, "Deseja Gravar e Volta a Pagina Principal ?", null, JOptionPane.YES_NO_OPTION); 
-                 
-                 if (resultNCGravarVoltar == JOptionPane.YES_OPTION){
-                     GravarControloResultados();
-                     jDialogNovoControloResultados.setVisible(false);
-                 }
-                 
-            }
+            GravarControloResultados();
+            if (!gravarNaBDNovoControloResultado == false) {
+
+                int resultNCNaoConformidades = JOptionPane.showConfirmDialog(jDialogNovoControloResultados, "Deseja Abrir a Janela de Não Conformidades ?", null, JOptionPane.YES_NO_OPTION);
+
+                if (resultNCNaoConformidades == JOptionPane.YES_OPTION) {
+                   
+                    jDialogNaoConformidades.setLocationRelativeTo(this);
+                    jDialogNaoConformidades.setVisible(true);
+                    jDialogNovoControloResultados.setVisible(false);
+                    LerBDFuncionarioResponsavel();
+                    /* DADOS A PASSAR PARA A PROXIMA JANELA */
+                    //ESCREVEMOS A SECCAO NA JTEXTFIEL
+                    jTextFieldVerSeccaoDoCR.setText(jComboBoxTipo.getSelectedItem().toString());
+                    //ESCREVER OS DADOS NA JTEXTAREA DO PROBLEMA
+                    jTextAreaProblemadoControlo.setText(jTextAreaDescricao.getText());
+                    //ESCREVER O NOME DO FUNCIONARIO NA LABEL
+                    jLabelFuncionarioLogin4.setText(NomeFuncionarioLogin);
                     
-        }    
+                }else{
+                    jDialogNovoControloResultados.setVisible(false);
+                    LimpaCamposNovoControloResultado();
+                }
+            }
+        }
         
     }
     
     private void GravarControloResultados(){
     
         //CAMPOS DA BASE DE DADOS
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+//        String data = (String) sdf.format(jDateChooserControloResultados.getDate());
+        
+        //LER DATA DO SISTEMA
+        Date dataAtual = new Date();    
+        DateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm");  
+        String data = formato.format(dataAtual);
+        
         
         //4  id's
         int idOpcaoEscolhida = 0;
-        int idFuncionario = 0;
+        //int idFuncionario = 0;
         int idEntrada = 0;
         int idEquipamento = 0;
         int idInsectocacadores = 0;
         
         String fichaTecnica = "";
         
+        
         /* RSULTADO É C OU NC */
         String resultado = jComboBoxResultado.getSelectedItem().toString();
         String outro = jTextFieldOutraOpcao.getText();
-        String data = (String) sdf.format(jDateChooserControloResultados.getDate());
         String descricao = jTextAreaDescricao.getText();
         
         //VERIFICAR EM QUAL COLUNA VAMOS INSERIR A OPÇAO
         
-        
-        //COMBO BOX FUNCIONARIO
-        String comboFuncio = jComboBoxFuncionario.getSelectedItem().toString();
-        if (!comboFuncio.equals("--Funcionario--")){
-            try {
-                Class.forName("org.apache.derby.jdbc.ClientDriver");
-            } catch (ClassNotFoundException e) { //driver não encontrado
-                System.err.print("ClassNotFoundException: ");
-                System.err.println(e.getMessage());
-                System.out.println("O driver expecificado nao foi encontrado.");
-            }                  
-            try{
-                con = DriverManager.getConnection(url);
-                String nomeTabela = "FUNCIONARIO";
-                String sql = "select * from "+nomeTabela+" where NOME='"+comboFuncio+"'";
-                PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
-                ResultSet rs = st.executeQuery();
-                
-                while(rs.next()){
-                    idFuncionario = rs.getInt("IDFUNCIONARIO");
-                }
-                st.close();
-                con.close();
-            }catch (SQLException ex){
-                 System.err.println("SQLException: " + ex.getMessage());
-            }
-        }
-        
-        
-        
         /* FAZER A DIFERENÇA ENTRE ENTRADA  E (EQUIPAMENTO / INSECTOCAÇADOR) */
         
         String comboOpcao = jComboBoxOpcao.getSelectedItem().toString();
-        if(comboTipoOP.equals("INSECTOCACADORES") ||comboTipoOP.equals("EQUIPAMENTO") ){
+        if(comboTipoOP.equals("CONT. PRAGAS") ||comboTipoOP.equals("EQUIPAMENTO") ){
         
             //COMBO BOX OPÇÃO -> aki vamos buscar o ID a tabela Insectocaçadore e Equipamento
-              
+            if(comboTipoOP.equals("CONT. PRAGAS"))  
+                comboTipoOP = "INSECTOCACADORES";
+                
             if (!comboOpcao.equals("--Opção--")) {
                 try {
                     Class.forName("org.apache.derby.jdbc.ClientDriver");
@@ -7015,13 +8059,45 @@ public class Login extends javax.swing.JFrame {
             idEquipamento = 0;
             idEntrada = 0;
             //outro = "sim";
-            }
-        
-        
-        
-        
-        //GRAVAR NA BD CONTROLO RESULTADO
+        }
+
+     
+        //VERIFICAR SE JA EXISTE O CONTROLO COOM ALGUMA NC 
+        gravarNaBDNovoControloResultado = true;
         try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+        } catch (ClassNotFoundException e) { //driver não encontrado
+            System.err.print("ClassNotFoundException: ");
+            System.err.println(e.getMessage());
+            System.out.println("O driver expecificado nao foi encontrado.");
+        }
+        try {
+            con = DriverManager.getConnection(url);
+            String nomeTabela = "CONTROLORESULTADOS"; // nome da tabela
+            String sql = "select * from " + nomeTabela + " WHERE IDENTRADA=" + idEntrada + " AND IDEQUIPAMENTO="+idEquipamento+" AND IDINSECTOCACADORES="+idInsectocacadores+" AND RESULTADO='NC'";
+            PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                gravarNaBDNovoControloResultado = false;
+            }
+            st.close();
+            con.close();
+        } catch (SQLException ex) {
+            System.err.println("SQLException: " + ex.getMessage());
+        }
+
+        
+        
+        
+        
+        if (gravarNaBDNovoControloResultado == false){
+            //MENSAGEM DE ERRO A DIZER KE JA EXISTE
+            JOptionPane.showMessageDialog(jDialogNovoControloResultados, "Ja existe um controlo de resultado em esta Não Conforme !");
+        } else {
+            //GRAVAR NA BD CONTROLO RESULTADO
+            gravarNaBDNovoControloResultado= true;
+            try {
                 Class.forName("org.apache.derby.jdbc.ClientDriver");
             } catch (ClassNotFoundException e) { //driver não encontrado
                 System.err.print("ClassNotFoundException: ");
@@ -7031,22 +8107,22 @@ public class Login extends javax.swing.JFrame {
             try {
                 con = DriverManager.getConnection(url);
                 String nomeTabela = "CONTROLORESULTADOS";
-                sql = "insert into " + nomeTabela+ "(IDFUNCIONARIO,IDEQUIPAMENTO,IDINSECTOCACADORES, IDENTRADA, DATA,RESULTADO,FICHATECNICA,DESCRICAO,OUTROS)"
-                + " values (" + idFuncionario + "," +idEquipamento+ "," + idInsectocacadores + ","+ idEntrada + "," + "'" + data + "'" + "," + "'" + resultado + "'" + "," + "'"+ fichaTecnica +"'"+ "," + "'" + descricao + "'" + "," + "'"+ outro + "'"  + ")";
+                sql = "insert into " + nomeTabela + "(IDFUNCIONARIO,IDEQUIPAMENTO,IDINSECTOCACADORES, IDENTRADA, DATA,RESULTADO,FICHATECNICA,DESCRICAO,OUTROS)"
+                        + " values (" + idFuncionarioLogin + "," + idEquipamento + "," + idInsectocacadores + "," + idEntrada + "," + "'" + data + "'" + "," + "'" + resultado + "'" + "," + "'" + fichaTecnica + "'" + "," + "'" + descricao + "'" + "," + "'" + outro + "'" + ")";
 
                 PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
                 st.executeUpdate();
-                 System.out.println("chegou");
+                System.out.println("chegou");
                 st.close();
                 con.close();
             } catch (SQLException ex) {
                 System.err.println("SQLException: " + ex.getMessage());
             }
-        
+        }
          // ESCREVER CAMPOS NA CONSOLA
             System.out.println("\n\n***** INSERÇÃO DE DADOS NA TABELA CONTROLO DE RESULTADOS");
             System.out.println("ID OPCAO ESCOLHIDA: " + idOpcaoEscolhida);
-            System.out.println("FUNCIONARIO: " + idFuncionario); 
+            System.out.println("FUNCIONARIO: " + idFuncionarioLogin); 
            // System.out.println("LOTE: " + comboLote);
             System.out.println("ENTRADA: " + idEntrada);
             System.out.println("EQUIPAMENTO: " + idEquipamento); 
@@ -7064,21 +8140,22 @@ public class Login extends javax.swing.JFrame {
         //GRAVAR NOVO NAO CONFORMIDADE
         
         //DADOS JANELA NAO CONFORMIDADE
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String data = (String) sdf.format(jDateChooserNaoConformidade.getDate());
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+//        String data = (String) sdf.format(jDateChooserNaoConformidade.getDate());
+
+        Date dataAtual = new Date();    
+        DateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm");  
+        String data = formato.format(dataAtual);
+        
         String ocorrecia = jTextAreaOcorrenciaNaoConformidade.getText();
         String medidaCorrectiva = jTextAreaMedidaCorrctivaNaoConformidade.getText();
-        String funcionarioRegistaNome =  jComboBoxFuncionarioNaoConformidade.getSelectedItem().toString();
+        String funcionarioRegistaNome =  NomeFuncionarioLogin;
         int funcionarioRegistaID = 0;
         String funcionarioResponsavelNome = jComboBoxNaoConformidadeFuncionarioResponsav.getSelectedItem().toString();
         int funcionarioResponssavelID = 0;
         String correctiva = "N";
-        
-        
-        
-        
-        if (!funcionarioRegistaNome.equals("--Funcionario--"))
-            funcionarioRegistaID = selectId("FUNCIONARIO", "NOME", funcionarioRegistaNome, "IDFUNCIONARIO");
+   
+            funcionarioRegistaID = idFuncionarioLogin;
         
         if (!funcionarioResponsavelNome.equals("--Funcionario--"))
             funcionarioResponssavelID = selectId("FUNCIONARIO", "NOME", funcionarioResponsavelNome, "IDFUNCIONARIO");
@@ -7108,10 +8185,9 @@ public class Login extends javax.swing.JFrame {
             System.err.println("SQLException: " + ex.getMessage());
         }
         
-        
-        
-        
-        
+        LimpaTabelaNaoConformidades();
+        ConsultaBDNaoConformidadeSelect();
+        LimpaCamposNovaNaoConformidade();
         
         
         System.out.println("*** INSERIR NOVO CONTROLO");
@@ -7179,7 +8255,7 @@ public class Login extends javax.swing.JFrame {
             try {
                 con = DriverManager.getConnection(url);
                 String nomeTabela = "MATERIA_PRIMA";
-                sql = "INSERT INTO " + nomeTabela + "(NOME,DESCRISAO,UNIDADE)" + " values(" + "'" + nomeMateria + "'" + "," + "'" + descricaoMateria + "'" + "," + "'" + unidadeMateria + "'" + ")";
+                sql = "INSERT INTO " + nomeTabela + "(NOME,DESCRICAO,UNIDADE)" + " values(" + "'" + nomeMateria + "'" + "," + "'" + descricaoMateria + "'" + "," + "'" + unidadeMateria + "'" + ")";
 
                 JOptionPane.showMessageDialog(jDialogNovaMateriaPrima, "Nova Materia Gravada Com Sucesso !");
 
@@ -7310,18 +8386,22 @@ public class Login extends javax.swing.JFrame {
 
     private void InserirNovaEntrada() {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ", Locale.getDefault());
-
-        String nomeFuncionario = jComboBoxFuncionarioResponsavelEntrada.getSelectedItem().toString();
-        int idFuncionario = selectId("FUNCIONARIO", "NOME", nomeFuncionario, "IDFUNCIONARIO");
-
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+//        String dataEntrega = (String) sdf.format(jDateChooserEntrada.getDate());
+        
+        //LER DATA DO SISTEMA
+        Date dataAtual = new Date();    
+        DateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm");  
+        String dataEntrega = formato.format(dataAtual);
+        
+        
         String nomeFornecedor = jComboBoxFornecedorEntrada.getSelectedItem().toString();
         int idForncedor = selectId("FORNECEDOR", "NOME", nomeFornecedor, "IDFORNECEDOR");
 
         String nomeMateriaPrima = jComboBoxMateriaPrimaEntrada.getSelectedItem().toString();
         int idMateriaPrima = selectId("MATERIA_PRIMA", "NOME", nomeMateriaPrima, "IDMATERIAPRIMA");
 
-        String dataEntrega = (String) sdf.format(jDateChooserEntrada.getDate());
+       
 
         String lote = jTextFieldLoteEntrada.getText();
         float quantidade = Float.parseFloat(jTextFieldQuantidadeEntrada.getText().toString());
@@ -7365,6 +8445,9 @@ public class Login extends javax.swing.JFrame {
           
             for (Component cp : jPanelADevolverNovaEntrada.getComponents()) 
             cp.setEnabled(true);
+            
+            //QUANDO DESBLOQUEIO O PAINEL COLOCAR A UNIDADE IGUAL A UNIDADE DE ENTRADA
+            jTextFieldUnidadeQuantidadeADevolver.setText( jTextFieldNovaEntradaUnidadeQuantidade.getText());
             
             
             for (Component cp : jPanelConformidadesNovaEntrada.getComponents()) 
@@ -7415,7 +8498,7 @@ public class Login extends javax.swing.JFrame {
                 con = DriverManager.getConnection(url);
                 String nomeTabela = "ENTRADA";
                 sql = "INSERT INTO " + nomeTabela + "(IDFORNECEDOR, IDFUNCIONARIO, IDMATERIAPRIMA, DATAENTREGA, LOTEORIGEM, QUANTIDADE, TEMPERATURA, DATAVALIDADE, CARATORGONOLEPTICAS, EMBALAGEM, DEVOLUCAO, ADEVOLVER, QUANTIDADETOTALDISPONIVEL, QUANTIDADETOTALADEVOLVER) "
-                        + " values(" + idForncedor + "," + idFuncionario + "," + idMateriaPrima + ",'" + dataEntrega + "','" + lote + "'," + quantidade + ",'" + temperatura + "','" + datavalidade + "','" + caratOrgonolepricas + "','" + embalagem + "','" + devolucao + "'," + adevolver+ ","+ quantidade + ","+ adevolver + " )";
+                        + " values(" + idForncedor + "," + idFuncionarioLogin + "," + idMateriaPrima + ",'" + dataEntrega + "','" + lote + "'," + quantidade + ",'" + temperatura + "','" + datavalidade + "','" + caratOrgonolepricas + "','" + embalagem + "','" + devolucao + "'," + adevolver+ ","+ quantidade + ","+ adevolver + " )";
 
       
                 System.out.println("\n\n** DADOS DA NOVA ENTRADA INSERIDOS COM SUCESSO !");
@@ -7432,6 +8515,8 @@ public class Login extends javax.swing.JFrame {
             LimpaNovaEntrada();
             
               //COLOCAR BOTAO A PERGUNTAR SE QUEREMOS REALIZAR A DEVOLUÇÃO OU NAO
+                
+            if (devolucao.equals("S")) {
                 
              int resultNaoConformidade = JOptionPane.showConfirmDialog(jDialogNovaEntrada, "Deseja Fazer a Devolução ?", null, JOptionPane.YES_NO_OPTION);
              if (resultNaoConformidade == JOptionPane.YES_OPTION){
@@ -7455,7 +8540,7 @@ public class Login extends javax.swing.JFrame {
                     
                     con = DriverManager.getConnection(url);
                     String nomeTabela = "ENTRADA";
-                    String sql = "SELECT * FROM " + nomeTabela + " WHERE IDFUNCIONARIO=" + idFuncionario
+                    String sql = "SELECT * FROM " + nomeTabela + " WHERE IDFUNCIONARIO=" + idFuncionarioLogin
                             + " AND IDFORNECEDOR=" + idFornecedorDevolucao
                             + " AND IDMATERIAPRIMA=" + idMateriaPrimaDevolucao
                             + " AND LOTEORIGEM='" + lote + "'"
@@ -7486,9 +8571,9 @@ public class Login extends javax.swing.JFrame {
                     LimpaNovaDevolucao();
                     jDialogDevolucoes.setLocationRelativeTo(this);
                     jDialogDevolucoes.setVisible(true);
-                    LerBDFuncionario(jComboBoxFuncionarioResponsavelDevolucao);
+                    jLabelFuncionarioLogin6.setText("" + NomeFuncionarioLogin);
                     CalculaQuantoFaltaDevolver();                   
-                    
+                    //jTextFieldQuantidadeADevolverDevolucao.setText(""+adevolver);
                     st.close();
                     con.close();
                 } catch (SQLException ex) {
@@ -7500,16 +8585,16 @@ public class Login extends javax.swing.JFrame {
                 }else {
                    jDialogNovaEntrada.setVisible(false);
                 }
-                
-                
-                
-            }//FECHA O IF
+             
+              }
+             
+            }//FECHA O IF GRAVA ENTRADA
               
 
         System.out.println("\n\n**BOTAO GUARDAR NOVA ENTRADA**");
 
-        System.out.println("NOME FUNCIONARIO: " + nomeFuncionario);
-        System.out.println("ID FUNCIONARIO : " + idFuncionario);
+        System.out.println("NOME FUNCIONARIO: " + NomeFuncionarioLogin);
+        System.out.println("ID FUNCIONARIO : " + idFuncionarioLogin);
 
         System.out.println("NOME FORNECEDOR : " + nomeFornecedor);
         System.out.println("ID FORNECEDOR : " + idForncedor);
@@ -7538,56 +8623,24 @@ public class Login extends javax.swing.JFrame {
         String dataDevolucao = (String) sdf.format(jDateChooserDataDevolucao.getDate());
         float quantidadeQueEstamosAdevolver = Float.parseFloat(jTextFieldQuantidadeDevolucao.getText().toString());
         String observacao = jTextAreaObservacoesDevolucao.getText();
-        int idFuncionarioRresponsavel = 0;
+       // int idFuncionarioRresponsavel = 0;
         float quantidadeActualizar = 0.0f;
         String devolucao = "N";
 
         float quantidadeDevolvidadaAteAgora = 0.0f; //para ir buscar o valor a coluna e somar a de baixo
         float quantidadeDevolvidadaAteAgora_TOTAL = 0.0f; //somatorio das quantidades das devoluçoes ja efectuadas
         float quantidadeDevolvidadaAteAgora_FINAL = 0.0f; // esta e a soma das 2 -> _total + quantidadeQueEstamosAdevolver
-
+        float quantidadeDevolvidadaAteAgora_Arrendondar = 0.0f;
         
         //COMBOBOX
         //FUNCIONARIO RESPONSAVEL PELA DEVOLUCAO
 
-        String comboFuncio = jComboBoxFuncionarioResponsavelDevolucao.getSelectedItem().toString();
-        
-        if (comboFuncio.equals("--Funcionario--")) {
-
-            JOptionPane.showMessageDialog(jDialogDevolucoes, "Selecione o Funcionario Responsavel");
-
-        } else if (quantidadeQueEstamosAdevolver == 0.0) {
+         if (quantidadeQueEstamosAdevolver == 0.0) {
 
             //PERCORRER A BD E VER A QUANTIDADE QUE JA FOI DEVOLVIDA
             JOptionPane.showMessageDialog(jDialogDevolucoes, "Quantidade a Devolver não pode ser ZERO !");
 
         } else {
-
-            //COMBO BOX DO FUNCIONARIO
-            try {
-                Class.forName("org.apache.derby.jdbc.ClientDriver");
-            } catch (ClassNotFoundException e) { //driver não encontrado
-                System.err.print("ClassNotFoundException: ");
-                System.err.println(e.getMessage());
-                System.out.println("O driver expecificado nao foi encontrado.");
-            }
-
-            try {
-                con = DriverManager.getConnection(url);
-                String nomeTabela = "FUNCIONARIO";
-                String sql = "SELECT * FROM " + nomeTabela + " WHERE NOME='" + comboFuncio + "'";
-                PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
-                ResultSet rs = st.executeQuery();
-
-                while (rs.next()) {
-                    idFuncionarioRresponsavel = rs.getInt("IDFUNCIONARIO");
-                }
-                st.close();
-                con.close();
-            } catch (SQLException ex) {
-                System.err.println("SQLException: " + ex.getMessage());
-            }
-
             
             //BD DE DEVOLUÇÕES
             try {
@@ -7609,7 +8662,7 @@ public class Login extends javax.swing.JFrame {
                     quantidadeDevolvidadaAteAgora = rs.getFloat("QUANTIDADEDEVOLVIDA");
                     quantidadeDevolvidadaAteAgora_TOTAL = quantidadeDevolvidadaAteAgora_TOTAL + quantidadeDevolvidadaAteAgora;
 
-                    System.out.println("quantidadeDevolvidaAteAgora : " + quantidadeDevolvidadaAteAgora);
+                    System.out.println("\nquantidadeDevolvidaAteAgora : " + quantidadeDevolvidadaAteAgora);
 
                 }
                 System.out.println("\nquantidadeDevolvidaAteAgora_TOTAL : " + quantidadeDevolvidadaAteAgora_TOTAL);
@@ -7623,15 +8676,24 @@ public class Login extends javax.swing.JFrame {
             mostraQuantidadeDevolvidaAteAoMomento = quantidadeDevolvidadaAteAgora_TOTAL;
 
             //VERIFICAR SE A QUANTIDADE JA DEVOLVIDA + A QUE VAMOS DEVOLVER ESTAO DENTRO DOS LIMITES
-            quantidadeDevolvidadaAteAgora_FINAL = quantidadeDevolvidadaAteAgora_TOTAL + quantidadeQueEstamosAdevolver;
-            System.out.println("CONTAS: " + quantidadeDevolvidadaAteAgora_TOTAL + " + " + quantidadeQueEstamosAdevolver + " = " + quantidadeDevolvidadaAteAgora_FINAL);
+            //quantidadeDevolvidadaAteAgora_FINAL = quantidadeDevolvidadaAteAgora_TOTAL + quantidadeQueEstamosAdevolver;
+            
+            quantidadeDevolvidadaAteAgora_Arrendondar = quantidadeADevolverSelecionada - quantidadeQueEstamosAdevolver;
+            quantidadeDevolvidadaAteAgora_FINAL = Round(quantidadeDevolvidadaAteAgora_Arrendondar, 2);
+            
+            System.out.println("CONTAS PARA VERIFICAR SE ESTAMOS OU NAO A INSERIR A MAIS\n-> " + quantidadeADevolverSelecionada + " + " + quantidadeQueEstamosAdevolver + " = " + quantidadeDevolvidadaAteAgora_FINAL);
 
+            
+            
+            
+            
             //QUANTIDADE MAIOR
-            if (quantidadeDevolvidadaAteAgora_FINAL > quantidadeADevolverSelecionada) {
+            if (quantidadeDevolvidadaAteAgora_FINAL > quantidadeADevolverSelecionada || quantidadeDevolvidadaAteAgora_FINAL < 0) {
 
-                JOptionPane.showMessageDialog(jDialogDevolucoes, "Quantidade a devolvel nao pode ser tanta\n\nFALTA Devolver Apenas : " + (quantidadeADevolverSelecionada - quantidadeDevolvidadaAteAgora_TOTAL));
+                JOptionPane.showMessageDialog(jDialogDevolucoes, "Quantidade a devolvel nao pode ser tanta\n\n"
+                        + "FALTA Devolver Apenas : " + (quantidadeADevolverSelecionada ));
 
-            } else if (quantidadeDevolvidadaAteAgora_FINAL == quantidadeADevolverSelecionada) {
+            } else if (quantidadeDevolvidadaAteAgora_FINAL == 0) {
                 //QANTIDADE A DEVELVER = A DEVOLVIDA
                 
                 //inserir na mesma o registo mas actualizar o estado na tabela entradas
@@ -7647,7 +8709,7 @@ public class Login extends javax.swing.JFrame {
                     con = DriverManager.getConnection(url);
                     String nomeTabela = "DEVOLUCOES";
                     sql = "INSERT INTO " + nomeTabela + "(IDFUNCIONARIO, IDFORNECEDOR, IDENTRADA, IDMATERIAPRIMA, DATADEVOLUCAO, QUANTIDADEDEVOLVIDA, OBSERVACAO)"
-                            + " values(" + idFuncionarioRresponsavel + "," + idFornecedorDevolucao + "," + idEntradaSeleccionada + "," + idMateriaPrimaDevolucao + ",'" + dataDevolucao + "'," + quantidadeQueEstamosAdevolver + ",'" + observacao + "'" + ")";
+                            + " values(" + idFuncionarioLogin + "," + idFornecedorDevolucao + "," + idEntradaSeleccionada + "," + idMateriaPrimaDevolucao + ",'" + dataDevolucao + "'," + quantidadeQueEstamosAdevolver + ",'" + observacao + "'" + ")";
 
                     System.out.println("\n\n** DADOS DA NOVA DEVOLUÇÃO INSERIDOS COM SUCESSO !");
 
@@ -7672,6 +8734,9 @@ public class Login extends javax.swing.JFrame {
                     LimpaNovaDevolucao();
                     LimpaTabelaEntradas();
                     ConsultaEntradas();
+                    //ALTERAR TEXTO
+                    jButtonVerDevolucoes.setText("Fazer Devolição");
+                    jLabelTituloConsultaEntradas.setText("Consulta Todas as Entradas");
 
                     con.close();
                 } catch (SQLException ex) {
@@ -7696,13 +8761,15 @@ public class Login extends javax.swing.JFrame {
                     con = DriverManager.getConnection(url);
                     String nomeTabela = "DEVOLUCOES";
                     sql = "INSERT INTO " + nomeTabela + "(IDFUNCIONARIO, IDFORNECEDOR, IDENTRADA, IDMATERIAPRIMA, DATADEVOLUCAO, QUANTIDADEDEVOLVIDA, OBSERVACAO, DEVOLUCAONUMERO)"
-                            + " values(" + idFuncionarioRresponsavel + "," + idFornecedorDevolucao + "," + idEntradaSeleccionada + "," + idMateriaPrimaDevolucao + ",'" + dataDevolucao + "'," + quantidadeQueEstamosAdevolver + ",'" + observacao + "'," + devolucaoNumero + ")";
+                            + " values(" + idFuncionarioLogin + "," + idFornecedorDevolucao + "," + idEntradaSeleccionada + "," + idMateriaPrimaDevolucao + ",'" + dataDevolucao + "'," + quantidadeQueEstamosAdevolver + ",'" + observacao + "'," + devolucaoNumero + ")";
 
                     System.out.println("\n\n** DADOS DA NOVA DEVOLUÇÃO INSERIDOS COM SUCESSO !");
 
                         //ACTUALIZAR A TABELA ENTRADAS VALOR ADEVOLVER
                         //FAZER A CONTA PARA ACTUALIZAR
-                        quantidadeActualizar = quantidadeADevolverSelecionada - quantidadeQueEstamosAdevolver;
+                       float quantidadeActualizar_arredonfar  = quantidadeADevolverSelecionada - quantidadeQueEstamosAdevolver;
+                       quantidadeActualizar = Round(quantidadeActualizar_arredonfar, 2);
+                       
                         System.out.println("\n\n\nQuantidadeAtualiza = quantidadeADevolver("+quantidadeADevolverSelecionada+") - quantidadeQueEstamosAdevolver("+quantidadeQueEstamosAdevolver+")");
                         
                         String nomeTabela2 = "ENTRADA";
@@ -7719,6 +8786,9 @@ public class Login extends javax.swing.JFrame {
                     LimpaNovaDevolucao();
                     LimpaTabelaEntradas();
                     ConsultaEntradas();
+                    //ALTERAR NOVME DO BOTAO E DA LABEL
+                    jButtonVerDevolucoes.setText("Fazer Devolução");
+                    jLabelTituloConsultaEntradas.setText("Consulta Todas as Entradas");
 
                     con.close();
                 } catch (SQLException ex) {
@@ -7730,7 +8800,7 @@ public class Login extends javax.swing.JFrame {
         }
 
         System.out.println("\n\n** BOTAO GUARDAR DEVOLUCAO");
-        System.out.println("ID FUNCIONARIO : " + idFuncionarioRresponsavel);
+        System.out.println("ID FUNCIONARIO : " + idFuncionarioLogin);
         System.out.println("ID FORNECEDOR: " + idFornecedorDevolucao);
         System.out.println("ID MMAT. PRIMA: " + idMateriaPrimaDevolucao);
         System.out.println("ID ENTRADA: " + idEntradaSeleccionada);
@@ -7754,6 +8824,7 @@ public class Login extends javax.swing.JFrame {
         String referencia = "";
         String nome = "";
         String local = "";
+       
         
         LimpaTabelaConsultaInsectocacadores();
         
@@ -7819,6 +8890,7 @@ public class Login extends javax.swing.JFrame {
                 local =  rs.getString("LOCAL");
                 
                 jTextFieldReferenciaInsecto.setText(referencia);
+                jLabelAntigaReferencia.setText(referencia);
                 jTextFieldNomeInsecto.setText(nome);
                 jTextFieldLocalInsecto.setText(local);
             }
@@ -7830,45 +8902,9 @@ public class Login extends javax.swing.JFrame {
         }
     }
     
-    private void ConsultaFuncionariosComboBox(){
-        //LIMPAR A COMBO
-        jComboBoxFuncionarioResponsvelLimpeza.removeAllItems();
-        //CARREGAR DADOS
-        Set<String> opcao = new HashSet<String>();
-        
-        try{   
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-        
-        }catch(ClassNotFoundException e){
-            System.err.print("ClassNotFoundException: ");
-            System.err.println(e.getMessage());
-            System.out.println("O driver expecificado nao foi encontrado.");
-        }
-        
-        try{
-            con = DriverManager.getConnection(url);
-            //            stmt = con.createStatement();
-            String nomeTabela = "FUNCIONARIO";
-            String sql = "select * from " +nomeTabela; 
-            PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
-            ResultSet rs = st.executeQuery();
-            
-            while(rs.next()){
-                opcao.add(rs.getString("NOME"));
-            }
-            st.close();
-            con.close();
-            
-        }catch(SQLException ex){
-            System.err.println("SQLException: " + ex.getMessage()); 
-        }
-        
-        jComboBoxFuncionarioResponsvelLimpeza.addItem("--Funcionario--");
-        Iterator<String> it = opcao.iterator();
-        while(it.hasNext()){
-            jComboBoxFuncionarioResponsvelLimpeza.addItem(it.next());
-        }
-    }
+    
+    
+
     
     private void ConsultaLimpezas(){
         int idInsectocacador = 0;
@@ -8107,8 +9143,6 @@ public class Login extends javax.swing.JFrame {
     //PREENCHER TABELAS COM DADOS SELECCIONADOS
     private void ConsultaBDNaoConformidadeSelect( ){
                 
-        int idNaoConformidade = 0;
-        int idContResultado = 0;
         int idFuncionario = 0;
         String dataNaoConform = "";
         String ocorrencia = "";
@@ -8138,13 +9172,18 @@ public class Login extends javax.swing.JFrame {
         }else if (comboPesquisa.equals("EQUIPAMENTO")){
             nomeTabela = "EQUIPAMENTO";
             nomeColuna = "NOME";    
-        }else if (comboPesquisa.equals("INSECTOCACADORES")){
+        }else if (comboPesquisa.equals("CONT. PRAGAS")){
             nomeTabela = "INSECTOCACADORES";
             nomeColuna = "NOME";            
         }else if (comboPesquisa.equals("OUTROS")){
             nomeTabela = "CONTROLORESULTADOS";
             nomeColuna = "OUTROS";            
         }
+        
+        System.out.println("\n\nDADOS NAO CONFORMIDADE");
+        System.out.println("Nome tabela : " +nomeTabela );
+        System.out.println("Nome coluna : " + nomeColuna);
+        System.out.println("Seleccionada: " + secçãoControloResultadoSeleccionada);
         
         //LIGAÇÃO PARA NOS DAR OS ID DO QUE ESTAMOS A SELECIONAR
          try{
@@ -8159,13 +9198,23 @@ public class Login extends javax.swing.JFrame {
             con = DriverManager.getConnection(url);
                           
             String sql = "select * from "+nomeTabela+" WHERE "+nomeColuna+"= '"+ secçãoControloResultadoSeleccionada +"'";
-            //String sql = "select * from "+nomeTabela+" where IDFUNCIONARIO="+funcionario;
+            System.out.println("select * from "+nomeTabela+" WHERE "+nomeColuna+"= '"+ secçãoControloResultadoSeleccionada +"'");
+            
             PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
                    
             while(rs.next()){
                 
-                idControloResultadosID = rs.getInt("ID"+nomeTabela);                                                       
+                //VERIFICAR QUAL A COLUNA 
+                
+                if (!nomeColuna.equals("OUTROS")) {               
+                    idControloResultadosID = rs.getInt("ID"+nomeTabela); 
+                    System.out.println("ID CONTROLO : " + idControloResultadosID);
+                } else{
+                    idControloResultadosID = rs.getInt("IDCONTRESULTADOS");
+                    System.out.println("ID CONTROLO : " + idControloResultadosID);
+                }
+                
             }            
             st.close();
             con.close();
@@ -8183,8 +9232,10 @@ public class Login extends javax.swing.JFrame {
             nomeColuna = "IDENTRADA";
         } else if (nomeTabela.equals("EQUIPAMENTO")) {
             nomeColuna = "IDEQUIPAMENTO";
-        } else if (nomeTabela.equals("INSECTOCACADORES")) {
+        } else if (nomeTabela.equals("CONT. PRAGAS")) {
             nomeColuna = "IDINSECTOCACADORES";
+        }else if (nomeTabela.equals("CONTROLORESULTADOS")){
+            nomeColuna = "OUTROS";
         }
          
          
@@ -8199,7 +9250,9 @@ public class Login extends javax.swing.JFrame {
         try {
             con = DriverManager.getConnection(url);
             String nomeTabela2 = "CONTROLORESULTADOS";
-            String sql = "SELECT * FROM " + nomeTabela2 + " WHERE IDFUNCIONARIO=" + idFuncionarioNaoConformidade + " AND "+ nomeColuna+"="+idControloResultadosID +" AND DATA='"+dataControloResultadoSeleccionada + "' AND RESULTADO='" + resultado + "'";
+            
+            String sql = "SELECT * FROM " + nomeTabela2 + " WHERE IDFUNCIONARIO=" + idFuncionarioNaoConformidade + " AND "+ nomeColuna+"="+idControloResultadosID +" "
+                    + "AND DATA='"+dataControloResultadoSeleccionada + "' AND RESULTADO='" + resultado + "'";
             
             PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
@@ -8208,6 +9261,10 @@ public class Login extends javax.swing.JFrame {
                 //GUARDAR O ID DO CONTROLO RESULTADO, PARA PESQUISAR NAS NAO CONFORMIDADES
                 idControloResultadosParaPesquisarNConformidade = rs.getInt("IDCONTRESULTADOS");
             
+                //VAMSO TER  COLOCAR NA VARIVELL GLOBAL O DESCRIÇÃO DO PROBLEMA
+                observacaoDoControloResultadoParaANC = rs.getString("DESCRICAO");
+                
+                
                 //FAZER PESQUISA NA TABELA DE NAO CONFORMIDADES
                 Connection con2 = DriverManager.getConnection(url);
                 String nomeTabela3 = "NAOCONFORMIDADES";
@@ -8216,9 +9273,9 @@ public class Login extends javax.swing.JFrame {
                 ResultSet rs2 = st2.executeQuery();
                 
                  while(rs2.next()){
-                     System.out.println("ENTROU");
-                    idNaoConformidade = rs2.getInt("IDNAOCONF");
-                    idContResultado = rs2.getInt("IDCONTRESULTADOS");
+                     
+//                    idNaoConformidade = rs2.getInt("IDNAOCONF");
+//                    idContResultado = rs2.getInt("IDCONTRESULTADOS");
                     
                     idFuncionario = rs2.getInt("IDFUNCIONARIO");
                     nomefuncionario = selectString("FUNCIONARIO","IDFUNCIONARIO",idFuncionario,"NOME"); 
@@ -8237,9 +9294,7 @@ public class Login extends javax.swing.JFrame {
                 }
                 st2.close();   
                 con2.close();
-                
-                
-                
+                     
             }
             
             st.close();
@@ -8251,68 +9306,84 @@ public class Login extends javax.swing.JFrame {
         
         //VERIFICAR SE LINHA SELECCIONA CONTEM ALGUMA NAO CONFORMIDADE
         if (CONTA_LINHAS_NAOCONFORMIDADES == 0) {
+            
+            
+            //VERIFICAR SE A MEDIDA CORRECTIVA
+            
+            if (mediaCorrectivaUltima == false) {
 
-            //PERGUNTAR SE DESEJA ADICIONAR UMA NOVO NC OU SE DESEJA ALTERAR O RESULTA DO CONTROLO PARA CONFORME
-            int resultNaoConformidade = JOptionPane.showConfirmDialog(jDialogNaoConformidades, "Linha Selecciona não contem Nehuma Não Conformidade Registada!\n Deseja Atualizar o Resultado do Controlo?", null, JOptionPane.YES_NO_OPTION);
+                //PERGUNTAR SE DESEJA ADICIONAR UMA NOVO NC OU SE DESEJA ALTERAR O RESULTA DO CONTROLO PARA CONFORME
+                int resultNaoConformidade = JOptionPane.showConfirmDialog(jDialogConsultarControlos, "Linha Selecciona não contem Nehuma Não Conformidade Registada!\n Deseja Atualizar o Resultado do Controlo?", null, JOptionPane.YES_NO_OPTION);
 
-            if (resultNaoConformidade == JOptionPane.YES_OPTION) {
-                //ATUALIZAR RESULTADO DO CONTROLO
-                jDialogMedidasCorrectiva.setVisible(false);
-                try {
-                    Class.forName("org.apache.derby.jdbc.ClientDriver");
-                } catch (ClassNotFoundException e) {
-                    System.err.print("ClassNotFoundException: ");
-                    System.err.println(e.getMessage());
-                    System.out.println("O driver expecificado nao foi encontrado.");
+                if (resultNaoConformidade == JOptionPane.YES_OPTION) {
+                    //ATUALIZAR RESULTADO DO CONTROLO
+                    jDialogMedidasCorrectiva.setVisible(false);
+                    try {
+                        Class.forName("org.apache.derby.jdbc.ClientDriver");
+                    } catch (ClassNotFoundException e) {
+                        System.err.print("ClassNotFoundException: ");
+                        System.err.println(e.getMessage());
+                        System.out.println("O driver expecificado nao foi encontrado.");
+                    }
+
+                    try {
+                        con = DriverManager.getConnection(url);
+                        String nomeTabela2 = "CONTROLORESULTADOS";
+                        String sql = "UPDATE " + nomeTabela2 + " SET RESULTADO='C' WHERE IDCONTRESULTADOS=" + idControloResultadosParaPesquisarNConformidade;
+
+                        PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+                        st.executeUpdate();
+
+                        //MENSAGEM A CONFIRMAR UPDATE
+                        JOptionPane.showMessageDialog(null, "RESULTADO ACTUALIZADO COM SUCESSO ! ");
+                        LimpaTabelaConsultaControloResultados();
+
+                        st.close();
+                        con.close();
+                    } catch (SQLException ex) {
+                        System.err.println("SQLException: " + ex.getMessage());
+                    }
+
+                } else {
+                    //PERGUNTAR SE QUER ADICIONAR UM NOVO CONTROLO
+                    int resultNovaNaoConformide = JOptionPane.showConfirmDialog(jDialogConsultarControlos, "Deseja Adicionar uma Não Conformide ?", null, JOptionPane.YES_NO_OPTION);
+
+                    if (resultNovaNaoConformide == JOptionPane.YES_OPTION) {
+
+                        /*passar o IDCONTROLORESULTADO  e IDFUNCIONARIO pra a nova Não Conformidade
+                         *que sao as variaveis globais
+                         * idControloResultadosID
+                         * idFuncionarioNaoConformidade*/
+                        LimpaCamposNovaNaoConformidade();
+                        //escrever funcionario na label 
+                        jLabelFuncionarioLogin4.setText("" + NomeFuncionarioLogin);
+                        
+                        //PASSAR OS DADOS PARA A PARTE JA JANELA QUE NOS INFORMA DE QUAL É O CONTROLO QUE TEMOS SELECCIONADO                        
+                        jTextFieldVerSeccaoDoCR.setText(seccaoCRparaNC);
+                        jTextAreaProblemadoControlo.setText(problemaCRparaNC);
+
+
+                        //MOSTRAR A JANELA
+                        jDialogNaoConformidades.setLocationRelativeTo(this);
+                        jDialogNaoConformidades.setVisible(true);
+
+                        //ler funcionarios para a combo box funcionario responsavel
+                        LerBDFuncionario(jComboBoxNaoConformidadeFuncionarioResponsav);
+                    }
+
                 }
 
-                try {
-                    con = DriverManager.getConnection(url);
-                    String nomeTabela2 = "CONTROLORESULTADOS";
-                    String sql = "UPDATE "+ nomeTabela2 + " SET RESULTADO='C' WHERE IDCONTRESULTADOS=" + idControloResultadosParaPesquisarNConformidade  ;      
-                    
-                    PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
-                    st.executeUpdate();
-
-                    //MENSAGEM A CONFIRMAR UPDATE
-                    JOptionPane.showMessageDialog(null, "RESULTADO ACTUALIZADO COM SUCESSO ! ");
-                    LimpaTabelaConsultaControloResultados();
-                    
-                    st.close();
-                    con.close();
-                } catch (SQLException ex) {
-                    System.err.println("SQLException: " + ex.getMessage());
-                }
-
-            } else {
-                //PERGUNTAR SE QUER ADICIONAR UM NOVO CONTROLO
-                int resultNovaNaoConformide = JOptionPane.showConfirmDialog(jDialogNaoConformidades, "Deseja Adicionar uma Não Conformide ?", null, JOptionPane.YES_NO_OPTION);
-
-                if (resultNovaNaoConformide == JOptionPane.YES_OPTION) {
-                    
-                    /*passar o IDCONTROLORESULTADO  e IDFUNCIONARIO pra a nova Não Conformidade
-                     *que sao as variaveis globais
-                     * idControloResultadosID
-                     * idFuncionarioNaoConformidade*/
-
-                    jDialogNaoConformidades.setLocationRelativeTo(this);
-                    jDialogNaoConformidades.setVisible(true);
-                    
-                    //ler funcionarios para a combo box funcionario responsavel
-                    LerBDFuncionario(jComboBoxNaoConformidadeFuncionarioResponsav);
-                }
-                
-                
-                
-                
-
-                
-            }
-
+            }//fechar o boolean
+        
         } else {
             //MOSTRAR JANELAS DE NÃO CONFORMIDADES
             jDialogConsultaNaoConformidades.setLocationRelativeTo(this);
             jDialogConsultaNaoConformidades.setVisible(true);
+            
+            //PASSAR OS DADOS PARA A PARTE JA JANELA QUE NOS INFORMA DE QUAL É O CONTROLO QUE TEMOS SELECCIONADO                        
+            jTextFieldVerSeccaoDoCR.setText(seccaoCRparaNC);
+            jTextAreaProblemadoControlo.setText(problemaCRparaNC);
+
         }
         
        // jDialogNaoConformidades.setVisible(false);
@@ -8335,7 +9406,7 @@ public class Login extends javax.swing.JFrame {
          System.out.println("ID CONT. RESULTADO : " + idControloResultadosParaPesquisarNConformidade);
          System.out.println("*********************************************************");
          System.out.println("--> NUMERO DE NAO CONFORMIDADES");
-         System.out.println("Nº : " + CONTA_LINHAS_NAOCONFORMIDADES );
+         System.out.println("Nº de LINHAS : " + CONTA_LINHAS_NAOCONFORMIDADES );
          System.out.println("ID A ENCONTRAR : " + idControloResultadosParaPesquisarNConformidade);
          System.out.println("CORRECTIVA : " + correctiva);
     }
@@ -8395,6 +9466,199 @@ public class Login extends javax.swing.JFrame {
     
     }
     
+    private void ConsultaHistoricoControlo() {
+        int linha = jTableConsultarControlos.getSelectedRow();
+        int idFuncionario;
+        int contaLinhas = 0;
+        //DADOS DE PESQUISA
+        String nomeFunc = (String) jTableConsultarControlos.getValueAt(linha, 0);
+        idFuncionario = selectId("FUNCIONARIO", "NOME", nomeFunc, "IDFUNCIONARIO");
+        String seccao = (String) jTableConsultarControlos.getValueAt(linha, 1);
+        String data = (String) jTableConsultarControlos.getValueAt(linha, 2);
+        String resultado = "C";
+        String nomeTabela = "CONTROLORESULTADOS";
+        String nomeTabela2 = "NAOCONFORMIDADES";
+        
+        int idControloResultado = 0; 
+        int idPesquisa = 0;
+       
+        
+        String ocorrencia = "";
+        String medidaCorrectiva = "";
+        int idfuncionarioRegistou=0;
+        String funcionarioRegistou = "";
+        String Observacao = "";
+        String dataOcorrencia ="";
+        //SABER O ID DO CONTROLO
+        
+        //SABER A SECÇÃO QUE ESCOLHEMOS
+        String comboPesquisa = jComboBoxSeccao.getSelectedItem().toString();
+        String nomeColuna = "";
+
+        if (comboPesquisa.equals("ENTRADA")){
+            nomeColuna = "IDENTRADA";
+            idPesquisa = selectId("ENTRADA", "LOTEORIGEM", seccao, "IDENTRADA");
+           
+        }else if (comboPesquisa.equals("EQUIPAMENTO")){
+            nomeColuna = "IDEQUIPAMENTO";
+            idPesquisa = selectId("EQUIPAMENTO", "NOME", seccao, "IDEQUIPAMENTO");
+
+        }else if (comboPesquisa.equals("INSECTOCACADORES")){
+            nomeColuna = "IDINSECTOCACADORES";
+            idPesquisa = selectId("INSECTOCACADORES", "NOME", seccao, "IDINSECTOCACADORES");
+
+        }else if (comboPesquisa.equals("OUTROS")){
+            nomeColuna = "OUTROS";
+
+        }
+
+        try{
+            Class.forName("org.apache.derby.jdbc.ClientDriver");  
+        }catch(ClassNotFoundException e){
+           System.err.print("ClassNotFoundException: ");
+           System.err.println(e.getMessage());
+           System.out.println("O driver expecificado nao foi encontrado."); 
+        }    
+        try{
+                     
+            con = DriverManager.getConnection(url);
+            
+            //String sql = "SELECT * FROM "+nomeTabela + " WHERE IDFUNCIONARIO='"+idFuncionario+ "' AND "+nomeColuna+"='"+seccao+"' AND DATA='"+data+"' AND RESULTADO='"+resultado+"'";
+            String sql = "SELECT * FROM "+nomeTabela + " WHERE IDFUNCIONARIO="+idFuncionario+" AND "+nomeColuna+"="+idPesquisa+" AND RESULTADO='"+resultado+"'";
+            PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+           
+            while(rs.next()){
+               //idControloResultado =  rs.getInt("IDCONTRESULTADOS");  
+                idControloResultadoHistorico = rs.getInt("IDCONTRESULTADOS"); 
+            }
+            
+            st.close();
+            con.close();
+        }catch (SQLException ex){
+            System.err.println("SQLException: " + ex.getMessage());
+        }
+        
+        
+        
+        //PROCURAR NA TABELA NAO CONFORMIDADES
+         model = (DefaultTableModel) jTableVerHistorico.getModel();
+        try{
+                     
+            con = DriverManager.getConnection(url);
+
+            String sql = "SELECT * FROM "+nomeTabela2 + " WHERE IDCONTRESULTADOS="+idControloResultadoHistorico+" AND CORRECTIVA='S'";
+            PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+           
+            while(rs.next()){
+                //CAMPOS A LER
+                idfuncionarioRegistou = rs.getInt("IDFUNCIONARIOMEDIDACORRECTIVA");
+                funcionarioRegistou = selectString("FUNCIONARIO", "IDFUNCIONARIO", idfuncionarioRegistou, "NOME");
+                dataOcorrencia = rs.getString("DATANAOCONFORMIDADE");
+                ocorrencia = rs.getString("OCORRENCIA");
+                medidaCorrectiva = rs.getString("MEDIDACORRECTIVA");
+                Observacao = rs.getString("OBSERVACAOMEDIDACORRECTIVA");
+                
+                contaLinhas++;
+                model.addRow(new Object[]{contaLinhas, funcionarioRegistou, dataOcorrencia, ocorrencia, medidaCorrectiva, Observacao});
+                //ESCREVER NA TABELA
+                System.out.println("ID CONTROLO -> " + idControloResultadoHistorico );
+                System.out.println("\n" + contaLinhas);
+                System.out.println(" " + ocorrencia);
+                System.out.println(" " + medidaCorrectiva);
+                System.out.println(" " + idfuncionarioRegistou);
+                System.out.println(" " + funcionarioRegistou);
+                System.out.println(" " + Observacao);
+            }
+            
+            st.close();
+            con.close();
+        }catch (SQLException ex){
+            System.err.println("SQLException: " + ex.getMessage());
+        }
+        
+        if(contaLinhas == 0){
+            System.out.println("ZERO ZERO");
+            JOptionPane.showMessageDialog(jDialogVerHistoricoControlo, "Controlo Não Contem Historico!");
+        }else{
+             jDialogVerHistoricoControlo.setLocationRelativeTo(this);
+             jDialogVerHistoricoControlo.setVisible(true);
+        }
+        
+        
+        
+        
+        //ESCREVER 
+//        System.out.println("SELECT * FROM "+nomeTabela + " WHERE IDFUNCIONARIO="+idFuncionario+" AND "+nomeColuna+"="+idPesquisa);
+//        System.out.println("ID CONTROLO : " + idControloResultado);
+//        System.out.println("ID FUNCIONARIO: " + idFuncionario);
+    }
+    
+    private void ConsultaHistoricoMedidaCorrectiva(){
+        int linha = jTableVerHistorico.getSelectedRow();
+        //CAMPOS PARA PESQUISA            
+        String funcionario = (String) jTableVerHistorico.getValueAt(linha, 1);
+        int idFuncionario = selectId("FUNCIONARIO", "NOME", funcionario, "IDFUNCIONARIO");
+        String dataOcorrencia = (String) jTableVerHistorico.getValueAt(linha, 2);
+        String ocorrencia = (String) jTableVerHistorico.getValueAt(linha, 3);
+        String medidaCorrectiva = (String) jTableVerHistorico.getValueAt(linha, 4);
+        
+        String funcionarioResponsavel = "";
+        int idFuncionarioResponsavel = 0;
+        String dataMC ="";
+        String obervacoes = "";
+        
+        
+        //PROCURAR NA BASE DE DADOS
+        
+         try{
+            Class.forName("org.apache.derby.jdbc.ClientDriver");  
+        }catch(ClassNotFoundException e){
+           System.err.print("ClassNotFoundException: ");
+           System.err.println(e.getMessage());
+           System.out.println("O driver expecificado nao foi encontrado."); 
+        }    
+        try{
+                     
+            con = DriverManager.getConnection(url);
+            String nomeTabela = "NAOCONFORMIDADES";
+            //String sql = "SELECT * FROM "+nomeTabela + " WHERE IDFUNCIONARIO='"+idFuncionario+ "' AND "+nomeColuna+"='"+seccao+"' AND DATA='"+data+"' AND RESULTADO='"+resultado+"'";
+            String sql = "SELECT * FROM "+nomeTabela + " WHERE IDFUNCIONARIO="+idFuncionario+" AND DATANAOCONFORMIDADE='"+dataOcorrencia+"' AND OCORRENCIA='"+ocorrencia+"' AND MEDIDACORRECTIVA='"+medidaCorrectiva+"' AND CORRECTIVA='S' AND IDCONTRESULTADOS="+idControloResultadoHistorico;
+            PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+           
+            while(rs.next()){
+                //DADOS DA MEDIDA CORRECTIVA 
+                idFuncionarioResponsavel = rs.getInt("IDFUNCIONARIOMEDIDACORRECTIVA");
+                funcionarioResponsavel = selectString("FUNCIONARIO", "IDFUNCIONARIO", idFuncionarioResponsavel, "NOME");
+                
+                dataMC = rs.getString("DATAMEDIDACORRECTIVA");
+                obervacoes = rs.getString("OBSERVACAOMEDIDACORRECTIVA");
+                
+                if (obervacoes.equals("")){
+                    obervacoes = "Sem Observação.";
+                }
+                
+                
+                JOptionPane.showMessageDialog(jDialogVerHistoricoControlo, "MEDIDAS CORRECTIVAS \n\n"
+                        + "Funcionario (Responsavel): " + funcionarioResponsavel+ "\n"
+                        + "Data Medica Correctiva   : " + dataMC+"\n"
+                        + "Observações              : " + obervacoes+"\n");
+                
+            }
+            
+            st.close();
+            con.close();
+        }catch (SQLException ex){
+            System.err.println("SQLException: " + ex.getMessage());
+        }
+        
+        
+        
+        
+    }
+    
        /* CONSULTAS  ENTRADAS */
     private void ConsultaEntradas() {
 
@@ -8417,6 +9681,7 @@ public class Login extends javax.swing.JFrame {
         String devolucao = "";
         String aDevolver = "";
         
+        int contaLinha=0;
         model = (DefaultTableModel) jTableConsultaEntradas.getModel();
 
         try {
@@ -8431,7 +9696,7 @@ public class Login extends javax.swing.JFrame {
 
             con = DriverManager.getConnection(url);
             String nomeTabela = "ENTRADA";
-            String sql = "SELECT * FROM " + nomeTabela;
+            String sql = "SELECT * FROM " + nomeTabela+" ORDER by LOTEORIGEM DESC";
             PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
 
@@ -8461,8 +9726,8 @@ public class Login extends javax.swing.JFrame {
                 } else {
                     devolucao = "Não";
                 }
-
-                model.addRow(new Object[]{nomeFuncionario, nomeFornecedor, nomeMateriaPrima, dataEntrega, loteOrigem, peso, aDevolver});
+                contaLinha++;
+                model.addRow(new Object[]{contaLinha,nomeFuncionario, nomeFornecedor, nomeMateriaPrima, dataEntrega, loteOrigem, peso, aDevolver});
             }
 
             st.close();
@@ -8492,7 +9757,7 @@ public class Login extends javax.swing.JFrame {
         String embalagem = "";
         String devolucao = "";
         String aDevolver = "";
-
+        int contaLinha = 0;
         String where = "S";
         model = (DefaultTableModel) jTableConsultaEntradas.getModel();
 
@@ -8508,7 +9773,7 @@ public class Login extends javax.swing.JFrame {
 
             con = DriverManager.getConnection(url);
             String nomeTabela = "ENTRADA";
-            String sql = "SELECT * FROM " + nomeTabela + " WHERE DEVOLUCAO='" + where + "'";
+            String sql = "SELECT * FROM " + nomeTabela + " WHERE DEVOLUCAO='" + where + "' ORDER BY LOTEORIGEM DESC";
             PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
 
@@ -8537,8 +9802,8 @@ public class Login extends javax.swing.JFrame {
                 } else {
                     devolucao = "Não";
                 }
-
-                model.addRow(new Object[]{nomeFuncionario, nomeFornecedor, nomeMateriaPrima, dataEntrega, loteOrigem, peso, aDevolver});
+                contaLinha++;
+                model.addRow(new Object[]{contaLinha,nomeFuncionario, nomeFornecedor, nomeMateriaPrima, dataEntrega, loteOrigem, peso, aDevolver});
             }
 
             st.close();
@@ -8913,8 +10178,9 @@ public class Login extends javax.swing.JFrame {
                     st2.close();
                     con2.close();
                 
-                model.addRow(new Object[]{nomeFornecedor, nomeMatPrima, loteOriginal,devolucaoNum, dataDevolucao, quantiDevolvida});
-               CONTA_NUMERO_DEVOLUCOES++;
+                    CONTA_NUMERO_DEVOLUCOES++;
+                model.addRow(new Object[]{CONTA_NUMERO_DEVOLUCOES, nomeFornecedor, nomeMatPrima, loteOriginal,devolucaoNum, dataDevolucao, quantiDevolvida});
+               
             }
 
             st.close();
@@ -8937,7 +10203,7 @@ public class Login extends javax.swing.JFrame {
         String nome = "";
         String nif = "";
         String tipoProduto = "";
-        
+        int contaLinhas  = 0;
         model = (DefaultTableModel) jTableConsultaFornecedor.getModel();
 
         try {
@@ -8960,8 +10226,8 @@ public class Login extends javax.swing.JFrame {
                 nome = rs.getString("NOME");
                 nif = rs.getString("NIF");
                 tipoProduto = rs.getString("TIPOPRODUTO");
-
-                model.addRow(new Object[]{nome, nif, tipoProduto});
+                contaLinhas++;
+                model.addRow(new Object[]{contaLinhas,nome, nif, tipoProduto});
             }
 
             st.close();
@@ -8989,7 +10255,7 @@ public class Login extends javax.swing.JFrame {
                      
             con = DriverManager.getConnection(url);
             String nomeTabela = "MATERIA_PRIMA";
-            String sql = "SELECT * FROM "+nomeTabela + " WHERE IDMATERIAPRIMA="+idMateriaPrimaPesquisar;
+            String sql = "SELECT * FROM "+nomeTabela + " WHERE IDMATERIAPRIMA="+idMateriaPrimaPesquisar ;
             PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
            
@@ -9093,7 +10359,7 @@ public class Login extends javax.swing.JFrame {
            
             while(rs.next()){
                 nome =  rs.getString("NOME");
-                descricao =  rs.getString("DESCRISAO");
+                descricao =  rs.getString("DESCRICAO");
                 unidade =  rs.getString("UNIDADE");
                 NumerLinha++;
                 
@@ -9143,7 +10409,8 @@ public class Login extends javax.swing.JFrame {
         try{
             con = DriverManager.getConnection(url);
             String nomeTabela = "INSECTOCACADORES";
-            sql = "select * from "+ nomeTabela+" where REFERENCIA like '"+pesquisa+ "%' or NOME like '" + pesquisa+"%' or LOCAL like '" +pesquisa + "%' and ESTADO="+estado;
+            sql = "select * from "+ nomeTabela+" where (REFERENCIA LIKE '"+pesquisa+ "%' or NOME like '" + pesquisa+"%' or LOCAL like '" +pesquisa + "%') AND ESTADO="+estado;
+           // sql = "select * from "+ nomeTabela+" where REFERENCIA like '"+pesquisa+ "%' or NOME like '" + pesquisa+"%' or LOCAL like '" +pesquisa + "%'";
             PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()){
@@ -9170,13 +10437,22 @@ public class Login extends javax.swing.JFrame {
          // DADOS A EPSQUISAR
         
         String nome = "";
-        String descricao = "";
-        
+        String descricao = "";        
         String pesquisa = jTextFieldPesquisaEquipamento.getText();
+        boolean estado;
         
         model = (DefaultTableModel) jTableConsultaEquipamentos.getModel();
         
-          try{
+        //VER ESTADO EM QUE VAMOS PROCURAR
+        String textoBotao = jButtonVerInativasEquipamentos.getText();
+        if(textoBotao.equals("Ver Inativas"))
+            estado = true;
+        else
+            estado = false;
+        
+        System.out.println("ESTADO PESQUISA EQUIPAMENTO -> " + estado);
+        
+        try{
             Class.forName("org.apache.derby.jdbc.ClientDriver");
         }catch (ClassNotFoundException e) { //driver não encontrado
             System.err.print("ClassNotFoundException: ");
@@ -9188,7 +10464,7 @@ public class Login extends javax.swing.JFrame {
         try{
             con = DriverManager.getConnection(url);
             String nomeTabela = "EQUIPAMENTO";
-            sql = "select * from "+ nomeTabela+" where NOME like '%"+pesquisa+ "%'";
+            sql = "select * from "+ nomeTabela+" where (NOME like '%"+pesquisa+ "%') AND ESTADO="+estado;
             PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()){                
@@ -9288,12 +10564,24 @@ public class Login extends javax.swing.JFrame {
     private void PesquisaMateriaPrima(){
         String nome = "";
         String descricao = "";
+        String unidade = "";
         int contaNumero = 0;
         String pesquisa = jTextFieldPesquisarMateriaPrima.getText();
-        
+        boolean estado = false;
         model = (DefaultTableModel) jTableConsultaMateriasPrimas.getModel();
         
-          try{
+        
+        //VER QUAL O ESTADO EM QUE VAMOS PESQUISAR
+        String nomeBotao = jButtonVerInativosMP.getText();
+        
+        
+        if (nomeBotao.equals("Ver Inativas"))
+            estado = true;
+        else
+            estado = false;
+        
+        
+        try{
             Class.forName("org.apache.derby.jdbc.ClientDriver");
         }catch (ClassNotFoundException e) { //driver não encontrado
             System.err.print("ClassNotFoundException: ");
@@ -9305,15 +10593,16 @@ public class Login extends javax.swing.JFrame {
         try{
             con = DriverManager.getConnection(url);
             String nomeTabela = "MATERIA_PRIMA";
-            sql = "select * from "+ nomeTabela+" where NOME like '%"+pesquisa+ "%'";
+            sql = "select * from "+ nomeTabela+" where (NOME like '%"+pesquisa+ "%') AND ESTADO="+ estado;
             PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()){                
                 nome = rs.getString("NOME");
-                descricao = rs.getString("DESCRISAO");
+                descricao = rs.getString("DESCRICAO");
+                unidade = rs.getString("UNIDADE");
                 contaNumero++;
                 //guardar dados num arraylist e adicionalos a tabela
-                model.addRow(new Object[]{contaNumero, nome, descricao});
+                model.addRow(new Object[]{contaNumero, nome, descricao, unidade});
             }
             st.close();
             con.close();
@@ -9324,124 +10613,286 @@ public class Login extends javax.swing.JFrame {
     
     }
     
+    private void PesquisarFornecedor(){
+
+        String nome = "";
+        String nif = "";
+        String tipoProduto = "";
+        int contaNumero = 0;
+        
+        String pesquisa = jTextFieldPesquisarFornecedor.getText();
+       
+        boolean estado = false;
+        model = (DefaultTableModel) jTableConsultaFornecedor.getModel();
+        
+        
+        //VER QUAL O ESTADO EM QUE VAMOS PESQUISAR
+        String nomeBotao = jButtonFornecedoresInativos.getText();
+        
+        
+        if (nomeBotao.equals("Ver Inativos"))
+            estado = true;
+        else
+            estado = false;
+        
+        
+        try{
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+        }catch (ClassNotFoundException e) { //driver não encontrado
+            System.err.print("ClassNotFoundException: ");
+            System.err.println(e.getMessage());
+            System.out.println("O driver expecificado nao foi encontrado."); 
+        }
+          
+          
+        try{
+            con = DriverManager.getConnection(url);
+            String nomeTabela = "FORNECEDOR";
+            sql = "SELECT * FROM "+ nomeTabela+" WHERE (NOME like '%"+pesquisa+ "%' OR NIF like '"+pesquisa+"%' OR TIPOPRODUTO like '%"+pesquisa+"%') AND ESTADO="+ estado;
+            PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()){                
+                nome = rs.getString("NOME");
+                nif = rs.getString("NIF");
+                tipoProduto =  rs.getString("TIPOPRODUTO");
+                contaNumero++;
+                //guardar dados num arraylist e adicionalos a tabela
+                model.addRow(new Object[]{contaNumero, nome, nif, tipoProduto});
+            }
+            st.close();
+            con.close();
+        }catch (SQLException ex) {
+            System.err.println("SQLException: " + ex.getMessage());
+        }
+        
+        
+        
+    }
+    
     
     
     /*  UPDATE INSECTOCAÇADOR */
     private void UpdateDadosInsectocacador(){
         
-        String referencia = jTextFieldReferenciaInsecto.getText();
+        
         String nome = jTextFieldNomeInsecto.getText();
         String local = jTextFieldLocalInsecto.getText();
-        boolean atualizar = false;
         
-        
-        if (referencia.equals("")) {
-            JOptionPane.showMessageDialog(jDialogNovoInsectocacador, "Insira a REFERENCIA do Insecto.!");
-        } else if (nome.equals("")) {
+
+        if (nome.equals("")) {
             JOptionPane.showMessageDialog(jDialogNovoInsectocacador, "Insira o NOME do Insecto.!");
         } else if (local.equals("")) {
             JOptionPane.showMessageDialog(jDialogNovoInsectocacador, "Insira o LOCAL do Insecto.!");
         } else {
 
-            try {
-                Class.forName("org.apache.derby.jdbc.ClientDriver");
-            } catch (ClassNotFoundException e) { //driver não encontrado
-                System.err.print("ClassNotFoundException: ");
-                System.err.println(e.getMessage());
-                System.out.println("O driver expecificado nao foi encontrado.");
-            }
-
-            //VERIFICAR SE O CONTROLO DE PRAGAS JA EXISTE   
+            //ATUALIZAR OS DADOS
             try {
                 con = DriverManager.getConnection(url);
                 String nomeTabela = "INSECTOCACADORES";
-                String sql = "SELECT * FROM " + nomeTabela + " WHERE REFERENCIA='" + referencia + "'";
+                String sql = "UPDATE " + nomeTabela + " SET NOME='" + nome + "'" + "," + " LOCAL='" + local + "' WHERE IDINSECTOCACADORES=" + idInsectocacadorControloResultado;
                 PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
-                ResultSet rs = st.executeQuery();
-
-                while (rs.next()) {
-//                    String tt1 = rs.getString("REFERENCIA");
-//                    String tt2 = rs.getString("NOME");
-//                    String tt3 = rs.getString("LOCAL");
-//
-//                    System.out.println("\ntt1 - " + tt1);
-//                    System.out.println("tt2 - " + tt2);
-//                    System.out.println("tt3 - " + tt3);
-
-                    atualizar = true;
-                }
+                st.executeUpdate();
 
                 st.close();
                 con.close();
 
+                jDialogNovoInsectocacador.setVisible(false);
+                JOptionPane.showMessageDialog(jDialogConsultaInsectocacadores, "Campos Atualizados com Sucesso !");
+
             } catch (SQLException ex) {
-                System.out.println("erro sql: " + ex);
+                System.err.println("SQLException: " + ex.getMessage());
             }
 
-            if (atualizar == true) {
-                System.out.println("INSECTOCCAÇADOR JA EXISTE !!!");
-                JOptionPane.showMessageDialog(jDialogNovoInsectocacador, "REFERENCIA do Controlo de Pragas ja existe !");
+        }
+
+        System.out.println("\n** ACTUALIZA CAMPOS INTECOÇADOR SELECIONADO");
+        System.out.println("NOME: " + nome);
+        System.out.println("LOCAL: " + local);
+
+    }
+    
+    private void UpdateReferenciaInsectocacador() {
+        //VAMOS ATUALIZAR  SO A REFERENCIA E VER SE EXISTE NA BD
+        String refereciaUpdate = jTextFieldNovaReferencia.getText();
+        boolean jaExiste = false;
+
+        if (refereciaUpdate.equals("")) {
+            //JOptionPane.showMessageDialog(jDialogAlterarReferencia, "Preencher o campo da Referencia!");
+            JOptionPane.showMessageDialog(null, "DEVE preencher o campo referência.", "CAMPO OBRIGATÓRIO", JOptionPane.WARNING_MESSAGE);
+        } else {
+            // CORRER BD E VERIFICAR SE REFERECNIA JA EXISTE
+            try {
+                Class.forName("org.apache.derby.jdbc.ClientDriver");
+            } catch (ClassNotFoundException e) {
+                System.err.print("ClassNotFoundException: ");
+                System.err.println(e.getMessage());
+                System.out.println("O driver expecificado nao foi encontrado.");
+            }
+            try {
+
+                con = DriverManager.getConnection(url);
+                String nomeTabela = "INSECTOCACADORES";
+                String sql = "SELECT * FROM " + nomeTabela + " WHERE REFERENCIA='" + refereciaUpdate + "'";
+                PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+                ResultSet rs = st.executeQuery();
+                while (rs.next()) {
+                    jaExiste = true;
+                }
+                st.close();
+                con.close();
+            } catch (SQLException ex) {
+
+                jaExiste = false;
+                System.out.println("ERROR : " + ex);
+            }
+
+            if (jaExiste == true) {
+                //MENSAGEM DE ERRO A DIZER KE JA EXISTE
+                JOptionPane.showMessageDialog(null, "Referência já Existe.", "CAMPO REPETIDO", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                System.out.println("INSECTOCCAÇADOR NÃO EXISTE !!!");
+                //VAMOS FAZER O UPDATE A REFERENCIA
 
                 try {
                     con = DriverManager.getConnection(url);
                     String nomeTabela = "INSECTOCACADORES";
-                    String sql = "UPDATE " + nomeTabela + " SET REFERENCIA='" + referencia + "'" + "," + " NOME='" + nome + "'" + "," + " LOCAL='" + local + "' WHERE IDINSECTOCACADORES=" + idInsectocacadorControloResultado;
+                    String sql = "UPDATE " + nomeTabela + " SET REFERENCIA='" + refereciaUpdate + "' WHERE IDINSECTOCACADORES=" + idInsectocacadorControloResultado;
                     PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
                     st.executeUpdate();
 
                     st.close();
                     con.close();
-
+                    
+                    //ATUALIZAR TABELA
+                    LimpaTabelaConsultaInsectocacadores();
+                    ConsultaInsectocacadores();
+                    
                     jDialogNovoInsectocacador.setVisible(false);
-                    JOptionPane.showMessageDialog(jDialogConsultaInsectocacadores, "DADOS ALTERADOS COM SUCESSO !");
+                    JOptionPane.showMessageDialog(jDialogConsultaInsectocacadores, "REFERÊNCIA ATUALIZADOS COM SUCESSO !");
 
                 } catch (SQLException ex) {
                     System.err.println("SQLException: " + ex.getMessage());
                 }
+
             }
 
-        }
-        System.out.println("\n** ACTUALIZA INTECOÇADOR SELECIONADO");
-        System.out.println("REFERENCIA: " + referencia);
-        System.out.println("NOME: " + nome);
-        System.out.println("LOCAL: " + local);
-        
+        }//else do campo vazio
 
     }
+    
+    
+    
     
     /*  UPDATE  EQUIPAMENTOS*/
      private void UpdateDadosEquipamento(){
          String nome =  jTextFieldNomeEquipamento.getText();
-         String descricao =  jTextAreaObservacaoNovoEquipamento.getText();
+         String descricao =  jTextAreaObservacaoNovoEquipamento.getText();         
+         int contaLinhas = 0;
+                  
+         boolean verificarBD = false ;
+         boolean existenaBD =  false;
          
+         //VERIFICAMOS SE NOMEPARACOMPARAR == NOME
+          if (nome.equals(nomeAVerficar)){
+            //AQUI IGNONAMOS A  VERIFICAÇÃO DO NOME, NAO VAMOS A BD VER SE JA EXISTE
+              verificarBD = false;
+              
+          }else if (!nome.equals(nomeAVerficar)){
+              //VERIFICAMOS NA BD SE O NOME JA EXISTE
+              verificarBD = true;
+          }
          
          System.out.println("\n** ACTUALIZA EQUIPAMENTO SELECIONADO");
          System.out.println("NOME: " + nome);
          System.out.println("DESCRICAO: " + descricao);
-         try {
-             Class.forName("org.apache.derby.jdbc.ClientDriver");
-         } catch (ClassNotFoundException e) { //driver não encontrado
-             System.err.print("ClassNotFoundException: ");
-             System.err.println(e.getMessage());
-             System.out.println("O driver expecificado nao foi encontrado.");
-         }
+         System.out.println("\nVERIFICAR BD: " + verificarBD);
+        
+         
+         if (verificarBD == false) {
+             //System.out.println("EXISTEnaBD -> " + existenaBD);
+             //ESTAMOS A ATUALIZAR O CAMPO NA BD
+             try {
+                 Class.forName("org.apache.derby.jdbc.ClientDriver");
+             } catch (ClassNotFoundException e) { //driver não encontrado
+                 System.err.print("ClassNotFoundException: ");
+                 System.err.println(e.getMessage());
+                 System.out.println("O driver expecificado nao foi encontrado.");
+             }
 
-         try {
-             con = DriverManager.getConnection(url);
-             String nomeTabela = "EQUIPAMENTO";
-             String sql = "UPDATE " + nomeTabela + " SET NOME='" + nome +"'"+ ","+" DESCRICAO='" + descricao +"' WHERE IDEQUIPAMENTO=" + idEquipamentoControloResultado;
-             PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
-             st.executeUpdate();
+             try {
+                 con = DriverManager.getConnection(url);
+                 String nomeTabela = "EQUIPAMENTO";
+                 String sql = "UPDATE " + nomeTabela + " SET NOME='" + nome + "'" + "," + " DESCRICAO='" + descricao + "' WHERE IDEQUIPAMENTO=" + idEquipamentoControloResultado;
+                 PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+                 st.executeUpdate();
 
+                 st.close();
+                 con.close();
+             } catch (SQLException ex) {
+                 System.err.println("SQLException: " + ex.getMessage());
+             }
 
-             st.close();
-             con.close();
-         } catch (SQLException ex) {
-             System.err.println("SQLException: " + ex.getMessage());
-         }
+         }else if (verificarBD == true){
+             //System.out.println("EXISTEnaBD -> " + existenaBD);
+             //VAMOS A BD VERIFICAR SE O NOME JA EXISTE
+               
+             try {
+                 con = DriverManager.getConnection(url);
+                 String nomeTabela = "EQUIPAMENTO";
+                 String sql = "SELECT * FROM " + nomeTabela + " WHERE NOME='" + nome + "'"; //TEM DE SER O NOME A VERIFICAR PORQUE É O NOVO QUE INSERIMOS
+                 PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
+                 ResultSet rs = st.executeQuery();
+                 while (rs.next()) {
+                   contaLinhas++;                                         
+                 }
+                 
+                 //VERIFICAR SE TEMOS TEMOS
+                 System.out.println("SELECT * FROM " + nomeTabela + " WHERE NOME='" + nome + "'");
+                 System.out.println("CONTA LINHAS : " + contaLinhas );
+                 
+                 if(contaLinhas != 0){
+                     existenaBD = true;
+                     System.out.println("EXISTE NA BD");
+                 } else{
+                     System.out.println("NÃO EXISTE NA BD");
+                     existenaBD = false;
+                 }
+                 
+                 st.close();
+                 con.close();
+             } catch (SQLException ex) {                             
+                 System.err.println("SQLException: " + ex.getMessage());
+             }
+             
+             System.out.println("EXISTEnaBD -> " + existenaBD);
+             
+             //PROCEDIMENTO KE VAMOS REALIZAR
+             if (existenaBD == true){
+                 //MENSAGEM A DIZER QUE JA EXISTE NA BD
+                 JOptionPane.showMessageDialog(jDialogNovoEquipamento, "Equipamento ja existe na BD !");
+                 System.out.println("MENSAGEM A DIZER K JA EXISTE");
+             }else if (existenaBD == false){
+                 //PERGUNTAR SE QUEREMOS ADICIONAR COMO NOVO
+                 int resultExisteNaBD = JOptionPane.showConfirmDialog(jDialogNovoEquipamento, "Deseja Adicionar este Como um Novo Eqwuipamento?\n"
+                         + "YES -> Adicionar \nNO -> Fechar Janela", null, JOptionPane.YES_NO_OPTION);
 
+                 if (resultExisteNaBD == JOptionPane.YES_OPTION) {
+                     //VAMOS ADICIONAR NOVO EQUIPAMENTO
+                     InserirNovoEquipamento();
+                     LimpaCamposNovoEquipamento();
+                 }else if (resultExisteNaBD == JOptionPane.NO_OPTION){
+                     //FECHAR JANELA E LIMPAR CAMPOS
+                     jDialogNovoEquipamento.setVisible(false);
+                     LimpaCamposNovoEquipamento();                 
+                 }
+                 System.out.println("MENSAGEM A PERGUNTAR SE O QUEREMOS ADICIONAR");
+
+             }//fecha IF da existenaBD = false
+             
+         }//fecha IF da verificarBD = FALSE
+
+         
+         
+         
          
      }
     
@@ -9449,18 +10900,17 @@ public class Login extends javax.swing.JFrame {
       /*  UPDATE  CONTROLO DE RESULTADOS*/
      private void ActualizaMedidaCorrectiva(){
                
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+//        String data = (String) sdf.format(jDateChooserMedidaCorrectiva.getDate());
         
-       //LER DADOS DA JANELA 
-        String data = (String) sdf.format(jDateChooserMedidaCorrectiva.getDate());
+        Date dataAtual = new Date();    
+        DateFormat formato = new SimpleDateFormat("yyyy-MM-dd");  
+        String data = formato.format(dataAtual);
+                
+       //LER DADOS DA JANELA         
         String correctiva = "S";
         String observacaoMedidaCorrectiva = jTextAreaObservacaoMedidaCorrectiva.getText();
         CONTA_LINHAS_MEDIDASCORRECTIVAS = 0;
-          
-        // ID CONTR RESULTADO E ID NAO CONF ?
-        
-        
-
 
         //GUARDAMOS MEDIDA CORRECTIVA NA BD     
         try {
@@ -9488,9 +10938,10 @@ public class Login extends javax.swing.JFrame {
         
         //VERIFICAR SE AINDA EXISTEM NAO CONFORMIDADES PENDENTES        
         
-        if(CONTA_LINHAS_NAOCONFORMIDADES == 0){
-              
-            
+        if(CONTA_LINHAS_NAOCONFORMIDADES == 1){
+             
+            //ALTERAR ESTADO PARA NAO APARECER MENSGEM A DIZER KE ENTRADA NAO TEM NENHUMA NAO CONFORMIDADE
+            mediaCorrectivaUltima = true;
             
              int resultAlterarEstado = JOptionPane.showConfirmDialog(jDialogMedidasCorrectiva, "Ultima Medida Correctica atualizada com Sucesso.\n"
                      + "Deseja Actualizar o Resulta do Controlo de Resultado ?", null, JOptionPane.YES_NO_OPTION);
@@ -9521,7 +10972,39 @@ public class Login extends javax.swing.JFrame {
                      System.err.println("SQLException: " + ex.getMessage());
                  }
             
-             
+                 //FECHAR JANELA DE CONSULTA NC
+                 jDialogConsultaNaoConformidades.setVisible(false);
+                 //ATUALIZAR TABELA -  ver qual o valor seleccionado na combo box
+                 String comboPesquisa = jComboBoxSeccao.getSelectedItem().toString();
+                 String nomeColuna = "";
+
+                 if (comboPesquisa.equals("ENTRADA")) {
+                     LimpaTabelaControloResultados();
+                     nomeColuna = "IDENTRADA";
+                     LerBDControloResultados(nomeColuna);
+                     //jButtonVerNaoConformidadeEntrada.setVisible(true);
+
+                 } else if (comboPesquisa.equals("EQUIPAMENTO")) {
+                     LimpaTabelaControloResultados();
+                     nomeColuna = "IDEQUIPAMENTO";
+                     LerBDControloResultados(nomeColuna);
+                     //jButtonVerNaoConformidadeEntrada.setVisible(false);
+
+                 } else if (comboPesquisa.equals("INSECTOCACADORES")) {
+                     LimpaTabelaControloResultados();
+                     nomeColuna = "IDINSECTOCACADORES";
+                     LerBDControloResultados(nomeColuna);
+                     //jButtonVerNaoConformidadeEntrada.setVisible(false);
+
+                 } else if (comboPesquisa.equals("OUTROS")) {
+                     LimpaTabelaControloResultados();
+                     nomeColuna = "OUTROS";
+                     LerBDControloResultados(nomeColuna);
+                     //jButtonVerNaoConformidadeEntrada.setVisible(false);
+
+                 }
+                 
+                 
                 System.out.println("\n\n**** MEDIDA CORRECTIVA -> ATUALIZAR RESULTADO");
                 System.out.println("RESULTADO : " + resultado);
                 System.out.println("ID CONTROLO : " + idControloResultadosParaPesquisarNConformidade);
@@ -9544,37 +11027,7 @@ public class Login extends javax.swing.JFrame {
         
     }
     
-    //ACTUALIZAR TABELA CONTROLO RESULTADOS, C OU NC
-    private void ActualizaControloResultado(){
-        
-        String resultado =  "C";
-  
-        
-        try {
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-        } catch (ClassNotFoundException e) { //driver não encontrado
-            System.err.print("ClassNotFoundException: ");
-            System.err.println(e.getMessage());
-            System.out.println("O driver expecificado nao foi encontrado.");
-        }
-        
-         try {
-            con = DriverManager.getConnection(url);
-            String nomeTabela = "CONTROLORESULTADOS";
-            String sql = "UPDATE "+ nomeTabela + " SET RESULTADO='"+resultado+"' WHERE IDCONTRESULTADOS=" + idContResultadosUltimo;
-            PreparedStatement st = (PreparedStatement) con.prepareStatement(sql);
-            st.executeUpdate();
-
-            
-            st.close();
-            con.close();
-        } catch (SQLException ex) {
-            System.err.println("SQLException: " + ex.getMessage());
-        }
-    
-        
-    }
-    
+       
     /*  ATUALIZAR FORNECEDOR  */
     private void UpdateDadosFornecedor(){
          
@@ -9726,6 +11179,7 @@ public class Login extends javax.swing.JFrame {
                 while (rs.next()) {
                     //SOMAR VALOR DAS DEVOLUCOES JA EFECTUADAS
                     quantidadeDevolvidadaAteAgora = rs.getFloat("QUANTIDADEDEVOLVIDA");
+                    
                     quantidadeDevolvidadaAteAgora_TOTAL = quantidadeDevolvidadaAteAgora_TOTAL + quantidadeDevolvidadaAteAgora;
                     
                     devolucaoNumero++;
@@ -9744,8 +11198,9 @@ public class Login extends javax.swing.JFrame {
             }
     
   
-         jTextFieldQuantidadeADevolverDevolucao.setText(String.valueOf(quantidadeADevolverSelecionada -quantidadeDevolvidadaAteAgora_TOTAL));
-    
+         jTextFieldQuantidadeADevolverDevolucao.setText(String.valueOf(quantidadeADevolverSelecionadaFixa -quantidadeDevolvidadaAteAgora_TOTAL));
+         
+         System.out.println("ECRÃ ->  " + quantidadeADevolverSelecionadaFixa + "-" + quantidadeDevolvidadaAteAgora_TOTAL );
     }
     
    private void CalculaQuatidadeLoteTotalEntrada(){
@@ -9826,7 +11281,7 @@ public class Login extends javax.swing.JFrame {
     
     
     
-     /*  VALIDACOES E GERAR  ENTRADAS */
+     /* A PARTE  */
     public static boolean validarEmail(String email) {
         boolean isEmailIdValid = false;
         if (email != null && email.length() > 0) {
@@ -9932,6 +11387,13 @@ public class Login extends javax.swing.JFrame {
         
     }
    
+    //FUNCAO PARA ARREDONDAR PARA DIAS CASAS DECIMAIS 
+    public static float Round(float Rval, int Rpl) {
+        float p = (float) Math.pow(10, Rpl);
+        Rval = Rval * p;
+        float tmp = Math.round(Rval);
+        return (float) tmp / p;
+    }
     
     
     
@@ -9979,6 +11441,12 @@ public class Login extends javax.swing.JFrame {
         }
     }
     
+    private void LimpaCamposNovaNaoConformidade() {
+        jTextAreaOcorrenciaNaoConformidade.setText("");
+        jTextAreaMedidaCorrctivaNaoConformidade.setText("");
+        jComboBoxNaoConformidadeFuncionarioResponsav.setSelectedIndex(0);
+    }
+    
     /* LIMPAR  EQUIPAMENTOS */
     private void LimpaCamposNovoEquipamento(){
         jTextFieldNomeEquipamento.setText("");
@@ -10004,7 +11472,22 @@ public class Login extends javax.swing.JFrame {
     }
     
     /* LIMPAR  CONTROLO DE RESULTADOS */
-       
+   
+    private void LimpaCamposNovoControloResultado(){
+        //ESCONDER PANEL "OUTRA OPÇAO NOME"
+        jTextFieldOutraOpcao.setEnabled(false);
+
+        jLabelFuncionarioLogin2.setText("" + NomeFuncionarioLogin);
+
+        jComboBoxOpcao.setVisible(true);
+        jComboBoxOpcao.setSelectedIndex(0);
+
+        jComboBoxTipo.setSelectedIndex(0);
+
+        jComboBoxResultado.setSelectedIndex(0);
+
+    }
+    
     private void LimpaTabelaConsultaMedidasCorrectivas(){
       DefaultTableModel model = (DefaultTableModel) jTableConsultaMedidasCorrectivas.getModel();
         int linhas = model.getRowCount();
@@ -10016,6 +11499,15 @@ public class Login extends javax.swing.JFrame {
     
     private void LimpaTabelaControloResultados(){
          DefaultTableModel model = (DefaultTableModel) jTableConsultarControlos.getModel();
+        int linhas = model.getRowCount();
+        
+        for (int i = 0; i < linhas; i++) {
+            model.removeRow(0);
+        }
+    }
+    
+    private void LimpaTabelaConsultaHistorico(){
+        DefaultTableModel model = (DefaultTableModel) jTableVerHistorico.getModel();
         int linhas = model.getRowCount();
         
         for (int i = 0; i < linhas; i++) {
@@ -10082,6 +11574,15 @@ public class Login extends javax.swing.JFrame {
     
     private void LimpaTabelaMateriaPrimas(){
         DefaultTableModel model = (DefaultTableModel) jTableConsultaMateriasPrimas.getModel();
+        int linhas = model.getRowCount();
+
+        for (int i = 0; i < linhas; i++) {
+            model.removeRow(0);
+        }
+    }
+    
+    private void LimpaTabelaConsultaFornecedores(){
+        DefaultTableModel model = (DefaultTableModel) jTableConsultaFornecedor.getModel();
         int linhas = model.getRowCount();
 
         for (int i = 0; i < linhas; i++) {
@@ -10194,7 +11695,13 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField JT01;
+    private javax.swing.JTextField JT02;
+    private javax.swing.JTextField JTRES;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButtonActualizar;
     private javax.swing.JButton jButtonActualizarInsecto;
     private javax.swing.JButton jButtonAddMedidaCorrectiva;
@@ -10205,9 +11712,14 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton jButtonAlterarEstadoFornecedor;
     private javax.swing.JButton jButtonAlterarEstadoInsectocacadores;
     private javax.swing.JButton jButtonAlterarEstadoMP;
+    private javax.swing.JButton jButtonAlterarReferencia;
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonCancelarMedidaCorrectiva;
     private javax.swing.JButton jButtonCancelarNaoConformidade;
+    private javax.swing.JButton jButtonConsDevoluções;
+    private javax.swing.JButton jButtonConsEntrada;
+    private javax.swing.JButton jButtonConsEquipamento;
+    private javax.swing.JButton jButtonConsuMateriaPrima;
     private javax.swing.JButton jButtonConsultaDevolucoes;
     private javax.swing.JButton jButtonConsultaDevolucoesSair;
     private javax.swing.JButton jButtonConsultaEntradas;
@@ -10216,6 +11728,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton jButtonConsultaInsecto;
     private javax.swing.JButton jButtonConsultaManutencao;
     private javax.swing.JButton jButtonConsultaMateriasPrimas;
+    private javax.swing.JButton jButtonConsultar;
     private javax.swing.JButton jButtonConsultarFornecedores;
     private javax.swing.JButton jButtonConsultarLimpezas;
     private javax.swing.JButton jButtonControloResultados;
@@ -10241,8 +11754,10 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton jButtonGuardarLimpeza;
     private javax.swing.JButton jButtonGuardarMateriaPrima;
     private javax.swing.JButton jButtonGuardarNovaEntrada;
+    private javax.swing.JButton jButtonGuardarNovaRef;
     private javax.swing.JButton jButtonGuardarNovoFornecedor;
     private javax.swing.JButton jButtonInserir;
+    private javax.swing.JButton jButtonInserirNovo;
     private javax.swing.JButton jButtonManutencaoConsultaEquipamentos;
     private javax.swing.JButton jButtonNovaEntrada;
     private javax.swing.JButton jButtonNovaLimpeza;
@@ -10252,11 +11767,21 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton jButtonNovoEquipamento;
     private javax.swing.JButton jButtonNovoForncedor;
     private javax.swing.JButton jButtonNovoInsecto;
+    private javax.swing.JButton jButtonNvContrPragas;
+    private javax.swing.JButton jButtonNvContrPragas1;
+    private javax.swing.JButton jButtonNvContrResultados;
+    private javax.swing.JButton jButtonNvContrResultados1;
+    private javax.swing.JButton jButtonNvEntrada;
+    private javax.swing.JButton jButtonNvEquipamento;
+    private javax.swing.JButton jButtonNvFornecedor;
+    private javax.swing.JButton jButtonNvFornecedor1;
+    private javax.swing.JButton jButtonNvMateriaPrima;
     private javax.swing.JButton jButtonSairConsultaEquipamentos;
     private javax.swing.JButton jButtonSairConsultaInsecto;
     private javax.swing.JButton jButtonSairConsultaLimpezas;
     private javax.swing.JButton jButtonSairConsultaMateriaPrima;
     private javax.swing.JButton jButtonSairDevolucao;
+    private javax.swing.JButton jButtonSairHistorico;
     private javax.swing.JButton jButtonSairInsecto;
     private javax.swing.JButton jButtonSairLimpeza;
     private javax.swing.JButton jButtonSairManutencaoEquipamento;
@@ -10264,10 +11789,13 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton jButtonSairNovaEntrada;
     private javax.swing.JButton jButtonSairNovoEquipamento;
     private javax.swing.JButton jButtonSairNovoFornecedor;
+    private javax.swing.JButton jButtonSeleccionarNPF;
     private javax.swing.JButton jButtonUpdateFornecedor;
     private javax.swing.JButton jButtonVerControloResultados;
+    private javax.swing.JButton jButtonVerDatas;
     private javax.swing.JButton jButtonVerDevolucoes;
     private javax.swing.JButton jButtonVerFichaDetalhadaConsultaDevolucoes;
+    private javax.swing.JButton jButtonVerHistoricoControlo;
     private javax.swing.JButton jButtonVerInativasEquipamentos;
     private javax.swing.JButton jButtonVerInativosMP;
     private javax.swing.JButton jButtonVerInsectocacadoresInativos;
@@ -10283,12 +11811,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JComboBox jComboBoxEstadoFornecedor;
     private javax.swing.JComboBox jComboBoxFornecedorDevolucoes;
     private javax.swing.JComboBox jComboBoxFornecedorEntrada;
-    private javax.swing.JComboBox jComboBoxFuncionario;
-    private javax.swing.JComboBox jComboBoxFuncionarioNaoConformidade;
-    private javax.swing.JComboBox jComboBoxFuncionarioResponsavel;
-    private javax.swing.JComboBox jComboBoxFuncionarioResponsavelDevolucao;
-    private javax.swing.JComboBox jComboBoxFuncionarioResponsavelEntrada;
-    private javax.swing.JComboBox jComboBoxFuncionarioResponsvelLimpeza;
     private javax.swing.JComboBox jComboBoxMateriaPrimaDevolucoes;
     private javax.swing.JComboBox jComboBoxMateriaPrimaEntrada;
     private javax.swing.JComboBox jComboBoxNaoConformidadeFuncionarioResponsav;
@@ -10298,13 +11820,9 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JComboBox jComboBoxSeccao;
     private javax.swing.JComboBox jComboBoxTemperaturaEntrada;
     private javax.swing.JComboBox jComboBoxTipo;
-    private com.toedter.calendar.JDateChooser jDateChooserControloResultados;
     private com.toedter.calendar.JDateChooser jDateChooserDataDevolucao;
-    private com.toedter.calendar.JDateChooser jDateChooserDataManutencaoEquipamento;
-    private com.toedter.calendar.JDateChooser jDateChooserEntrada;
-    private com.toedter.calendar.JDateChooser jDateChooserLimpeza;
-    private com.toedter.calendar.JDateChooser jDateChooserMedidaCorrectiva;
-    private com.toedter.calendar.JDateChooser jDateChooserNaoConformidade;
+    private javax.swing.JDialog jDialog1;
+    private javax.swing.JDialog jDialogAlterarReferencia;
     private javax.swing.JDialog jDialogConsultaDevolucoes;
     private javax.swing.JDialog jDialogConsultaEntradas;
     private javax.swing.JDialog jDialogConsultaEquipamentos;
@@ -10317,6 +11835,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JDialog jDialogConsultarControlos;
     private javax.swing.JDialog jDialogConsultarMedidasCorrectivas;
     private javax.swing.JDialog jDialogDevolucoes;
+    private javax.swing.JDialog jDialogJanelaPrincipal;
     private javax.swing.JDialog jDialogMedidasCorrectiva;
     private javax.swing.JDialog jDialogMenuControloResultados;
     private javax.swing.JDialog jDialogMenuEntradas;
@@ -10331,6 +11850,8 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JDialog jDialogNovoEquipamento;
     private javax.swing.JDialog jDialogNovoFornecedor;
     private javax.swing.JDialog jDialogNovoInsectocacador;
+    private javax.swing.JDialog jDialogVerHistoricoControlo;
+    private javax.swing.JLabel jLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -10360,12 +11881,20 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelAntigaReferencia;
+    private javax.swing.JLabel jLabelBoasVindas;
     private javax.swing.JLabel jLabelCodPostalFornecedor;
     private javax.swing.JLabel jLabelConsultaControloPragas;
     private javax.swing.JLabel jLabelConsultaFornecedores;
@@ -10374,11 +11903,8 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelConsultarMateriasPrimas;
     private javax.swing.JLabel jLabelContactoForncedor;
     private javax.swing.JLabel jLabelData;
-    private javax.swing.JLabel jLabelData1;
-    private javax.swing.JLabel jLabelData2;
     private javax.swing.JLabel jLabelDataDevolucao;
-    private javax.swing.JLabel jLabelDataMedidasCorrectivas;
-    private javax.swing.JLabel jLabelDataNaoConformidade;
+    private javax.swing.JLabel jLabelDataNovaLimpeza;
     private javax.swing.JLabel jLabelDescricao;
     private javax.swing.JLabel jLabelDescricaoMateriaPrima;
     private javax.swing.JLabel jLabelDescrição;
@@ -10386,13 +11912,17 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelFichaTecnica;
     private javax.swing.JLabel jLabelFornecedorDevolucoes;
     private javax.swing.JLabel jLabelFuncionario;
+    private javax.swing.JLabel jLabelFuncionarioLogin;
+    private javax.swing.JLabel jLabelFuncionarioLogin2;
+    private javax.swing.JLabel jLabelFuncionarioLogin4;
+    private javax.swing.JLabel jLabelFuncionarioLogin5;
+    private javax.swing.JLabel jLabelFuncionarioLogin6;
     private javax.swing.JLabel jLabelFuncionarioResponsavel;
     private javax.swing.JLabel jLabelFuncionarioResponsavel1;
     private javax.swing.JLabel jLabelFuncionarioResponsavel2;
+    private javax.swing.JLabel jLabelFuncionariologin3;
     private javax.swing.JLabel jLabelLocal;
     private javax.swing.JLabel jLabelLocalidadeForncedor;
-    private javax.swing.JLabel jLabelLogin;
-    private javax.swing.JLabel jLabelManutencaoEquipametno;
     private javax.swing.JLabel jLabelMateriaPrimaDevolucoes;
     private javax.swing.JLabel jLabelMedidaCorrectivaNaoConformidade;
     private javax.swing.JLabel jLabelMedidasCorrectivas;
@@ -10405,6 +11935,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelNomeLogin;
     private javax.swing.JLabel jLabelNomeMateriaPrima;
     private javax.swing.JLabel jLabelNomeOutraOpcao;
+    private javax.swing.JLabel jLabelNovaReferencia;
     private javax.swing.JLabel jLabelNovoEquipametno;
     private javax.swing.JLabel jLabelNovoFornecedor;
     private javax.swing.JLabel jLabelObservacaoMedidasCorrectivas;
@@ -10416,15 +11947,21 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelPesquisarEquipamento;
     private javax.swing.JLabel jLabelPesquisarInsectocacador;
     private javax.swing.JLabel jLabelPesquisarMateriaPrima;
+    private javax.swing.JLabel jLabelProblemaNC;
     private javax.swing.JLabel jLabelQuantidadeADevolver;
     private javax.swing.JLabel jLabelQuantidadeADevolverDevolucao;
     private javax.swing.JLabel jLabelQuantidadeDevolvida;
     private javax.swing.JLabel jLabelReferencia;
     private javax.swing.JLabel jLabelResultado;
+    private javax.swing.JLabel jLabelSeccaoNC;
     private javax.swing.JLabel jLabelTipo;
     private javax.swing.JLabel jLabelTipoProduto;
     private javax.swing.JLabel jLabelTituloConsultaEntradas;
     private javax.swing.JLabel jLabelUnidadeMateriaPrima;
+    private javax.swing.JLabel jLabelUserLogin;
+    private javax.swing.JLabel jLabelUserLogin2;
+    private javax.swing.JLabel jLabelUserLogin3;
+    private javax.swing.JLabel jLabelUserLogin4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuFile;
     private javax.swing.JMenuItem jMenuItem1;
@@ -10432,13 +11969,10 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemEntradas;
     private javax.swing.JMenuItem jMenuItemEquipamento;
     private javax.swing.JMenuItem jMenuItemInsectocacadores;
-    private javax.swing.JMenuItem jMenuItemNvControloRsultados;
-    private javax.swing.JMenuItem jMenuItemNvEntrada;
-    private javax.swing.JMenuItem jMenuItemNvEquipamento;
-    private javax.swing.JMenuItem jMenuItemNvInsectocaçador;
     private javax.swing.JMenu jMenuMenus;
-    private javax.swing.JMenu jMenuNovo;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanelADevolverNovaEntrada;
     private javax.swing.JPanel jPanelBotoesNovaEntrada;
@@ -10448,17 +11982,27 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelConsultaEntradas;
     private javax.swing.JPanel jPanelConsultaEquipamentos;
     private javax.swing.JPanel jPanelConsultaFornecedores;
+    private javax.swing.JPanel jPanelConsultaHistorico;
     private javax.swing.JPanel jPanelConsultaInsecto;
     private javax.swing.JPanel jPanelConsultaLimpezas;
     private javax.swing.JPanel jPanelConsultaManutencaoEquipamentos;
     private javax.swing.JPanel jPanelConsultaNaoConformidades;
+    private javax.swing.JPanel jPanelConsultar;
     private javax.swing.JPanel jPanelConsutaMateriasPrimas;
     private javax.swing.JPanel jPanelDevolucoes;
+    private javax.swing.JPanel jPanelEquipamentoSeleccionado;
+    private javax.swing.JPanel jPanelInformacaoAdicional;
+    private javax.swing.JPanel jPanelInformacaoControloResultado;
+    private javax.swing.JPanel jPanelInformacaoNaoConformidade;
+    private javax.swing.JPanel jPanelInserirNovo;
+    private javax.swing.JPanel jPanelJanela;
     private javax.swing.JPanel jPanelManutencaoEquipamento;
     private javax.swing.JPanel jPanelMedidasCorrectivas;
     private javax.swing.JPanel jPanelMenuEntradas;
     private javax.swing.JPanel jPanelMenuEquipamentos;
     private javax.swing.JPanel jPanelMenuInsectocadores;
+    private javax.swing.JPanel jPanelMenus;
+    private javax.swing.JPanel jPanelMostraDadosControloResultado;
     private javax.swing.JPanel jPanelNaoConformidades;
     private javax.swing.JPanel jPanelNovaEntrada;
     private javax.swing.JPanel jPanelNovaLimpeza;
@@ -10468,13 +12012,21 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelNovoFornecedor;
     private javax.swing.JPanel jPanelNovoInsectocacador;
     private javax.swing.JPanel jPanelOutraOpcao;
+    private javax.swing.JPanel jPanelPrincipal;
     private javax.swing.JPanel jPanelRealizaLogin;
+    private javax.swing.JPanel jPanelVerMensagemProblema;
     private javax.swing.JPasswordField jPasswordFieldLogin;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
+    private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JScrollPane jScrollPaneConsultInsecto;
     private javax.swing.JScrollPane jScrollPaneConsultaEquipamentos;
     private javax.swing.JScrollPane jScrollPaneConsultaLimpezas;
@@ -10500,14 +12052,20 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JTable jTableConsultaMedidasCorrectivas;
     private javax.swing.JTable jTableConsultarControlos;
     private javax.swing.JTable jTableNaoConformidades;
+    private javax.swing.JTable jTableVerHistorico;
     private javax.swing.JTextArea jTextAreaDescricao;
     private javax.swing.JTextArea jTextAreaDescricaoMateriaPrima;
+    private javax.swing.JTextArea jTextAreaDetalhesMC;
     private javax.swing.JTextArea jTextAreaMedidaCorrctivaNaoConformidade;
+    private javax.swing.JTextArea jTextAreaMedidasCorrectivasMC;
     private javax.swing.JTextArea jTextAreaObservacaoManutencaoEquipameto;
     private javax.swing.JTextArea jTextAreaObservacaoMedidaCorrectiva;
     private javax.swing.JTextArea jTextAreaObservacaoNovoEquipamento;
     private javax.swing.JTextArea jTextAreaObservacoesDevolucao;
     private javax.swing.JTextArea jTextAreaOcorrenciaNaoConformidade;
+    private javax.swing.JTextArea jTextAreaProblemaMC;
+    private javax.swing.JTextArea jTextAreaProblemadoControlo;
+    private javax.swing.JTextArea jTextAreaVerProblemaNC;
     private javax.swing.JTextField jTextFieldCodPostalFornecedor;
     private javax.swing.JTextField jTextFieldContactoFornecedor;
     private javax.swing.JTextField jTextFieldEmailFornecedor;
@@ -10517,20 +12075,29 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldMoradaFornecedor;
     private javax.swing.JTextField jTextFieldNIFFornecedor;
     private javax.swing.JTextField jTextFieldNomeEquipamento;
+    private javax.swing.JTextField jTextFieldNomeEquipamentoSeleccionado;
     private javax.swing.JTextField jTextFieldNomeFornecedor;
     private javax.swing.JTextField jTextFieldNomeInsecto;
     private javax.swing.JTextField jTextFieldNomeMateriaPrima;
+    private javax.swing.JTextField jTextFieldNovaEntradaUnidadeQuantidade;
+    private javax.swing.JTextField jTextFieldNovaReferencia;
     private javax.swing.JTextField jTextFieldOutraOpcao;
     private javax.swing.JTextField jTextFieldPesquisaEquipamento;
     private javax.swing.JTextField jTextFieldPesquisaInsectocacador;
     private javax.swing.JTextField jTextFieldPesquisarEntrada;
+    private javax.swing.JTextField jTextFieldPesquisarFornecedor;
     private javax.swing.JTextField jTextFieldPesquisarMateriaPrima;
     private javax.swing.JTextField jTextFieldQuantidadeADevolver;
     private javax.swing.JTextField jTextFieldQuantidadeADevolverDevolucao;
     private javax.swing.JTextField jTextFieldQuantidadeDevolucao;
     private javax.swing.JTextField jTextFieldQuantidadeEntrada;
     private javax.swing.JTextField jTextFieldReferenciaInsecto;
+    private javax.swing.JTextField jTextFieldSeccaoMC;
     private javax.swing.JTextField jTextFieldTipoProdutoFornecedor;
     private javax.swing.JTextField jTextFieldUnidadeMateriaPrima;
+    private javax.swing.JTextField jTextFieldUnidadeQuantidadeADevolver;
+    private javax.swing.JTextField jTextFieldUploudNUC;
+    private javax.swing.JTextField jTextFieldVerSeccaoDoCR;
+    private javax.swing.JTextField jTextFieldVerSeccaoNC;
     // End of variables declaration//GEN-END:variables
 }
